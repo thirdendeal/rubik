@@ -30,7 +30,11 @@ rubik.each = function(t, callback, ...)
   return t
 end
 
+-- ---------------------------------------------------------------------
 -- Array
+-- ---------------------------------------------------------------------
+
+-- Array#newArray
 -- ---------------------------------------------------------------------
 
 function rubik.newArray(size, value, callback)
@@ -47,6 +51,40 @@ function rubik.newArray(size, value, callback)
   end
 
   return array
+end
+
+-- Array#first
+-- ---------------------------------------------------------------------
+
+function rubik.first(array, n)
+  if n then
+    local newArray = {}
+
+    for i = 1, n, 1 do
+      table.insert(newArray, array[i])
+    end
+
+    return newArray
+  else
+    return array[1]
+  end
+end
+
+-- Array#last
+-- ---------------------------------------------------------------------
+
+function rubik.last(array, n)
+  if n then
+    local newArray = {}
+
+    for i = 1 + #array - n, #array, 1 do
+      table.insert(newArray, array[i])
+    end
+
+    return newArray
+  else
+    return array[#array]
+  end
 end
 
 -- ---------------------------------------------------------------------
