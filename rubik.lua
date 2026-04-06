@@ -1,9 +1,7 @@
 -- Rubik
 -- ---------------------------------------------------------------------
 
-local rubik = {
-  _version = "0.0.0"
-}
+local rubik = { _version = "0.0.0" }
 
 -- ---------------------------------------------------------------------
 
@@ -24,8 +22,10 @@ end
 rubik.each = function(t, callback, ...)
   local iterator = rubik._each(t)
 
-  for _, value in iterator(t) do
-    callback(value, ...)
+  if callback then
+    for _, value in iterator(t) do
+      callback(value, ...)
+    end
   end
 
   return t
