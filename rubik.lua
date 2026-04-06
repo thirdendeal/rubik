@@ -3,6 +3,7 @@
 
 local rubik = { _version = "0.0.0" }
 
+-- (Proof of concept)
 -- ---------------------------------------------------------------------
 
 function rubik._each(value)
@@ -17,8 +18,6 @@ function rubik._each(value)
   end
 end
 
--- ---------------------------------------------------------------------
-
 rubik.each = function(t, callback, ...)
   local iterator = rubik._each(t)
 
@@ -29,6 +28,25 @@ rubik.each = function(t, callback, ...)
   end
 
   return t
+end
+
+-- Array
+-- ---------------------------------------------------------------------
+
+function rubik.newArray(size, value, callback)
+  local array = {}
+
+  if callback then
+    for i = 1, size or 0, 1 do
+      table.insert(array, callback(i))
+    end
+  elseif value ~= nil then -- [nil, nil, ..., nil] == {}
+    for _ = 1, size or 0, 1 do
+      table.insert(array, value)
+    end
+  end
+
+  return array
 end
 
 -- ---------------------------------------------------------------------
