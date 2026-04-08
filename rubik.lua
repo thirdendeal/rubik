@@ -34,7 +34,7 @@ end
 -- Array
 -- ---------------------------------------------------------------------
 
--- Array#newArray
+-- Array#new (newArray)
 -- ---------------------------------------------------------------------
 
 function rubik.newArray(size, value, callback)
