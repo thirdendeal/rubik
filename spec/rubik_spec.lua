@@ -79,4 +79,15 @@ describe("Array", function()
 
     assert.equal(inspect(elements), "{ 3, 4 }")
   end)
+
+  -- Array#at
+  -- -------------------------------------------------------------------
+
+  test("rubik.at(array, index) -> element", function()
+    local array = { 1, 2, 3, 4 }
+
+    assert.equal(rubik.at(array, 1), 1)
+    assert.equal(rubik.at(array, 0), nil)
+    assert.equal(rubik.at(array, -1), 4)
+  end)
 end)

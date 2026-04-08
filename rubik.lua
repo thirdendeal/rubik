@@ -87,6 +87,17 @@ function rubik.last(array, n)
   end
 end
 
+-- Array#at
+-- ---------------------------------------------------------------------
+
+function rubik.at(array, index)
+  if index > 0 then
+    return array[index]
+  else
+    return array[#array + index + 1]
+  end
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
