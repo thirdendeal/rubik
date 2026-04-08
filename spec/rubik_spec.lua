@@ -90,4 +90,34 @@ describe("Array", function()
     assert.equal(rubik.at(array, 0), nil)
     assert.equal(rubik.at(array, -1), 4)
   end)
+
+  -- Array#fetch
+  -- -------------------------------------------------------------------
+
+  test("rubik.fetch(array, index) -> element", function()
+    local array = { 1, 2, 3, 4 }
+
+    assert.equal(rubik.fetch(array, 1), 1)
+    assert.equal(rubik.fetch(array, 0), nil)
+    assert.equal(rubik.fetch(array, -1), 4)
+  end)
+
+  test("rubik.fetch(array, index, fallback) -> element", function()
+    local array = { 1, 2, 3, 4 }
+
+    assert.equal(rubik.fetch(array, 1, "fallback"), 1)
+    assert.equal(rubik.fetch(array, 0, "fallback"), "fallback")
+    assert.equal(rubik.fetch(array, -1, "fallback"), 4)
+  end)
+
+  test("rubik.fetch(array, index, _, callback) -> element", function()
+    local array = { 1, 2, 3, 4 }
+
+    local missing = function(index)
+      return "No element at " .. index
+    end
+
+    assert.equal(rubik.fetch(array, 1, nil, missing), 1)
+    assert.equal(rubik.fetch(array, 0, nil, missing), "No element at 0")
+  end)
 end)

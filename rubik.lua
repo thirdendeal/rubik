@@ -98,6 +98,23 @@ function rubik.at(array, index)
   end
 end
 
+-- Array#fetch
+-- ---------------------------------------------------------------------
+
+function rubik.fetch(array, index, fallback, callback)
+  local element = rubik.at(array, index)
+
+  if element ~= nil then
+    return element
+  else
+    if callback then
+      return callback(index)
+    else
+      return fallback
+    end
+  end
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
