@@ -115,6 +115,29 @@ function rubik.fetch(array, index, fallback, callback)
   end
 end
 
+-- Array#slice
+-- ---------------------------------------------------------------------
+
+function rubik.slice(array, x, y)
+  if type(x) == "table" then
+    -- rubik.slice(array, range)
+
+    local range = x
+
+    return { unpack(array, range[1], range[2]) }
+  elseif y == nil then
+    -- rubik.slice(array, index)
+
+    return rubik.at(array, x)
+  else
+    -- rubik.slice(array, start, length)
+
+    local start, length = x, y
+
+    return { unpack(array, start, start + length - 1) }
+  end
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

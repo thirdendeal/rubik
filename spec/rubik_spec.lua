@@ -84,11 +84,12 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   test("rubik.at(array, index) -> element", function()
-    local array = { 1, 2, 3, 4 }
+    local array = { 2, 4, 8, 16 }
 
-    assert.equal(rubik.at(array, 1), 1)
-    assert.equal(rubik.at(array, 0), nil)
-    assert.equal(rubik.at(array, -1), 4)
+    assert.equal(rubik.at(array, 1), 2)
+    assert.equal(rubik.at(array, 100), nil)
+    assert.equal(rubik.at(array, -1), 16)
+    assert.equal(rubik.at(array, -100), nil)
   end)
 
   -- Array#fetch
@@ -119,5 +120,33 @@ describe("Array", function()
 
     assert.equal(rubik.fetch(array, 1, nil, missing), 1)
     assert.equal(rubik.fetch(array, 0, nil, missing), "No element at 0")
+  end)
+
+  -- Array#slice
+  -- -------------------------------------------------------------------
+
+  test("rubik.slice(array, range) -> subset array", function()
+    local array = { 2, 4, 8, 16, 32, 64, 128, 256 }
+
+    assert.equal(inspect(rubik.slice(array, { 2, 2 })), "{ 4 }")
+    assert.equal(inspect(rubik.slice(array, { 2, 4 })), "{ 4, 8, 16 }")
+    assert.equal(inspect(rubik.slice(array, { 2, 100 })), "{ 4, 8, 16, 32, 64, 128, 256 }")
+  end)
+
+  test("rubik.slice(array, index) -> element", function()
+    local array = { 2, 4, 8, 16, 32, 64, 128, 256 }
+
+    assert.equal(rubik.slice(array, 2), 4)
+    assert.equal(rubik.slice(array, 100), nil)
+    assert.equal(rubik.slice(array, -1), 256)
+    assert.equal(rubik.slice(array, -100), nil)
+  end)
+
+  test("rubik.slice(array, start, length) -> subset array", function()
+    local array = { 2, 4, 8, 16, 32, 64, 128, 256 }
+
+    assert.equal(inspect(rubik.slice(array, 2, 1)), "{ 4 }")
+    assert.equal(inspect(rubik.slice(array, 2, 4)), "{ 4, 8, 16, 32 }")
+    assert.equal(inspect(rubik.slice(array, 2, 100)), "{ 4, 8, 16, 32, 64, 128, 256 }")
   end)
 end)
