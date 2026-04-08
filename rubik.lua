@@ -58,13 +58,13 @@ end
 
 function rubik.first(array, n)
   if n then
-    local newArray = {}
+    local elements = {}
 
     for i = 1, n, 1 do
-      table.insert(newArray, array[i])
+      table.insert(elements, array[i])
     end
 
-    return newArray
+    return elements
   else
     return array[1]
   end
@@ -75,13 +75,13 @@ end
 
 function rubik.last(array, n)
   if n then
-    local newArray = {}
+    local elements = {}
 
     for i = 1 + #array - n, #array, 1 do
-      table.insert(newArray, array[i])
+      table.insert(elements, array[i])
     end
 
-    return newArray
+    return elements
   else
     return array[#array]
   end

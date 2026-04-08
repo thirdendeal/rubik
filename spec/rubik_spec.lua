@@ -24,59 +24,59 @@ describe("Array", function()
   -- Array#new (newArray)
   -- -------------------------------------------------------------------
 
-  it("rubik.newArray() -> {}", function()
-    local emptyArray = rubik.newArray()
+  test("rubik.newArray() -> empty array", function()
+    local array = rubik.newArray()
 
-    assert.equal(inspect(emptyArray), "{}")
+    assert.equal(inspect(array), "{}")
   end)
 
-  it("rubik.newArray(1, \"value\") -> { \"value\" }", function()
-    local valueFilledArray = rubik.newArray(1, "value")
+  test("rubik.newArray(size) -> empty array", function()
+    local array = rubik.newArray(1000)
 
-    assert.equal(inspect(valueFilledArray), "{ \"value\" }")
+    assert.equal(inspect(array), "{}")
   end)
 
-  it("rubik.newArray(2, \"ignored\", function(index) return index * 2 end) -> { 2, 4 }", function()
-    local callbackFilledArray = rubik.newArray(2, "ignored", function(index)
-      return index * 2
+  test("rubik.newArray(size, value) -> value array", function()
+    local array = rubik.newArray(4, 1)
+
+    assert.equal(inspect(array), "{ 1, 1, 1, 1 }")
+  end)
+
+  test("rubik.newArray(size, _, callback) -> callback(index) array", function()
+    local array = rubik.newArray(4, nil, function(index)
+      return math.pow(2, index)
     end)
 
-    assert.equal(inspect(callbackFilledArray), "{ 2, 4 }")
-  end)
-
-  it("rubik.newArray(3) -> {}", function()
-    local cannotNilFill = rubik.newArray(3) -- rubik.newArray(3, nil)
-
-    assert.equal(inspect(cannotNilFill), "{}")
+    assert.equal(inspect(array), "{ 2, 4, 8, 16 }")
   end)
 
   -- Array#first
   -- -------------------------------------------------------------------
 
-  it("rubik.first({ 1, 2, 3, 4 }) -> 1", function()
-    local firstElement = rubik.first({ 1, 2, 3, 4 })
+  test("rubik.first(array) -> first element", function()
+    local element = rubik.first({ 1, 2, 3, 4 })
 
-    assert.equal(firstElement, 1)
+    assert.equal(element, 1)
   end)
 
-  it("rubik.first({ 1, 2, 3 }, 2) -> { 1, 2 }", function()
-    local firstTwoElements = rubik.first({ 1, 2, 3, 4 }, 2)
+  test("rubik.first(array, n) -> first n elements", function()
+    local elements = rubik.first({ 1, 2, 3, 4 }, 2)
 
-    assert.equal(inspect(firstTwoElements), "{ 1, 2 }")
+    assert.equal(inspect(elements), "{ 1, 2 }")
   end)
 
   -- Array#last
   -- -------------------------------------------------------------------
 
-  it("rubik.last({ 1, 2, 3 }) -> 3", function()
-    local lastElement = rubik.last({ 1, 2, 3, 4 })
+  test("rubik.last(array) -> last element", function()
+    local element = rubik.last({ 1, 2, 3, 4 })
 
-    assert.equal(lastElement, 4)
+    assert.equal(element, 4)
   end)
 
-  it("rubik.last({ 1, 2, 3, 4 }, 2) -> { 1, 2 }", function()
-    local lastTwoElements = rubik.last({ 1, 2, 3, 4 }, 2)
+  test("rubik.last(array, n) -> last n elements", function()
+    local elements = rubik.last({ 1, 2, 3, 4 }, 2)
 
-    assert.equal(inspect(lastTwoElements), "{ 3, 4 }")
+    assert.equal(inspect(elements), "{ 3, 4 }")
   end)
 end)
