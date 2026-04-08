@@ -62,6 +62,7 @@ describe("Array", function()
   test("rubik.first(array, n) -> first n elements", function()
     local array = { 2, 4, 8, 16 }
 
+    assert.equal(inspect(rubik.first(array, 0)), "{}")
     assert.equal(inspect(rubik.first(array, 1)), "{ 2 }")
     assert.equal(inspect(rubik.first(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.first(array, 100)), "{ 2, 4, 8, 16 }")
@@ -79,6 +80,7 @@ describe("Array", function()
   test("rubik.last(array, n) -> last n elements", function()
     local array = { 2, 4, 8, 16 }
 
+    assert.equal(inspect(rubik.last(array, 0)), "{}")
     assert.equal(inspect(rubik.last(array, 1)), "{ 16 }")
     assert.equal(inspect(rubik.last(array, 2)), "{ 8, 16 }")
     assert.equal(inspect(rubik.last(array, 100)), "{ 2, 4, 8, 16 }")
@@ -90,6 +92,7 @@ describe("Array", function()
   test("rubik.take(array, n) -> first n elements", function()
     local array = { 2, 4, 8, 16 }
 
+    assert.equal(inspect(rubik.take(array, 0)), "{}")
     assert.equal(inspect(rubik.take(array, 1)), "{ 2 }")
     assert.equal(inspect(rubik.take(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.take(array, 100)), "{ 2, 4, 8, 16 }")
@@ -101,6 +104,7 @@ describe("Array", function()
   test("rubik.drop(array, n) -> array excluding n last elements", function()
     local array = { 2, 4, 8, 16 }
 
+    assert.equal(inspect(rubik.drop(array, 0)), "{ 2, 4, 8, 16 }")
     assert.equal(inspect(rubik.drop(array, 1)), "{ 2, 4, 8 }")
     assert.equal(inspect(rubik.drop(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.drop(array, 100)), "{}")

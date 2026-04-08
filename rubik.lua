@@ -58,13 +58,7 @@ end
 
 function rubik.first(array, n)
   if n then
-    local elements = {}
-
-    for i = 1, n, 1 do
-      table.insert(elements, array[i])
-    end
-
-    return elements
+    return rubik.slice(array, 1, n)
   else
     return array[1]
   end
@@ -75,13 +69,7 @@ end
 
 function rubik.last(array, n)
   if n then
-    local elements = {}
-
-    for i = 1 + #array - n, #array, 1 do
-      table.insert(elements, array[i])
-    end
-
-    return elements
+    return rubik.slice(array, { #array - n + 1, #array })
   else
     return array[#array]
   end
@@ -137,6 +125,14 @@ function rubik.slice(array, x, y)
     -- rubik.slice(array, range)
 
     local range = x
+
+    if range[1] < 1 then
+      range[1] = 1
+    end
+
+    if range[2] < 0 then
+      range[2] = #array + range[2] + 1
+    end
 
     return { unpack(array, range[1], range[2]) }
   elseif y == nil then
