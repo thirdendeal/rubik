@@ -87,6 +87,20 @@ function rubik.last(array, n)
   end
 end
 
+-- Array#take
+-- ---------------------------------------------------------------------
+
+function rubik.take(array, n)
+  return rubik.slice(array, 1, n)
+end
+
+-- Array#drop
+-- ---------------------------------------------------------------------
+
+function rubik.drop(array, n)
+  return rubik.slice(array, { 1, #array - n })
+end
+
 -- Array#at
 -- ---------------------------------------------------------------------
 
