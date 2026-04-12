@@ -148,6 +148,27 @@ function rubik.slice(array, x, y)
   end
 end
 
+-- Array#size
+-- ---------------------------------------------------------------------
+
+function rubik.size(array)
+  return #array
+end
+
+-- Array#length
+-- ---------------------------------------------------------------------
+
+function rubik.length(array)
+  return rubik.size(array)
+end
+
+-- Array#count
+-- ---------------------------------------------------------------------
+
+function rubik.count(array)
+  return rubik.size(array)
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

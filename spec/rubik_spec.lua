@@ -50,7 +50,7 @@ describe("Array", function()
     assert.equal(inspect(array), "{ 2, 4, 8, 16 }")
   end)
 
-  -- Array#first
+  -- Array#first (Array#take)
   -- -------------------------------------------------------------------
 
   test("rubik.first(array) -> first element", function()
@@ -96,22 +96,6 @@ describe("Array", function()
     local empty = {}
     assert.equal(inspect(rubik.last(empty, 0)), "{}")
     assert.equal(inspect(rubik.last(empty, 1)), "{}")
-  end)
-
-  -- Array#take
-  -- -------------------------------------------------------------------
-
-  test("rubik.take(array, n) -> first n elements", function()
-    local array = { 2, 4, 8, 16 }
-
-    assert.equal(inspect(rubik.take(array, 0)), "{}")
-    assert.equal(inspect(rubik.take(array, 1)), "{ 2 }")
-    assert.equal(inspect(rubik.take(array, 2)), "{ 2, 4 }")
-    assert.equal(inspect(rubik.take(array, 100)), "{ 2, 4, 8, 16 }")
-
-    local empty = {}
-    assert.equal(inspect(rubik.take(empty, 0)), "{}")
-    assert.equal(inspect(rubik.take(empty, 1)), "{}")
   end)
 
   -- Array#drop
@@ -198,5 +182,16 @@ describe("Array", function()
     assert.equal(inspect(rubik.slice(array, 2, 1)), "{ 4 }")
     assert.equal(inspect(rubik.slice(array, 2, 4)), "{ 4, 8, 16, 32 }")
     assert.equal(inspect(rubik.slice(array, 2, 100)), "{ 4, 8, 16, 32, 64, 128, 256 }")
+  end)
+
+  -- Array#size (Array#length, Array#count)
+  -- -------------------------------------------------------------------
+
+  test("rubik.size(array) -> integer", function()
+    local array = { 2, 4, 8, 16 }
+    assert.equal(rubik.size(array), 4)
+
+    local empty = {}
+    assert.equal(rubik.size(empty), 0)
   end)
 end)
