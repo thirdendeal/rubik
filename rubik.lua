@@ -165,8 +165,28 @@ end
 -- Array#count
 -- ---------------------------------------------------------------------
 
-function rubik.count(array)
-  return rubik.size(array)
+function rubik.count(array, element, callback)
+  if element == nil and callback == nil then
+    -- rubik.count(array)
+    return rubik.size(array)
+  else
+    -- rubik.count(array, element)
+    -- rubik.count(array, _, callback(element))
+
+    callback = callback or function(value)
+      return value == element
+    end
+
+    local count = 0
+
+    for _, value in ipairs(array) do
+      if callback(value) then
+        count = count + 1
+      end
+    end
+
+    return count
+  end
 end
 
 -- Array#isEmpty

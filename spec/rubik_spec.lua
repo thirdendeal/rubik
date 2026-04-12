@@ -43,7 +43,7 @@ describe("Array", function()
   end)
 
   test("rubik.newArray(size, _, callback(index)) -> array", function()
-    local array = rubik.newArray(4, nil, function(index)
+    local array = rubik.newArray(4, _, function(index)
       return math.pow(2, index)
     end)
 
@@ -145,15 +145,15 @@ describe("Array", function()
     assert.equal(rubik.fetch(array, -1, "fallback"), 4)
   end)
 
-  test("rubik.fetch(array, index, _, callback) -> element", function()
+  test("rubik.fetch(array, index, _, callback(index)) -> element", function()
     local array = { 1, 2, 3, 4 }
 
     local missing = function(index)
       return "No element at " .. index
     end
 
-    assert.equal(rubik.fetch(array, 1, nil, missing), 1)
-    assert.equal(rubik.fetch(array, 0, nil, missing), "No element at 0")
+    assert.equal(rubik.fetch(array, 1, _, missing), 1)
+    assert.equal(rubik.fetch(array, 0, _, missing), "No element at 0")
   end)
 
   -- Array#slice
@@ -184,7 +184,7 @@ describe("Array", function()
     assert.equal(inspect(rubik.slice(array, 2, 100)), "{ 4, 8, 16, 32, 64, 128, 256 }")
   end)
 
-  -- Array#size (Array#length, Array#count)
+  -- Array#size (Array#length)
   -- -------------------------------------------------------------------
 
   test("rubik.size(array) -> integer", function()
@@ -193,6 +193,35 @@ describe("Array", function()
 
     local empty = {}
     assert.equal(rubik.size(empty), 0)
+  end)
+
+  -- Array#count
+  -- -------------------------------------------------------------------
+
+  test("rubik.count(array) -> integer", function()
+    local array = { 2, 4, 8, 16 }
+    assert.equal(rubik.count(array), 4)
+
+    local empty = {}
+    assert.equal(rubik.count(empty), 0)
+  end)
+
+  test("rubik.count(array, element) -> integer", function()
+    local array = { 1, 1, 2, 3 }
+
+    assert.equal(rubik.count(array, 1), 2)
+    assert.equal(rubik.count(array, 2), 1)
+    assert.equal(rubik.count(array, "3"), 0)
+  end)
+
+  test("rubik.count(array, _, callback) -> integer", function()
+    local array = { 1, 1, 2, 3 }
+
+    local isEven = function(number)
+      return (number % 2) == 0
+    end
+
+    assert.equal(rubik.count(array, _, isEven), 1)
   end)
 
   -- Array#isEmpty
