@@ -169,6 +169,13 @@ function rubik.count(array)
   return rubik.size(array)
 end
 
+-- Array#isEmpty
+-- ---------------------------------------------------------------------
+
+function rubik.isEmpty(array)
+  return rubik.size(array) == 0
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

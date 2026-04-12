@@ -194,4 +194,15 @@ describe("Array", function()
     local empty = {}
     assert.equal(rubik.size(empty), 0)
   end)
+
+  -- Array#isEmpty
+  -- -------------------------------------------------------------------
+
+  test("rubik.isEmpty(array) -> boolean", function()
+    local array = { 2, 4, 8, 16 }
+    assert.equal(rubik.isEmpty(array), false)
+
+    local empty = {}
+    assert.equal(rubik.isEmpty(empty), true)
+  end)
 end)
