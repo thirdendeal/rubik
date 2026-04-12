@@ -79,7 +79,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.take(array, n)
-  return rubik.slice(array, 1, n)
+  return rubik.first(array, n)
 end
 
 -- Array#drop

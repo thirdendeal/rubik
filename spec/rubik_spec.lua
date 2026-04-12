@@ -55,8 +55,10 @@ describe("Array", function()
 
   test("rubik.first(array) -> first element", function()
     local array = { 2, 4, 8, 16 }
-
     assert.equal(rubik.first(array), 2)
+
+    local empty = {}
+    assert.equal(rubik.first(empty), nil)
   end)
 
   test("rubik.first(array, n) -> first n elements", function()
@@ -66,6 +68,10 @@ describe("Array", function()
     assert.equal(inspect(rubik.first(array, 1)), "{ 2 }")
     assert.equal(inspect(rubik.first(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.first(array, 100)), "{ 2, 4, 8, 16 }")
+
+    local empty = {}
+    assert.equal(inspect(rubik.first(empty, 0)), "{}")
+    assert.equal(inspect(rubik.first(empty, 1)), "{}")
   end)
 
   -- Array#last
@@ -73,8 +79,10 @@ describe("Array", function()
 
   test("rubik.last(array) -> last element", function()
     local array = { 2, 4, 8, 16 }
-
     assert.equal(rubik.last(array), 16)
+
+    local empty = {}
+    assert.equal(rubik.last(empty), nil)
   end)
 
   test("rubik.last(array, n) -> last n elements", function()
@@ -84,6 +92,10 @@ describe("Array", function()
     assert.equal(inspect(rubik.last(array, 1)), "{ 16 }")
     assert.equal(inspect(rubik.last(array, 2)), "{ 8, 16 }")
     assert.equal(inspect(rubik.last(array, 100)), "{ 2, 4, 8, 16 }")
+
+    local empty = {}
+    assert.equal(inspect(rubik.last(empty, 0)), "{}")
+    assert.equal(inspect(rubik.last(empty, 1)), "{}")
   end)
 
   -- Array#take
@@ -96,6 +108,10 @@ describe("Array", function()
     assert.equal(inspect(rubik.take(array, 1)), "{ 2 }")
     assert.equal(inspect(rubik.take(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.take(array, 100)), "{ 2, 4, 8, 16 }")
+
+    local empty = {}
+    assert.equal(inspect(rubik.take(empty, 0)), "{}")
+    assert.equal(inspect(rubik.take(empty, 1)), "{}")
   end)
 
   -- Array#drop
@@ -108,6 +124,10 @@ describe("Array", function()
     assert.equal(inspect(rubik.drop(array, 1)), "{ 2, 4, 8 }")
     assert.equal(inspect(rubik.drop(array, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.drop(array, 100)), "{}")
+
+    local empty = {}
+    assert.equal(inspect(rubik.drop(empty, 0)), "{}")
+    assert.equal(inspect(rubik.drop(empty, 1)), "{}")
   end)
 
   -- Array#at
