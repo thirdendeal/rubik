@@ -196,6 +196,19 @@ function rubik.isEmpty(array)
   return rubik.size(array) == 0
 end
 
+-- Array#doesInclude
+-- ---------------------------------------------------------------------
+
+function rubik.doesInclude(array, element)
+  for _, value in ipairs(array) do
+    if value == element then
+      return true
+    end
+  end
+
+  return false
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

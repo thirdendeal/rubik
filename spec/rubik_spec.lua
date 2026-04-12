@@ -234,4 +234,14 @@ describe("Array", function()
     local empty = {}
     assert.equal(rubik.isEmpty(empty), true)
   end)
+
+  -- Array#doesInclude
+  -- -------------------------------------------------------------------
+
+  test("rubik.doesInclude(array, element) -> boolean", function()
+    local array = { 2, 4, 8, 16 }
+
+    assert.equal(rubik.doesInclude(array, 8), true)
+    assert.equal(rubik.doesInclude(array, "8"), false)
+  end)
 end)
