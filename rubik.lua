@@ -209,6 +209,37 @@ function rubik.doesInclude(array, element)
   return false
 end
 
+-- Array#push
+-- ---------------------------------------------------------------------
+
+function rubik.push(array, ...)
+  rubik.insert(array, #array + 1, ...)
+
+  return array
+end
+
+-- Array#unshift
+-- ---------------------------------------------------------------------
+
+function rubik.unshift(array, ...)
+  rubik.insert(array, 1, ...)
+
+  return array
+end
+
+-- Array#insert
+-- ---------------------------------------------------------------------
+
+function rubik.insert(array, index, ...)
+  for j, value in ipairs({ ... }) do
+    local offset = j - 1
+
+    table.insert(array, index + offset, value)
+  end
+
+  return array
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

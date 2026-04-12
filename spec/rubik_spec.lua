@@ -244,4 +244,35 @@ describe("Array", function()
     assert.equal(rubik.doesInclude(array, 8), true)
     assert.equal(rubik.doesInclude(array, "8"), false)
   end)
+
+  -- Array#push
+  -- -------------------------------------------------------------------
+
+  test("rubik.push(array, ...) -> array", function()
+    local array = {}
+
+    assert.equal(inspect(rubik.push(array, 2)), "{ 2 }")
+    assert.equal(inspect(rubik.push(array, 4, 8, 16)), "{ 2, 4, 8, 16 }")
+  end)
+
+  -- Array#unshift
+  -- -------------------------------------------------------------------
+
+  test("rubik.unshift(array, ...) -> array", function()
+    local array = {}
+
+    assert.equal(inspect(rubik.unshift(array, 16)), "{ 16 }")
+    assert.equal(inspect(rubik.unshift(array, 2, 4, 8)), "{ 2, 4, 8, 16 }")
+  end)
+
+  -- Array#insert
+  -- -------------------------------------------------------------------
+
+  test("rubik.insert(array, index, ...) -> array", function()
+    local array = {}
+
+    assert.equal(inspect(rubik.insert(array, 1, 4)), "{ 4 }")
+    assert.equal(inspect(rubik.insert(array, 1, 2)), "{ 2, 4 }")
+    assert.equal(inspect(rubik.insert(array, 3, 8, 16)), "{ 2, 4, 8, 16 }")
+  end)
 end)
