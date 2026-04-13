@@ -235,7 +235,7 @@ describe("Array", function()
     assert.equal(rubik.isEmpty(empty), true)
   end)
 
-  -- Array#doesInclude
+  -- Array#include? (doesInclude)
   -- -------------------------------------------------------------------
 
   test("rubik.doesInclude(array, element) -> boolean", function()
@@ -274,5 +274,38 @@ describe("Array", function()
     assert.equal(inspect(rubik.insert(array, 1, 4)), "{ 4 }")
     assert.equal(inspect(rubik.insert(array, 1, 2)), "{ 2, 4 }")
     assert.equal(inspect(rubik.insert(array, 3, 8, 16)), "{ 2, 4, 8, 16 }")
+  end)
+
+  -- Array#pop
+  -- ---------------------------------------------------------------------
+
+  test("rubik.pop(array) -> removed element", function()
+    local array = { 2, 4 }
+
+    assert.equal(rubik.pop(array), 4)
+    assert.equal(rubik.pop(array), 2)
+    assert.equal(rubik.pop(array), nil)
+  end)
+
+  -- Array#shift
+  -- ---------------------------------------------------------------------
+
+  test("rubik.shift(array) -> removed element", function()
+    local array = { 2, 4 }
+
+    assert.equal(rubik.shift(array), 2)
+    assert.equal(rubik.shift(array), 4)
+    assert.equal(rubik.shift(array), nil)
+  end)
+
+  -- Array#delete_at (deleteAt)
+  -- ---------------------------------------------------------------------
+
+  test("rubik.deleteAt(array, index) -> removed element", function()
+    local array = { 2, 4, 8, 16 }
+
+    assert.equal(rubik.deleteAt(array, -2), 8)
+    assert.equal(rubik.deleteAt(array, 2), 4)
+    assert.equal(rubik.deleteAt(array, 100), nil)
   end)
 end)

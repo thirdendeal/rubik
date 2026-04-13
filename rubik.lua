@@ -30,6 +30,12 @@ rubik.each = function(t, callback, ...)
   return t
 end
 
+-- ---------------------------------------------------------------------`
+
+function rubik._index(array, index)
+  return index > 0 and index or #array + index + 1
+end
+
 -- ---------------------------------------------------------------------
 -- Array
 -- ---------------------------------------------------------------------
@@ -93,11 +99,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.at(array, index)
-  if index > 0 then
-    return array[index]
-  else
-    return array[#array + index + 1]
-  end
+  return array[rubik._index(array, index)]
 end
 
 -- Array#fetch
@@ -196,7 +198,7 @@ function rubik.isEmpty(array)
   return rubik.size(array) == 0
 end
 
--- Array#doesInclude
+-- Array#include? (doesInclude)
 -- ---------------------------------------------------------------------
 
 function rubik.doesInclude(array, element)
@@ -229,8 +231,12 @@ end
 
 -- Array#insert
 -- ---------------------------------------------------------------------
+--
+-- Behavior does not change if `index` is negative, unlike Ruby
 
 function rubik.insert(array, index, ...)
+  index = rubik._index(array, index)
+
   for j, value in ipairs({ ... }) do
     local offset = j - 1
 
@@ -238,6 +244,27 @@ function rubik.insert(array, index, ...)
   end
 
   return array
+end
+
+-- Array#pop
+-- ---------------------------------------------------------------------
+
+function rubik.pop(array)
+  return table.remove(array, #array)
+end
+
+-- Array#shift
+-- ---------------------------------------------------------------------
+
+function rubik.shift(array)
+  return table.remove(array, 1)
+end
+
+-- Array#delete_at (deleteAt)
+-- ---------------------------------------------------------------------
+
+function rubik.deleteAt(array, index)
+  return table.remove(array, rubik._index(array, index))
 end
 
 -- ---------------------------------------------------------------------
