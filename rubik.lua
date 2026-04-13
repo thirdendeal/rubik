@@ -201,9 +201,9 @@ end
 -- Array#include? (doesInclude)
 -- ---------------------------------------------------------------------
 
-function rubik.doesInclude(array, element)
-  for _, value in ipairs(array) do
-    if value == element then
+function rubik.doesInclude(array, value)
+  for _, element in ipairs(array) do
+    if element == value then
       return true
     end
   end
@@ -265,6 +265,29 @@ end
 
 function rubik.deleteAt(array, index)
   return table.remove(array, rubik._index(array, index))
+end
+
+-- Array#delete
+-- ---------------------------------------------------------------------
+
+function rubik.delete(array, value)
+  local removal = {}
+
+  for i, element in ipairs(array) do
+    if element == value then
+      rubik.push(removal, i)
+    end
+  end
+
+  for j, position in ipairs(removal) do
+    local offset = j - 1
+
+    rubik.deleteAt(array, position - offset)
+  end
+
+  if #removal ~= 0 then
+    return value
+  end
 end
 
 -- ---------------------------------------------------------------------

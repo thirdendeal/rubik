@@ -238,7 +238,7 @@ describe("Array", function()
   -- Array#include? (doesInclude)
   -- -------------------------------------------------------------------
 
-  test("rubik.doesInclude(array, element) -> boolean", function()
+  test("rubik.doesInclude(array, value) -> boolean", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(rubik.doesInclude(array, 8), true)
@@ -277,9 +277,9 @@ describe("Array", function()
   end)
 
   -- Array#pop
-  -- ---------------------------------------------------------------------
+  -- -------------------------------------------------------------------
 
-  test("rubik.pop(array) -> removed element", function()
+  test("rubik.pop(array) -> removed element or nil", function()
     local array = { 2, 4 }
 
     assert.equal(rubik.pop(array), 4)
@@ -288,9 +288,9 @@ describe("Array", function()
   end)
 
   -- Array#shift
-  -- ---------------------------------------------------------------------
+  -- -------------------------------------------------------------------
 
-  test("rubik.shift(array) -> removed element", function()
+  test("rubik.shift(array) -> removed element or nil", function()
     local array = { 2, 4 }
 
     assert.equal(rubik.shift(array), 2)
@@ -299,13 +299,25 @@ describe("Array", function()
   end)
 
   -- Array#delete_at (deleteAt)
-  -- ---------------------------------------------------------------------
+  -- -------------------------------------------------------------------
 
-  test("rubik.deleteAt(array, index) -> removed element", function()
+  test("rubik.deleteAt(array, index) -> removed element or nil", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(rubik.deleteAt(array, -2), 8)
     assert.equal(rubik.deleteAt(array, 2), 4)
     assert.equal(rubik.deleteAt(array, 100), nil)
+  end)
+
+  -- Array#delete
+  -- -------------------------------------------------------------------
+
+  test("rubik.delete(array, value) -> removed element or nil", function()
+    local array = { 1, 2, 1, 2, 3, 3, 1, 1 }
+
+    assert.equal(rubik.delete(array, 1), 1)
+    assert.equal(inspect(array), "{ 2, 2, 3, 3 }")
+
+    assert.equal(rubik.delete(array, 100), nil)
   end)
 end)
