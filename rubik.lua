@@ -290,6 +290,31 @@ function rubik.delete(array, value)
   end
 end
 
+-- Array#uniq
+-- ---------------------------------------------------------------------
+
+function rubik.uniq(array, callback)
+  local hash = {}
+
+  callback = callback or function(element)
+    return element
+  end
+
+  for _, element in ipairs(array) do
+    if not hash[callback(element)] then
+      hash[callback(element)] = element
+    end
+  end
+
+  local newArray = {}
+
+  for _, value in pairs(hash) do
+    rubik.push(newArray, value)
+  end
+
+  return newArray
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

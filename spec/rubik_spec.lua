@@ -320,4 +320,23 @@ describe("Array", function()
 
     assert.equal(rubik.delete(array, 100), nil)
   end)
+
+  -- Array#uniq
+  -- -------------------------------------------------------------------
+
+  test("rubik.uniq(array) -> new array", function()
+    local numbers = { 1, 2, 1, 2, 3, 3, 1, 1 }
+
+    assert.equal(inspect(rubik.uniq(numbers)), "{ 1, 2, 3 }")
+  end)
+
+  test("rubik.uniq(array, callback(element)) -> new array", function()
+    local letters = { "a", "b", "bb", "c", "cc", "ccc" }
+
+    local byLength = function(element)
+      return element:len()
+    end
+
+    assert.equal(inspect(rubik.uniq(letters, byLength)), "{ \"a\", \"bb\", \"ccc\" }")
+  end)
 end)
