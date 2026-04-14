@@ -5,23 +5,12 @@ local inspect = require("inspect")
 
 local rubik = require("../rubik")
 
--- (Proof of concept)
--- ---------------------------------------------------------------------
-
-describe("rubik.each", function()
-  it("returns the given table", function()
-    local t = { 1, 2, 3 }
-
-    assert.are.equal(rubik.each(t), t)
-  end)
-end)
-
 -- ---------------------------------------------------------------------
 -- Array
 -- ---------------------------------------------------------------------
 
 describe("Array", function()
-  -- Array#new (newArray)
+  -- Array#newArray
   -- -------------------------------------------------------------------
 
   test("rubik.newArray() -> new empty array", function()
@@ -235,7 +224,7 @@ describe("Array", function()
     assert.equal(rubik.isEmpty(empty), true)
   end)
 
-  -- Array#include? (doesInclude)
+  -- Array#doesInclude
   -- -------------------------------------------------------------------
 
   test("rubik.doesInclude(array, value) -> boolean", function()
@@ -298,7 +287,7 @@ describe("Array", function()
     assert.equal(rubik.shift(array), nil)
   end)
 
-  -- Array#delete_at (deleteAt)
+  -- Array#deleteAt
   -- -------------------------------------------------------------------
 
   test("rubik.deleteAt(array, index) -> removed element or nil", function()
@@ -338,5 +327,35 @@ describe("Array", function()
     end
 
     assert.equal(inspect(rubik.uniq(letters, byLength)), "{ \"a\", \"bb\", \"ccc\" }")
+  end)
+
+  -- Array#each
+  -- -------------------------------------------------------------------
+
+  test("rubik.each(array, callback(element)) -> input array", function()
+    local numbers = { 1, 2, 3, 4 }
+
+    local squares = {}
+    local each = rubik.each(numbers, function(number)
+      rubik.push(squares, math.pow(number, 2))
+    end)
+
+    assert.equal(inspect(each), "{ 1, 2, 3, 4 }")
+    assert.equal(inspect(squares), "{ 1, 4, 9, 16 }")
+  end)
+
+  -- Array#reverseEach
+  -- -------------------------------------------------------------------
+
+  test("rubik.reverseEach(array, callback(element)) -> input array", function()
+    local array = { 1, 2, 3, 4 }
+
+    local reverse = {}
+    local each = rubik.reverseEach(array, function(number)
+      rubik.push(reverse, number)
+    end)
+
+    assert.equal(inspect(each), "{ 1, 2, 3, 4 }")
+    assert.equal(inspect(reverse), "{ 4, 3, 2, 1 }")
   end)
 end)

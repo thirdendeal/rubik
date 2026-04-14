@@ -18,18 +18,6 @@ function rubik._each(value)
   end
 end
 
-rubik.each = function(t, callback, ...)
-  local iterator = rubik._each(t)
-
-  if callback then
-    for _, value in iterator(t) do
-      callback(value, ...)
-    end
-  end
-
-  return t
-end
-
 -- ---------------------------------------------------------------------`
 
 function rubik._index(array, index)
@@ -40,7 +28,7 @@ end
 -- Array
 -- ---------------------------------------------------------------------
 
--- Array#new (newArray)
+-- Array#newArray
 -- ---------------------------------------------------------------------
 
 function rubik.newArray(size, value, callback)
@@ -198,7 +186,7 @@ function rubik.isEmpty(array)
   return rubik.size(array) == 0
 end
 
--- Array#include? (doesInclude)
+-- Array#doesInclude
 -- ---------------------------------------------------------------------
 
 function rubik.doesInclude(array, value)
@@ -260,7 +248,7 @@ function rubik.shift(array)
   return table.remove(array, 1)
 end
 
--- Array#delete_at (deleteAt)
+-- Array#deleteAt
 -- ---------------------------------------------------------------------
 
 function rubik.deleteAt(array, index)
@@ -313,6 +301,32 @@ function rubik.uniq(array, callback)
   end
 
   return newArray
+end
+
+-- Array#each
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.each(array) -> Enumerator
+
+function rubik.each(array, callback)
+  for _, value in ipairs(array) do
+    callback(value)
+  end
+
+  return array
+end
+
+-- Array#reverseEach
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.reverseEach(array) -> Enumerator
+
+function rubik.reverseEach(array, callback)
+  for i = #array, 1, -1 do
+    callback(array[i])
+  end
+
+  return array
 end
 
 -- ---------------------------------------------------------------------
