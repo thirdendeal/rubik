@@ -24,25 +24,25 @@ describe("Array", function()
   -- Array#new (newArray)
   -- -------------------------------------------------------------------
 
-  test("rubik.newArray() -> empty array", function()
+  test("rubik.newArray() -> new empty array", function()
     local array = rubik.newArray()
 
     assert.equal(inspect(array), "{}")
   end)
 
-  test("rubik.newArray(size) -> empty array", function()
+  test("rubik.newArray(size) -> new empty array", function()
     local array = rubik.newArray(1000)
 
     assert.equal(inspect(array), "{}")
   end)
 
-  test("rubik.newArray(size, value) -> array", function()
+  test("rubik.newArray(size, value) -> new populated array", function()
     local array = rubik.newArray(4, 1)
 
     assert.equal(inspect(array), "{ 1, 1, 1, 1 }")
   end)
 
-  test("rubik.newArray(size, _, callback(index)) -> array", function()
+  test("rubik.newArray(size, _, callback(index)) -> new populated array", function()
     local array = rubik.newArray(4, _, function(index)
       return math.pow(2, index)
     end)
@@ -61,7 +61,7 @@ describe("Array", function()
     assert.equal(rubik.first(empty), nil)
   end)
 
-  test("rubik.first(array, n) -> first n elements", function()
+  test("rubik.first(array, n) -> first n elements (new array)", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(inspect(rubik.first(array, 0)), "{}")
@@ -85,7 +85,7 @@ describe("Array", function()
     assert.equal(rubik.last(empty), nil)
   end)
 
-  test("rubik.last(array, n) -> last n elements", function()
+  test("rubik.last(array, n) -> last n elements (new array)", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(inspect(rubik.last(array, 0)), "{}")
@@ -101,7 +101,7 @@ describe("Array", function()
   -- Array#drop
   -- -------------------------------------------------------------------
 
-  test("rubik.drop(array, n) -> array excluding n last elements", function()
+  test("rubik.drop(array, n) -> new array without the n last elements", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(inspect(rubik.drop(array, 0)), "{ 2, 4, 8, 16 }")
@@ -159,7 +159,7 @@ describe("Array", function()
   -- Array#slice
   -- -------------------------------------------------------------------
 
-  test("rubik.slice(array, range) -> subset array", function()
+  test("rubik.slice(array, range) -> new subset array", function()
     local array = { 2, 4, 8, 16, 32, 64, 128, 256 }
 
     assert.equal(inspect(rubik.slice(array, { 2, 2 })), "{ 4 }")
@@ -176,7 +176,7 @@ describe("Array", function()
     assert.equal(rubik.slice(array, -100), nil)
   end)
 
-  test("rubik.slice(array, start, length) -> subset array", function()
+  test("rubik.slice(array, start, length) -> new subset array", function()
     local array = { 2, 4, 8, 16, 32, 64, 128, 256 }
 
     assert.equal(inspect(rubik.slice(array, 2, 1)), "{ 4 }")
@@ -248,7 +248,7 @@ describe("Array", function()
   -- Array#push
   -- -------------------------------------------------------------------
 
-  test("rubik.push(array, ...) -> array", function()
+  test("rubik.push(array, ...) -> input array", function()
     local array = {}
 
     assert.equal(inspect(rubik.push(array, 2)), "{ 2 }")
@@ -258,7 +258,7 @@ describe("Array", function()
   -- Array#unshift
   -- -------------------------------------------------------------------
 
-  test("rubik.unshift(array, ...) -> array", function()
+  test("rubik.unshift(array, ...) -> input array", function()
     local array = {}
 
     assert.equal(inspect(rubik.unshift(array, 16)), "{ 16 }")
@@ -268,7 +268,7 @@ describe("Array", function()
   -- Array#insert
   -- -------------------------------------------------------------------
 
-  test("rubik.insert(array, index, ...) -> array", function()
+  test("rubik.insert(array, index, ...) -> input array", function()
     local array = {}
 
     assert.equal(inspect(rubik.insert(array, 1, 4)), "{ 4 }")
