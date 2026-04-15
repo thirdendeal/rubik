@@ -358,4 +358,19 @@ describe("Array", function()
     assert.equal(inspect(each), "{ 1, 2, 3, 4 }")
     assert.equal(inspect(reverse), "{ 4, 3, 2, 1 }")
   end)
+
+  -- Array#eachIndex
+  -- -------------------------------------------------------------------
+
+  test("rubik.eachIndex(array, callback(index)) -> input array", function()
+    local numbers = { 2, 4, 8, 16 }
+
+    local pairs = {}
+    local eachIndex = rubik.eachIndex(numbers, function(index)
+      rubik.push(pairs, { index, numbers[index] })
+    end)
+
+    assert.equal(inspect(eachIndex), "{ 2, 4, 8, 16 }")
+    assert.equal(inspect(pairs), "{ { 1, 2 }, { 2, 4 }, { 3, 8 }, { 4, 16 } }")
+  end)
 end)

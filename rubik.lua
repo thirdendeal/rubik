@@ -329,6 +329,19 @@ function rubik.reverseEach(array, callback)
   return array
 end
 
+-- Array#eachIndex
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.eachIndex(array) -> Enumerator
+
+function rubik.eachIndex(array, callback)
+  for index, _ in ipairs(array) do
+    callback(index)
+  end
+
+  return array
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
