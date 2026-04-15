@@ -386,4 +386,30 @@ describe("Array", function()
 
     assert.equal(inspect(squares), "{ 1, 4, 9, 16 }")
   end)
+
+  -- Array#select
+  -- -------------------------------------------------------------------
+
+  test("rubik.select(array, callback(element)) -> new array", function()
+    local array = { 1, 2, 3, 4 }
+
+    local evenNumbers = rubik.select(array, function(number)
+      return (number % 2) == 0
+    end)
+
+    assert.equal(inspect(evenNumbers), "{ 2, 4 }")
+  end)
+
+  -- Array#keepIf
+  -- -------------------------------------------------------------------
+
+  test("rubik.keepIf(array, callback(element)) -> input array", function()
+    local array = { 1, 2, 3, 4 }
+
+    rubik.keepIf(array, function(number)
+      return (number % 2) == 0
+    end)
+
+    assert.equal(inspect(array), "{ 2, 4 }")
+  end)
 end)

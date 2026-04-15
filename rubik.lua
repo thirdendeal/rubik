@@ -375,6 +375,52 @@ function rubik.collect(array, callback)
   return rubik.map(array, callback)
 end
 
+-- Array#select
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.select(array) -> Enumerator
+
+function rubik.select(array, callback)
+  local newArray = {}
+
+  for _, element in ipairs(array) do
+    if callback(element) then
+      rubik.push(newArray, element)
+    end
+  end
+
+  return newArray
+end
+
+-- Array#filter alias
+
+function rubik.filter(array, callback)
+  return rubik.select(array, callback)
+end
+
+-- Array#keepIf
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.keepIf(array) -> Enumerator
+
+function rubik.keepIf(array, callback)
+  local removal = {}
+
+  for i, _ in ipairs(array) do
+    if not callback(array[i]) then
+      rubik.push(removal, i)
+    end
+  end
+
+  for j, position in ipairs(removal) do
+    local offset = j - 1
+
+    rubik.deleteAt(array, position - offset)
+  end
+
+  return array
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
