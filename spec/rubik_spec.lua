@@ -412,4 +412,30 @@ describe("Array", function()
 
     assert.equal(inspect(array), "{ 2, 4 }")
   end)
+
+  -- Array#reject
+  -- -------------------------------------------------------------------
+
+  test("rubik.reject(array, callback(element)) -> new array", function()
+    local array = { 1, 2, 3, 4 }
+
+    local oddNumbers = rubik.reject(array, function(number)
+      return (number % 2) == 0
+    end)
+
+    assert.equal(inspect(oddNumbers), "{ 1, 3 }")
+  end)
+
+  -- Array#deleteIf
+  -- -------------------------------------------------------------------
+
+  test("rubik.deleteIf(array, callback(element)) -> input array", function()
+    local array = { 1, 2, 3, 4 }
+
+    rubik.deleteIf(array, function(number)
+      return (number % 2) == 0
+    end)
+
+    assert.equal(inspect(array), "{ 1, 3 }")
+  end)
 end)

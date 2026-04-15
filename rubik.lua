@@ -421,6 +421,46 @@ function rubik.keepIf(array, callback)
   return array
 end
 
+-- Array#reject
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.reject(array) -> Enumerator
+
+function rubik.reject(array, callback)
+  local newArray = {}
+
+  for _, element in ipairs(array) do
+    if not callback(element) then
+      rubik.push(newArray, element)
+    end
+  end
+
+  return newArray
+end
+
+-- Array#deleteIf
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.deleteIf(array) -> Enumerator
+
+function rubik.deleteIf(array, callback)
+  local removal = {}
+
+  for i, _ in ipairs(array) do
+    if callback(array[i]) then
+      rubik.push(removal, i)
+    end
+  end
+
+  for j, position in ipairs(removal) do
+    local offset = j - 1
+
+    rubik.deleteAt(array, position - offset)
+  end
+
+  return array
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
