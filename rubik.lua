@@ -208,6 +208,12 @@ function rubik.push(array, ...)
   return array
 end
 
+-- Array#append alias
+
+function rubik.append(array, ...)
+  return rubik.push(array, ...)
+end
+
 -- Array#unshift
 -- ---------------------------------------------------------------------
 
@@ -215,6 +221,12 @@ function rubik.unshift(array, ...)
   rubik.insert(array, 1, ...)
 
   return array
+end
+
+-- Array#prepend alias
+
+function rubik.prepend(array, ...)
+  return rubik.unshift(array, ...)
 end
 
 -- Array#insert
@@ -355,6 +367,12 @@ function rubik.map(array, callback)
   end
 
   return newArray
+end
+
+-- Array#collect alias
+
+function rubik.collect(array, callback)
+  return rubik.map(array, callback)
 end
 
 -- ---------------------------------------------------------------------
