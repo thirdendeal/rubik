@@ -342,6 +342,21 @@ function rubik.eachIndex(array, callback)
   return array
 end
 
+-- Array#map
+-- ---------------------------------------------------------------------
+--
+-- Missing: rubik.map(array) -> Enumerator
+
+function rubik.map(array, callback)
+  local newArray = {}
+
+  for _, element in ipairs(array) do
+    rubik.push(newArray, callback(element))
+  end
+
+  return newArray
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

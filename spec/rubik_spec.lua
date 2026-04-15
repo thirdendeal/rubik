@@ -373,4 +373,17 @@ describe("Array", function()
     assert.equal(inspect(eachIndex), "{ 2, 4, 8, 16 }")
     assert.equal(inspect(pairs), "{ { 1, 2 }, { 2, 4 }, { 3, 8 }, { 4, 16 } }")
   end)
+
+  -- Array#map
+  -- -------------------------------------------------------------------
+
+  test("rubik.map(array, callback(element)) -> new array", function()
+    local numbers = { 1, 2, 3, 4 }
+
+    local squares = rubik.map(numbers, function(number)
+      return math.pow(number, 2)
+    end)
+
+    assert.equal(inspect(squares), "{ 1, 4, 9, 16 }")
+  end)
 end)
