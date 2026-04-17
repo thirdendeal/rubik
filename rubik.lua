@@ -20,7 +20,7 @@ end
 
 -- ---------------------------------------------------------------------`
 
-function rubik._index(array, index)
+function rubik._mirrorIndex(array, index)
   return index > 0 and index or #array + index + 1
 end
 
@@ -87,7 +87,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.at(array, index)
-  return array[rubik._index(array, index)]
+  return array[rubik._mirrorIndex(array, index)]
 end
 
 -- Array#fetch
@@ -149,7 +149,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.length(array)
-  return rubik.size(array)
+  return #array
 end
 
 -- Array#count
@@ -179,17 +179,17 @@ function rubik.count(array, element, callback)
   end
 end
 
--- Array#isEmpty
+-- Array#empty?
 -- ---------------------------------------------------------------------
 
-function rubik.isEmpty(array)
-  return rubik.size(array) == 0
+rubik["empty?"] = function(array)
+  return #array == 0
 end
 
--- Array#doesInclude
+-- Array#include?
 -- ---------------------------------------------------------------------
 
-function rubik.doesInclude(array, value)
+rubik["include?"] = function(array, value)
   for _, element in ipairs(array) do
     if element == value then
       return true
@@ -235,7 +235,7 @@ end
 -- Behavior does not change if `index` is negative, unlike Ruby
 
 function rubik.insert(array, index, ...)
-  index = rubik._index(array, index)
+  index = rubik._mirrorIndex(array, index)
 
   for j, value in ipairs({ ... }) do
     local offset = j - 1
@@ -264,7 +264,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.deleteAt(array, index)
-  return table.remove(array, rubik._index(array, index))
+  return table.remove(array, rubik._mirrorIndex(array, index))
 end
 
 -- Array#delete

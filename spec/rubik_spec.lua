@@ -213,25 +213,25 @@ describe("Array", function()
     assert.equal(rubik.count(array, _, isEven), 1)
   end)
 
-  -- Array#isEmpty
+  -- Array#empty?
   -- -------------------------------------------------------------------
 
-  test("rubik.isEmpty(array) -> boolean", function()
+  test("rubik[\"empty?\"](array) -> boolean", function()
     local array = { 2, 4, 8, 16 }
-    assert.equal(rubik.isEmpty(array), false)
+    assert.equal(rubik["empty?"](array), false)
 
     local empty = {}
-    assert.equal(rubik.isEmpty(empty), true)
+    assert.equal(rubik["empty?"](empty), true)
   end)
 
-  -- Array#doesInclude
+  -- Array#include?
   -- -------------------------------------------------------------------
 
-  test("rubik.doesInclude(array, value) -> boolean", function()
+  test("rubik[\"include?\"](array, value) -> boolean", function()
     local array = { 2, 4, 8, 16 }
 
-    assert.equal(rubik.doesInclude(array, 8), true)
-    assert.equal(rubik.doesInclude(array, "8"), false)
+    assert.equal(rubik["include?"](array, 8), true)
+    assert.equal(rubik["include?"](array, "8"), false)
   end)
 
   -- Array#push
