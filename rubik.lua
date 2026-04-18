@@ -461,6 +461,136 @@ function rubik.deleteIf(array, callback)
   return array
 end
 
+-- Array#all?
+-- ---------------------------------------------------------------------
+
+rubik["all?"] = function(array, value, callback)
+  for _, element in ipairs(array) do
+    -- rubik["all?"](array, _, callback)
+
+    if callback ~= nil then
+      if not callback(element) then
+        return false
+      end
+    elseif value ~= nil then
+      -- rubik["all?"](array, value)
+
+      if element ~= value then
+        return false
+      end
+    else
+      -- rubik["all?"](array)
+
+      if not element then
+        return false
+      end
+    end
+  end
+
+  return true
+end
+
+-- Array#any?
+-- ---------------------------------------------------------------------
+
+rubik["any?"] = function(array, value, callback)
+  for _, element in ipairs(array) do
+    -- rubik["any?"](array, _, callback)
+
+    if callback ~= nil then
+      if callback(element) then
+        return true
+      end
+    elseif value ~= nil then
+      -- rubik["any?"](array, value)
+
+      if element == value then
+        return true
+      end
+    else
+      -- rubik["any?"](array)
+
+      if element then
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
+-- Array#none?
+-- ---------------------------------------------------------------------
+
+rubik["none?"] = function(array, value, callback)
+  for _, element in ipairs(array) do
+    -- rubik["none?"](array, _, callback)
+
+    if callback ~= nil then
+      if callback(element) then
+        return false
+      end
+    elseif value ~= nil then
+      -- rubik["none?"](array, value)
+
+      if element == value then
+        return false
+      end
+    else
+      -- rubik["none?"](array)
+
+      if element then
+        return false
+      end
+    end
+  end
+
+  return true
+end
+
+-- Array#one?
+-- ---------------------------------------------------------------------
+
+rubik["one?"] = function(array, value, callback)
+  local found = false
+
+  for _, element in ipairs(array) do
+    -- rubik["one?"](array, _, callback)
+
+    if callback ~= nil then
+      if callback(element) then
+        if found then
+          return false
+        else
+          found = true
+        end
+      end
+    elseif value ~= nil then
+      -- rubik["one?"](array, value)
+
+      if element == value then
+        if found then
+          return false
+        else
+          found = true
+        end
+      end
+    else
+      -- rubik["one?"](array)
+
+      if element then
+        if found then
+          return false
+        else
+          found = true
+        end
+      end
+    end
+  end
+
+  return found
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

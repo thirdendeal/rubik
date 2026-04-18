@@ -216,7 +216,7 @@ describe("Array", function()
   -- Array#empty?
   -- -------------------------------------------------------------------
 
-  test("rubik[\"empty?\"](array) -> boolean", function()
+  test("rubik[\"empty?\"](array) -> true or false", function()
     local array = { 2, 4, 8, 16 }
     assert.equal(rubik["empty?"](array), false)
 
@@ -227,7 +227,7 @@ describe("Array", function()
   -- Array#include?
   -- -------------------------------------------------------------------
 
-  test("rubik[\"include?\"](array, value) -> boolean", function()
+  test("rubik[\"include?\"](array, value) -> true or false", function()
     local array = { 2, 4, 8, 16 }
 
     assert.equal(rubik["include?"](array, 8), true)
@@ -437,5 +437,157 @@ describe("Array", function()
     end)
 
     assert.equal(inspect(array), "{ 1, 3 }")
+  end)
+
+  -- Array#all?
+  -- -------------------------------------------------------------------
+
+  test("rubik[\"all?\"](array) -> true or false", function()
+    local empty = {}
+    local tttt = { true, true, true, true }  -- true
+    local ttft = { true, true, false, true } -- true false
+
+    assert.equal(rubik["all?"](empty), true)
+    assert.equal(rubik["all?"](tttt), true)
+    assert.equal(rubik["all?"](ttft), false)
+  end)
+
+  test("rubik[\"all?\"](array, value) -> true or false", function()
+    local empty = {}
+    local oooo = { 1, 1, 1, 1 } -- one
+    local oozo = { 1, 1, 0, 1 } -- one zero
+
+    assert.equal(rubik["all?"](empty, 100), true)
+    assert.equal(rubik["all?"](oooo, 1), true)
+    assert.equal(rubik["all?"](oozo, 1), false)
+  end)
+
+  test("rubik[\"all?\"](array, _, callback(element)) -> true or false", function()
+    local empty = {}
+    local eeee = { 2, 2, 2, 2 } -- even
+    local eeoe = { 2, 2, 3, 2 } -- even odd
+
+    local isEven = function(element)
+      return (element % 2) == 0
+    end
+
+    assert.equal(rubik["all?"](empty, _, isEven), true)
+    assert.equal(rubik["all?"](eeee, _, isEven), true)
+    assert.equal(rubik["all?"](eeoe, _, isEven), false)
+  end)
+
+  -- Array#any?
+  -- -------------------------------------------------------------------
+
+  test("rubik[\"any?\"](array) -> true or false", function()
+    local empty = {}
+    local ffff = { false, false, false, false } -- false
+    local fftf = { false, false, true, false }  -- false true
+
+    assert.equal(rubik["any?"](empty), false)
+    assert.equal(rubik["any?"](ffff), false)
+    assert.equal(rubik["any?"](fftf), true)
+  end)
+
+  test("rubik[\"any?\"](array, value) -> true or false", function()
+    local empty = {}
+    local oozo = { 1, 1, 0, 1 } -- one zero
+
+    assert.equal(rubik["any?"](empty, 100), false)
+    assert.equal(rubik["any?"](oozo, 0), true)
+    assert.equal(rubik["any?"](oozo, 100), false)
+  end)
+
+  test("rubik[\"any?\"](array, _, callback(element)) -> true or false", function()
+    local empty = {}
+    local oooo = { 3, 3, 3, 3 } -- odd
+    local ooeo = { 3, 3, 2, 3 } -- odd even
+
+    local isEven = function(element)
+      return (element % 2) == 0
+    end
+
+    assert.equal(rubik["any?"](empty, _, isEven), false)
+    assert.equal(rubik["any?"](oooo, _, isEven), false)
+    assert.equal(rubik["any?"](ooeo, _, isEven), true)
+  end)
+
+  -- Array#none?
+  -- -------------------------------------------------------------------
+
+  test("rubik[\"none?\"](array) -> true or false", function()
+    local empty = {}
+    local ffff = { false, false, false, false } -- false
+    local ttft = { true, true, false, true }    -- true false
+
+    assert.equal(rubik["none?"](empty), true)
+    assert.equal(rubik["none?"](ffff), true)
+    assert.equal(rubik["none?"](ttft), false)
+  end)
+
+  test("rubik[\"none?\"](array, value) -> true or false", function()
+    local empty = {}
+    local oozo = { 1, 1, 0, 1 } -- one zero
+
+    assert.equal(rubik["none?"](empty, 100), true)
+    assert.equal(rubik["none?"](oozo, 100), true)
+    assert.equal(rubik["none?"](oozo, 0), false)
+  end)
+
+  test("rubik[\"none?\"](array, _, callback(element)) -> true or false", function()
+    local empty = {}
+    local oooo = { 3, 3, 3, 3 } -- odd
+    local ooeo = { 3, 3, 2, 3 } -- odd even
+
+    local isEven = function(element)
+      return (element % 2) == 0
+    end
+
+    assert.equal(rubik["none?"](empty, _, isEven), true)
+    assert.equal(rubik["none?"](oooo, _, isEven), true)
+    assert.equal(rubik["none?"](ooeo, _, isEven), false)
+  end)
+
+  -- Array#one?
+  -- -------------------------------------------------------------------
+
+  test("rubik[\"one?\"](array) -> true or false", function()
+    local empty = {}
+    local ffff = { false, false, false, false } -- none
+    local fftf = { false, false, true, false }  -- one
+    local tftf = { true, false, true, false }   -- more than one
+
+    assert.equal(rubik["one?"](empty), false)
+    assert.equal(rubik["one?"](ffff), false)
+    assert.equal(rubik["one?"](fftf), true)
+    assert.equal(rubik["one?"](tftf), false)
+  end)
+
+  test("rubik[\"one?\"](array, value) -> true or false", function()
+    local empty = {}
+    local zzzz = { 0, 0, 0, 0 } -- none
+    local zzoz = { 0, 0, 1, 0 } -- one
+    local ozoz = { 1, 0, 1, 0 } -- more than one
+
+    assert.equal(rubik["one?"](empty, 100), false)
+    assert.equal(rubik["one?"](zzzz, 1), false)
+    assert.equal(rubik["one?"](zzoz, 1), true)
+    assert.equal(rubik["one?"](ozoz, 1), false)
+  end)
+
+  test("rubik[\"one?\"](array, _, callback(element)) -> true or false", function()
+    local empty = {}
+    local oooo = { 3, 3, 3, 3 } -- none
+    local ooeo = { 3, 3, 2, 3 } -- one
+    local eoeo = { 2, 3, 2, 3 } -- more than one
+
+    local isEven = function(element)
+      return (element % 2) == 0
+    end
+
+    assert.equal(rubik["one?"](empty, _, isEven), false)
+    assert.equal(rubik["one?"](oooo, _, isEven), false)
+    assert.equal(rubik["one?"](ooeo, _, isEven), true)
+    assert.equal(rubik["one?"](eoeo, _, isEven), false)
   end)
 end)
