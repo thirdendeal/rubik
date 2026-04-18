@@ -590,4 +590,54 @@ describe("Array", function()
     assert.equal(rubik["one?"](ooeo, _, isEven), true)
     assert.equal(rubik["one?"](eoeo, _, isEven), false)
   end)
+
+  -- Array#index
+  -- -------------------------------------------------------------------
+
+  test("rubik.index(array, value) -> integer or nil", function()
+    local array = { 0, 0, 1, 1 }
+
+    assert.equal(rubik.index(array, 1), 3)
+    assert.equal(rubik.index(array, 100), nil)
+  end)
+
+  test("rubik.index(array, _, callback(element)) -> integer or nil", function()
+    local array = { 2, 4, 8, 16 }
+
+    local greaterThanFive = function(element)
+      return element > 5
+    end
+
+    local negative = function(element)
+      return element < 0
+    end
+
+    assert.equal(rubik.index(array, _, greaterThanFive), 3)
+    assert.equal(rubik.index(array, _, negative), nil)
+  end)
+
+  -- Array#rindex
+  -- -------------------------------------------------------------------
+
+  test("rubik.rindex(array, value) -> integer or nil", function()
+    local array = { 0, 0, 1, 1 }
+
+    assert.equal(rubik.rindex(array, 1), 4)
+    assert.equal(rubik.rindex(array, 100), nil)
+  end)
+
+  test("rubik.rindex(array, _, callback(element)) -> integer or nil", function()
+    local array = { 2, 4, 8, 16 }
+
+    local greaterThanFive = function(element)
+      return element > 5
+    end
+
+    local negative = function(element)
+      return element < 0
+    end
+
+    assert.equal(rubik.rindex(array, _, greaterThanFive), 4)
+    assert.equal(rubik.rindex(array, _, negative), nil)
+  end)
 end)

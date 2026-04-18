@@ -318,7 +318,7 @@ end
 -- Array#each
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.each(array) -> Enumerator
+-- TODO: rubik.each(array) -> Enumerator
 
 function rubik.each(array, callback)
   for _, value in ipairs(array) do
@@ -331,7 +331,7 @@ end
 -- Array#reverseEach
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.reverseEach(array) -> Enumerator
+-- TODO: rubik.reverseEach(array) -> Enumerator
 
 function rubik.reverseEach(array, callback)
   for i = #array, 1, -1 do
@@ -344,7 +344,7 @@ end
 -- Array#eachIndex
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.eachIndex(array) -> Enumerator
+-- TODO: rubik.eachIndex(array) -> Enumerator
 
 function rubik.eachIndex(array, callback)
   for index, _ in ipairs(array) do
@@ -357,7 +357,7 @@ end
 -- Array#map
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.map(array) -> Enumerator
+-- TODO: rubik.map(array) -> Enumerator
 
 function rubik.map(array, callback)
   local newArray = {}
@@ -378,7 +378,7 @@ end
 -- Array#select
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.select(array) -> Enumerator
+-- TODO: rubik.select(array) -> Enumerator
 
 function rubik.select(array, callback)
   local newArray = {}
@@ -401,7 +401,7 @@ end
 -- Array#keepIf
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.keepIf(array) -> Enumerator
+-- TODO: rubik.keepIf(array) -> Enumerator
 
 function rubik.keepIf(array, callback)
   local removal = {}
@@ -424,7 +424,7 @@ end
 -- Array#reject
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.reject(array) -> Enumerator
+-- TODO: rubik.reject(array) -> Enumerator
 
 function rubik.reject(array, callback)
   local newArray = {}
@@ -441,7 +441,7 @@ end
 -- Array#deleteIf
 -- ---------------------------------------------------------------------
 --
--- Missing: rubik.deleteIf(array) -> Enumerator
+-- TODO: rubik.deleteIf(array) -> Enumerator
 
 function rubik.deleteIf(array, callback)
   local removal = {}
@@ -589,6 +589,60 @@ rubik["one?"] = function(array, value, callback)
   end
 
   return found
+end
+
+-- Array#index
+-- ---------------------------------------------------------------------
+--
+-- TODO: rubik.index(array) -> Enumerator
+
+function rubik.index(array, value, callback)
+  for index, element in ipairs(array) do
+    if callback ~= nil then
+      -- rubik.index(array, _, callback)
+
+      if callback(element) then
+        return index
+      end
+    elseif value ~= nil then
+      -- rubik.index(array, value)
+
+      if element == value then
+        return index
+      end
+    end
+  end
+end
+
+-- Array#findIndex alias
+
+function rubik.findIndex(array, value, callback)
+  return rubik.index(array, value, callback)
+end
+
+-- Array#rindex
+-- ---------------------------------------------------------------------
+--
+-- TODO: rubik.rindex(array) -> Enumerator
+
+function rubik.rindex(array, value, callback)
+  for index = #array, 1, -1 do
+    local element = array[index]
+
+    if callback ~= nil then
+      -- rubik.index(array, _, callback)
+
+      if callback(element) then
+        return index
+      end
+    elseif value ~= nil then
+      -- rubik.index(array, value)
+
+      if element == value then
+        return index
+      end
+    end
+  end
 end
 
 -- ---------------------------------------------------------------------
