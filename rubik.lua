@@ -24,6 +24,22 @@ function rubik._mirrorIndex(array, index)
   return index > 0 and index or #array + index + 1
 end
 
+function rubik._spaceshipOperator(a, b) -- <=>
+  -- Three-Way Comparison
+
+  if type(a) ~= "number" or type(b) ~= "number" then
+    return
+  end
+
+  if a > b then
+    return 1
+  elseif a == b then
+    return 0
+  else -- a < b
+    return -1
+  end
+end
+
 -- ---------------------------------------------------------------------
 -- Array
 -- ---------------------------------------------------------------------
@@ -643,6 +659,26 @@ function rubik.rindex(array, value, callback)
       end
     end
   end
+end
+
+-- Array#minmax
+-- ---------------------------------------------------------------------
+
+function rubik.minmax(array, callback)
+  local minimum = array[1]
+  local maximum = array[1]
+
+  callback = callback or rubik._spaceshipOperator
+
+  for _, value in ipairs(array) do
+    if callback(value, maximum) == 1 then
+      maximum = value
+    elseif callback(value, minimum) == -1 then
+      minimum = value
+    end
+  end
+
+  return { minimum, maximum }
 end
 
 -- ---------------------------------------------------------------------

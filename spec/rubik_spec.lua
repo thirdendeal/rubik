@@ -640,4 +640,25 @@ describe("Array", function()
     assert.equal(rubik.rindex(array, _, greaterThanFive), 4)
     assert.equal(rubik.rindex(array, _, negative), nil)
   end)
+
+  -- Array#minmax
+  -- -------------------------------------------------------------------
+
+  test("rubik.minmax(array) -> {} or { min, max }", function()
+    local empty = {}
+    local array = { 8, 4, 2, 1 }
+
+    assert.equal(inspect(rubik.minmax(empty)), "{}")
+    assert.equal(inspect(rubik.minmax(array)), "{ 1, 8 }")
+  end)
+
+  test("rubik.minmax(array, callback(a, b)) -> {} or { min, max }", function()
+    local array = { "rubik", "minmax", "array", "callback", "a", "b", "min", "max" }
+
+    local byLength = function(a, b)
+      return rubik._spaceshipOperator(a:len(), b:len())
+    end
+
+    assert.equal(inspect(rubik.minmax(array, byLength)), "{ \"a\", \"callback\" }")
+  end)
 end)
