@@ -681,6 +681,61 @@ function rubik.minmax(array, callback)
   return { minimum, maximum }
 end
 
+-- Array#sort
+-- ---------------------------------------------------------------------
+
+function rubik.sort(array, callback)
+  local copy = { unpack(array) }
+
+  table.sort(copy, callback or function(a, b)
+    return a < b
+  end)
+
+  return copy
+end
+
+-- Array#reverse
+-- ---------------------------------------------------------------------
+
+function rubik.reverse(array)
+  local copy = { unpack(array) }
+  local size = #copy
+
+  for i = 1, math.floor(size / 2), 1 do
+    local opposite = size - i + 1
+
+    copy[i], copy[opposite] = copy[opposite], copy[i]
+  end
+
+  return copy
+end
+
+-- Array#max
+-- ---------------------------------------------------------------------
+
+function rubik.max(array, n, callback)
+  local sorted = rubik.sort(array, callback)
+
+  if type(n) == "number" then
+    return rubik.reverse(rubik.last(sorted, n))
+  else
+    return rubik.last(sorted)
+  end
+end
+
+-- Array#min
+-- ---------------------------------------------------------------------
+
+function rubik.min(array, n, callback)
+  local sorted = rubik.sort(array, callback)
+
+  if type(n) == "number" then
+    return rubik.first(sorted, n)
+  else
+    return rubik.first(sorted)
+  end
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

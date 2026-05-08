@@ -661,4 +661,104 @@ describe("Array", function()
 
     assert.equal(inspect(rubik.minmax(array, byLength)), "{ \"a\", \"callback\" }")
   end)
+
+  -- Array#sort
+  -- -------------------------------------------------------------------
+
+  test("rubik.sort(array) -> new array", function()
+    local array = { 8, 4, 2, 1 }
+
+    assert.equal(inspect(rubik.sort(array)), "{ 1, 2, 4, 8 }")
+    assert.equal(inspect(array), "{ 8, 4, 2, 1 }")
+  end)
+
+  test("rubik.sort(array, callback) -> new array", function()
+    local array = { 1, 2, 4, 8 }
+
+    local reverse = function(a, b)
+      return a > b
+    end
+
+    assert.equal(inspect(rubik.sort(array, reverse)), "{ 8, 4, 2, 1 }")
+    assert.equal(inspect(array), "{ 1, 2, 4, 8 }")
+  end)
+
+  -- Array#reverse
+  -- -------------------------------------------------------------------
+
+  test("rubik.reverse(array) -> new array", function()
+    local array = { 1, 2, 3, 4 }
+
+    assert.equal(inspect(rubik.reverse(array)), "{ 4, 3, 2, 1 }")
+  end)
+
+  -- Array#max
+  -- -------------------------------------------------------------------
+
+  test("rubik.max(array) -> element", function()
+    local array = { 1, 1, 3, 2, 9, 4, 27, 8 }
+
+    assert.equal(rubik.max(array), 27)
+  end)
+
+  test("rubik.max(array, n) -> new array in descending order", function()
+    local array = { 1, 1, 3, 2, 9, 4, 27, 8 }
+
+    assert.equal(inspect(rubik.max(array, 4)), "{ 27, 9, 8, 4 }")
+  end)
+
+  test("rubik.max(array, _, callback) -> element", function()
+    local array = { "a", "bb", "ccc", "dddd" }
+
+    local byLength = function(a, b)
+      return a:len() < b:len()
+    end
+
+    assert.equal(rubik.max(array, _, byLength), "dddd")
+  end)
+
+  test("rubik.max(array, n, callback) -> new array in descending order", function()
+    local array = { "a", "bb", "ccc", "dddd" }
+
+    local byLength = function(a, b)
+      return a:len() < b:len()
+    end
+
+    assert.equal(inspect(rubik.max(array, 2, byLength)), "{ \"dddd\", \"ccc\" }")
+  end)
+
+  -- Array#min
+  -- -------------------------------------------------------------------
+
+  test("rubik.min(array) -> element", function()
+    local array = { 1, 1, 3, 2, 9, 4, 27, 8 }
+
+    assert.equal(rubik.min(array), 1)
+  end)
+
+  test("rubik.min(array, n) -> new array in ascending order", function()
+    local array = { 1, 1, 3, 2, 9, 4, 27, 8 }
+
+    assert.equal(inspect(rubik.min(array, 4)), "{ 1, 1, 2, 3 }")
+  end)
+
+  test("rubik.min(array, _, callback) -> element", function()
+    local array = { "a", "bb", "ccc", "dddd" }
+
+    local byLength = function(a, b)
+      return a:len() < b:len()
+    end
+
+    assert.equal(rubik.min(array, _, byLength), "a")
+  end)
+
+  test("rubik.min(array, n, callback) -> new array in ascending order", function()
+    local array = { "a", "bb", "ccc", "dddd" }
+
+    local byLength = function(a, b)
+      return a:len() < b:len()
+    end
+
+    assert.equal(inspect(rubik.min(array, 2, byLength)), "{ \"a\", \"bb\" }")
+  end)
 end)
