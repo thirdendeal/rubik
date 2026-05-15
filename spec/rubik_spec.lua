@@ -761,4 +761,24 @@ describe("Array", function()
 
     assert.equal(inspect(rubik.min(array, 2, byLength)), "{ \"a\", \"bb\" }")
   end)
+
+  -- Array#assoc
+  -- -------------------------------------------------------------------
+
+  test("rubik.assoc(array, value) -> first found subarray or nil", function()
+    local array = { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } }
+
+    assert.equal(inspect(rubik.assoc(array, 1)), "{ 1, 0 }")
+    assert.equal(rubik.assoc(array, 100), nil)
+  end)
+
+  -- Array#rassoc
+  -- -------------------------------------------------------------------
+
+  test("rubik.rassoc(array, value) -> first found subarray or nil", function()
+    local array = { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } }
+
+    assert.equal(inspect(rubik.rassoc(array, 1)), "{ 0, 1 }")
+    assert.equal(rubik.rassoc(array, 100), nil)
+  end)
 end)

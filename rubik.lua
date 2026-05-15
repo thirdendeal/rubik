@@ -736,6 +736,32 @@ function rubik.min(array, n, callback)
   end
 end
 
+-- Array#assoc
+-- ---------------------------------------------------------------------
+
+function rubik.assoc(array, value)
+  for _, element in ipairs(array) do
+    if type(element) == "table" then
+      if element[1] == value then
+        return element
+      end
+    end
+  end
+end
+
+-- Array#rassoc
+-- ---------------------------------------------------------------------
+
+function rubik.rassoc(array, value)
+  for _, element in ipairs(array) do
+    if type(element) == "table" then
+      if element[2] == value then
+        return element
+      end
+    end
+  end
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik
