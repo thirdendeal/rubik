@@ -791,6 +791,19 @@ function rubik.valuesAt(array, ...)
   return elements
 end
 
+-- Array#dig
+-- ---------------------------------------------------------------------
+
+function rubik.dig(array, ...)
+  local reached = array
+
+  for _, index in ipairs({ ... }) do
+    reached = rubik.at(reached, index)
+  end
+
+  return reached
+end
+
 -- ---------------------------------------------------------------------
 
 return rubik

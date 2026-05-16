@@ -794,4 +794,16 @@ describe("Array", function()
 
     assert.equal(inspect(rubik.valuesAt(array, 100, -100)), "{}")
   end)
+
+  -- Array#dig
+  -- -------------------------------------------------------------------
+
+  test("rubik.dig(array, ...) -> element or nil", function()
+    local array = { 1, 2, { 3, 4, { 5, 6, { 7, 8 } } } }
+
+    assert.equal(inspect(rubik.dig(array, 3)), "{ 3, 4, { 5, 6, { 7, 8 } } }")
+    assert.equal(inspect(rubik.dig(array, 3, -1)), "{ 5, 6, { 7, 8 } }")
+    assert.equal(inspect(rubik.dig(array, 3, -1, 1)), "5")
+    assert.equal(inspect(rubik.dig(array, 3, -1, 100)), "nil")
+  end)
 end)
