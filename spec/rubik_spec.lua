@@ -296,6 +296,8 @@ describe("Array", function()
     assert.equal(rubik.deleteAt(array, -2), 8)
     assert.equal(rubik.deleteAt(array, 2), 4)
     assert.equal(rubik.deleteAt(array, 100), nil)
+
+    assert.equal(inspect(array), "{ 2, 16 }")
   end)
 
   -- Array#delete
@@ -805,5 +807,85 @@ describe("Array", function()
     assert.equal(inspect(rubik.dig(array, 3, -1)), "{ 5, 6, { 7, 8 } }")
     assert.equal(inspect(rubik.dig(array, 3, -1, 1)), "5")
     assert.equal(inspect(rubik.dig(array, 3, -1, 100)), "nil")
+  end)
+
+  -- Array#shuffle
+  -- -------------------------------------------------------------------
+
+  test("rubik.shuffle(array) -> new array", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    local shuffled = rubik.shuffle(array)
+
+    assert.equal(#rubik.shuffle(array), #array)
+
+    rubik.each(array, function(element)
+      assert.equal(rubik["include?"](shuffled, element), true)
+    end)
+  end)
+
+  test("rubik.shuffle(array, prng) -> new array", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    local fauxShuffled = rubik.shuffle(array, function(max)
+      return max -- faux PRNG
+    end)
+
+    assert.equal(#rubik.shuffle(array), #array)
+
+    rubik.each(array, function(element)
+      assert.equal(rubik["include?"](fauxShuffled, element), true)
+    end)
+
+    assert.equal(inspect(fauxShuffled), "{ 8, 7, 6, 5, 4, 3, 2, 1 }")
+  end)
+
+  -- Array#sample
+  -- -------------------------------------------------------------------
+
+  test("rubik.sample(array) -> element", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    assert.equal(rubik["include?"](array, rubik.sample(array)), true)
+  end)
+
+  test("rubik.sample(array, n) -> new array", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    -- sample size clamped at #array
+    local sampled = rubik.sample(array, 100)
+
+    assert.equal(#sampled, #array)
+
+    rubik.each(sampled, function(element)
+      assert.equal(rubik["include?"](array, element), true)
+    end)
+  end)
+
+  test("rubik.sample(array, _, prng) -> element", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    local fauxSample = rubik.sample(array, _, function(max)
+      return max
+    end)
+
+    assert.equal(fauxSample, 8)
+  end)
+
+  test("rubik.sample(array, n, prng) -> new array", function()
+    local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
+
+    -- sample size clamped at #array
+    local fauxSampled = rubik.sample(array, 100, function(max)
+      return max
+    end)
+
+    assert.equal(#fauxSampled, #array)
+
+    rubik.each(fauxSampled, function(element)
+      assert.equal(rubik["include?"](array, element), true)
+    end)
+
+    assert.equal(inspect(fauxSampled), "{ 8, 7, 6, 5, 4, 3, 2, 1 }")
   end)
 end)

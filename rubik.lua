@@ -19,6 +19,15 @@ function rubik._each(value)
 end
 
 -- ---------------------------------------------------------------------`
+-- Internal
+-- ---------------------------------------------------------------------`
+
+-- TODO: Substitute second bound seed generator
+
+math.randomseed(os.time())
+math.randomseed(math.random(os.time()))
+
+-- ---------------------------------------------------------------------`
 
 function rubik._indexAt(array, index)
   return index > 0 and index or #array + index + 1 -- adds negative indices
@@ -802,6 +811,40 @@ function rubik.dig(array, ...)
   end
 
   return reached
+end
+
+-- Array#shuffle
+-- ---------------------------------------------------------------------
+
+function rubik.shuffle(array, prng)
+  local indices = rubik.newArray(#array, _, function(index)
+    return index
+  end)
+
+  local shuffled = {}
+
+  prng = prng or function(max)
+    return math.random(max)
+  end
+
+  for max = #indices, 1, -1 do
+    local index = rubik.deleteAt(indices, prng(max))
+
+    table.insert(shuffled, array[index])
+  end
+
+  return shuffled
+end
+
+-- Array#sample
+-- ---------------------------------------------------------------------
+
+function rubik.sample(array, n, prng)
+  if n then
+    return rubik.first(rubik.shuffle(array, prng), n)
+  else
+    return rubik.first(rubik.shuffle(array, prng))
+  end
 end
 
 -- ---------------------------------------------------------------------
