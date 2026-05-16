@@ -20,8 +20,8 @@ end
 
 -- ---------------------------------------------------------------------`
 
-function rubik._mirrorIndex(array, index)
-  return index > 0 and index or #array + index + 1
+function rubik._indexAt(array, index)
+  return index > 0 and index or #array + index + 1 -- adds negative indices
 end
 
 function rubik._spaceshipOperator(a, b) -- <=>
@@ -37,6 +37,18 @@ function rubik._spaceshipOperator(a, b) -- <=>
     return 0
   else -- a < b
     return -1
+  end
+end
+
+-- ---------------------------------------------------------------------
+-- Kernel
+-- ---------------------------------------------------------------------
+
+function rubik.Array(value)
+  if type(value) == "table" then
+    return value
+  else
+    return { value }
   end
 end
 
@@ -103,7 +115,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.at(array, index)
-  return array[rubik._mirrorIndex(array, index)]
+  return array[rubik._indexAt(array, index)]
 end
 
 -- Array#fetch
@@ -251,7 +263,7 @@ end
 -- Behavior does not change if `index` is negative, unlike Ruby
 
 function rubik.insert(array, index, ...)
-  index = rubik._mirrorIndex(array, index)
+  index = rubik._indexAt(array, index)
 
   for j, value in ipairs({ ... }) do
     local offset = j - 1
@@ -280,7 +292,7 @@ end
 -- ---------------------------------------------------------------------
 
 function rubik.deleteAt(array, index)
-  return table.remove(array, rubik._mirrorIndex(array, index))
+  return table.remove(array, rubik._indexAt(array, index))
 end
 
 -- Array#delete
@@ -760,6 +772,23 @@ function rubik.rassoc(array, value)
       end
     end
   end
+end
+
+-- Array#valuesAt
+-- ---------------------------------------------------------------------
+
+function rubik.valuesAt(array, ...)
+  local elements = {}
+
+  for _, argument in ipairs({ ... }) do -- index or range
+    local foundElements = rubik.Array(rubik.slice(array, argument))
+
+    for _, element in ipairs(foundElements) do
+      table.insert(elements, element)
+    end
+  end
+
+  return elements
 end
 
 -- ---------------------------------------------------------------------

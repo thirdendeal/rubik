@@ -781,4 +781,17 @@ describe("Array", function()
     assert.equal(inspect(rubik.rassoc(array, 1)), "{ 0, 1 }")
     assert.equal(rubik.rassoc(array, 100), nil)
   end)
+
+  -- Array#valuesAt
+  -- -------------------------------------------------------------------
+
+  test("rubik.valuesAt(array, ...) -> new array", function()
+    local array = { 2, 4, 8, 16 }
+
+    assert.equal(inspect(rubik.valuesAt(array, 1, 4)), "{ 2, 16 }")
+    assert.equal(inspect(rubik.valuesAt(array, { 1, 4 })), "{ 2, 4, 8, 16 }")
+    assert.equal(inspect(rubik.valuesAt(array, 1, -1, 1, -1)), "{ 2, 16, 2, 16 }")
+
+    assert.equal(inspect(rubik.valuesAt(array, 100, -100)), "{}")
+  end)
 end)
