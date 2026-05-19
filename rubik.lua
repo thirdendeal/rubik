@@ -64,6 +64,8 @@ end
 -- ---------------------------------------------------------------------
 -- Array
 -- ---------------------------------------------------------------------
+--
+-- TODO: All `fn -> Enumerator` signatures
 
 -- Array#newArray
 -- ---------------------------------------------------------------------
@@ -354,8 +356,6 @@ end
 
 -- Array#each
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.each(array) -> Enumerator
 
 function rubik.each(array, callback)
   for _, value in ipairs(array) do
@@ -367,8 +367,6 @@ end
 
 -- Array#reverseEach
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.reverseEach(array) -> Enumerator
 
 function rubik.reverseEach(array, callback)
   for i = #array, 1, -1 do
@@ -380,8 +378,6 @@ end
 
 -- Array#eachIndex
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.eachIndex(array) -> Enumerator
 
 function rubik.eachIndex(array, callback)
   for index, _ in ipairs(array) do
@@ -393,8 +389,6 @@ end
 
 -- Array#map
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.map(array) -> Enumerator
 
 function rubik.map(array, callback)
   local newArray = {}
@@ -414,8 +408,6 @@ end
 
 -- Array#select
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.select(array) -> Enumerator
 
 function rubik.select(array, callback)
   local newArray = {}
@@ -437,8 +429,6 @@ end
 
 -- Array#keepIf
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.keepIf(array) -> Enumerator
 
 function rubik.keepIf(array, callback)
   local removal = {}
@@ -460,8 +450,6 @@ end
 
 -- Array#reject
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.reject(array) -> Enumerator
 
 function rubik.reject(array, callback)
   local newArray = {}
@@ -477,8 +465,6 @@ end
 
 -- Array#deleteIf
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.deleteIf(array) -> Enumerator
 
 function rubik.deleteIf(array, callback)
   local removal = {}
@@ -630,8 +616,6 @@ end
 
 -- Array#index
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.index(array) -> Enumerator
 
 function rubik.index(array, value, callback)
   for index, element in ipairs(array) do
@@ -659,8 +643,6 @@ end
 
 -- Array#rindex
 -- ---------------------------------------------------------------------
---
--- TODO: rubik.rindex(array) -> Enumerator
 
 function rubik.rindex(array, value, callback)
   for index = #array, 1, -1 do
@@ -844,6 +826,21 @@ function rubik.sample(array, n, prng)
     return rubik.first(rubik.shuffle(array, prng), n)
   else
     return rubik.first(rubik.shuffle(array, prng))
+  end
+end
+
+-- Array#cycle
+-- ---------------------------------------------------------------------
+
+function rubik.cycle(array, count, callback)
+  if count then
+    for _ = 1, count, 1 do
+      rubik.each(array, callback)
+    end
+  else
+    while true do
+      rubik.each(array, callback)
+    end
   end
 end
 

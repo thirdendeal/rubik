@@ -888,4 +888,24 @@ describe("Array", function()
 
     assert.equal(inspect(fauxSampled), "{ 8, 7, 6, 5, 4, 3, 2, 1 }")
   end)
+
+  -- Array#cycle
+  -- -------------------------------------------------------------------
+
+  test("rubik.cycle(array, count, callback) -> nil", function()
+    local array = { 2, 4, 8, 16 }
+
+    local numbers = {}
+    local cycleNumbers = function(element)
+      rubik.push(numbers, element)
+    end
+
+    rubik.cycle(array, -1, cycleNumbers) -- none
+    rubik.cycle(array, 0, cycleNumbers)  -- none
+
+    rubik.cycle(array, 1, cycleNumbers)  -- once
+    rubik.cycle(array, 2, cycleNumbers)  -- twice
+
+    assert.equal(inspect(numbers), "{ 2, 4, 8, 16, 2, 4, 8, 16, 2, 4, 8, 16 }")
+  end)
 end)
