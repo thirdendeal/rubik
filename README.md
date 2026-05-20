@@ -8,6 +8,7 @@ Install [busted](https://luarocks.org/modules/lunarmodules/busted) and [inspect]
 
     luarocks install busted
     luarocks install inspect
+    luarocks install middleclass
 
 Run
 

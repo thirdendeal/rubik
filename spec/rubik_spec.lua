@@ -1,9 +1,9 @@
--- Rubik Test
+-- Rubik Spec
 -- ---------------------------------------------------------------------
 
 local inspect = require("inspect")
 
-local rubik = require("../rubik")
+local rubik = require("rubik")
 
 -- ---------------------------------------------------------------------
 -- Array
