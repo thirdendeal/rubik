@@ -7,7 +7,7 @@ local class = require("middleclass")
 
 local Enumerator = class('Enumerator')
 
--- Enumerator#new
+-- Enumerator::new
 -- ---------------------------------------------------------------------
 
 function Enumerator:initialize(x, y)
