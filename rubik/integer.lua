@@ -26,7 +26,7 @@ function Integer.static.wrap(value)
   local object = Integer:new()
 
   object.__recipe = value
-  object.class.rubik.patchQuoteMethods(object, _QUOTE_METHODS)
+  object.class.rubik.patch_quote_methods(object, _QUOTE_METHODS)
 
   return object
 end

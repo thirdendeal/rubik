@@ -349,20 +349,20 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#deleteAt
+  -- Array#delete_at
   -- -------------------------------------------------------------------
 
-  describe("Array#deleteAt", function()
-    test("array:deleteAt(index) -> element or nil", function()
+  describe("Array#delete_at", function()
+    test("array:delete_at(index) -> element or nil", function()
       local array = rubik({ 2, 4, 8, 16 })
 
-      assert.equal(array:deleteAt(-2):unwrap(), 8)
+      assert.equal(array:delete_at(-2):unwrap(), 8)
       assert.equal(inspect(array:unwrap()), "{ 2, 4, 16 }")
 
-      assert.equal(array:deleteAt(2):unwrap(), 4)
+      assert.equal(array:delete_at(2):unwrap(), 4)
       assert.equal(inspect(array:unwrap()), "{ 2, 16 }")
 
-      assert.equal(array:deleteAt(100):unwrap(), nil)
+      assert.equal(array:delete_at(100):unwrap(), nil)
       assert.equal(inspect(array:unwrap()), "{ 2, 16 }")
     end)
   end)
@@ -421,15 +421,15 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#reverseEach
+  -- Array#reverse_each
   -- -------------------------------------------------------------------
 
-  describe("Array#reverseEach", function()
-    test("array:reverseEach(callback(element)) -> self", function()
+  describe("Array#reverse_each", function()
+    test("array:reverse_each(callback(element)) -> self", function()
       local numbers = rubik({ 1, 2, 3, 4 })
       local reverse = rubik({})
 
-      local returns = numbers:reverseEach(function(number)
+      local returns = numbers:reverse_each(function(number)
         reverse:push(number)
       end)
 
@@ -440,15 +440,15 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#eachIndex
+  -- Array#each_index
   -- -------------------------------------------------------------------
 
-  describe("Array#eachIndex", function()
-    test("array:eachIndex(callback(index)) -> self", function()
+  describe("Array#each_index", function()
+    test("array:each_index(callback(index)) -> self", function()
       local numbers = rubik({ 2, 4, 8, 16 })
       local indexValuePairs = rubik({})
 
-      local returns = numbers:eachIndex(function(index)
+      local returns = numbers:each_index(function(index)
         indexValuePairs:push({ index, numbers:at(index):unwrap() })
       end)
 
@@ -485,14 +485,14 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#keepIf
+  -- Array#keep_if
   -- -------------------------------------------------------------------
 
-  describe("Array#keepIf", function()
-    test("array:keepIf(callback(element)) -> self", function()
+  describe("Array#keep_if", function()
+    test("array:keep_if(callback(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
-      assert.equal(array:keepIf(rubik["even?"]), array)
+      assert.equal(array:keep_if(rubik["even?"]), array)
       assert.equal(inspect(array:unwrap()), "{ 2, 4 }")
     end)
   end)
@@ -510,14 +510,14 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#deleteIf
+  -- Array#delete_if
   -- -------------------------------------------------------------------
 
-  describe("Array#deleteIf", function()
-    test("array:deleteIf(callback(element)) -> self", function()
+  describe("Array#delete_if", function()
+    test("array:delete_if(callback(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
-      assert.equal(array:deleteIf(rubik["even?"]), array)
+      assert.equal(array:delete_if(rubik["even?"]), array)
       assert.equal(inspect(array:unwrap()), "{ 1, 3 }")
     end)
   end)
@@ -666,10 +666,10 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#index (Array#findIndex alias)
+  -- Array#index (Array#find_index alias)
   -- -------------------------------------------------------------------
 
-  describe("Array#index (Array#findIndex alias)", function()
+  describe("Array#index (Array#find_index alias)", function()
     test("array:index(value) -> integer or nil", function()
       local array = { 0, 0, 1, 1 }
 
@@ -872,18 +872,18 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#valuesAt
+  -- Array#values_at
   -- -------------------------------------------------------------------
 
-  describe("Array#valuesAt", function()
-    test("array:valuesAt(...) -> new array", function()
+  describe("Array#values_at", function()
+    test("array:values_at(...) -> new array", function()
       local array = { 2, 4, 8, 16 }
 
-      assert.equal(inspect(rubik.valuesAt(array, 1, 4)), "{ 2, 16 }")
-      assert.equal(inspect(rubik.valuesAt(array, { 1, 4 })), "{ 2, 4, 8, 16 }")
-      assert.equal(inspect(rubik.valuesAt(array, 1, -1, 1, -1)), "{ 2, 16, 2, 16 }")
+      assert.equal(inspect(rubik.values_at(array, 1, 4)), "{ 2, 16 }")
+      assert.equal(inspect(rubik.values_at(array, { 1, 4 })), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(rubik.values_at(array, 1, -1, 1, -1)), "{ 2, 16, 2, 16 }")
 
-      assert.equal(inspect(rubik.valuesAt(array, 100, -100)), "{}")
+      assert.equal(inspect(rubik.values_at(array, 100, -100)), "{}")
     end)
   end)
 

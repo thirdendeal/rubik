@@ -41,7 +41,7 @@ end
 -- Wrap, Forward and Unwrap
 -- ---------------------------------------------------------------------
 
-function rubik.inAndOut(recipe, method, ...)
+function rubik.in_and_out(recipe, method, ...)
   local object = rubik.wrap(recipe)
 
   return object[method](object, ...):unwrap()
@@ -51,7 +51,7 @@ end
 
 metatable.__index = function(_, index)
   return function(recipe, ...)
-    return rubik.inAndOut(recipe, index, ...)
+    return rubik.in_and_out(recipe, index, ...)
   end
 end
 
@@ -73,7 +73,7 @@ end
 -- Monkey Patch
 -- ---------------------------------------------------------------------
 
-function rubik.patchQuoteMethods(object, methods)
+function rubik.patch_quote_methods(object, methods)
   for _, method in ipairs(methods) do
     object[":" .. method] = function(...)
       return object[method](object, ...)

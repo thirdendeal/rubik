@@ -56,7 +56,7 @@ function Array:initialize(size, value, callback)
     end
   end
 
-  self.class.rubik.patchQuoteMethods(self, _QUOTE_METHODS)
+  self.class.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 end
 
 -- ---------------------------------------------------------------------
@@ -274,10 +274,10 @@ function Array:shift()
   return self.class.rubik(table.remove(self.__recipe, 1))
 end
 
--- Array#deleteAt
+-- Array#delete_at
 -- ---------------------------------------------------------------------
 
-function Array:deleteAt(index)
+function Array:delete_at(index)
   return self.class.rubik(table.remove(self.__recipe, _wrapAroundIndex(self.__recipe, index)))
 end
 
@@ -296,7 +296,7 @@ function Array:delete(value)
   for j, position in ipairs(removal) do
     local offset = j - 1
 
-    self:deleteAt(position - offset)
+    self:delete_at(position - offset)
   end
 
   return self.class.rubik(#removal ~= 0 and value or nil)
@@ -338,10 +338,10 @@ function Array:each(callback)
   return self
 end
 
--- Array#reverseEach
+-- Array#reverse_each
 -- ---------------------------------------------------------------------
 
-function Array:reverseEach(callback)
+function Array:reverse_each(callback)
   for i = #self.__recipe, 1, -1 do
     callback(self.__recipe[i])
   end
@@ -349,10 +349,10 @@ function Array:reverseEach(callback)
   return self
 end
 
--- Array#eachIndex
+-- Array#each_index
 -- ---------------------------------------------------------------------
 
-function Array:eachIndex(callback)
+function Array:each_index(callback)
   for index, _ in ipairs(self.__recipe) do
     callback(index)
   end
@@ -400,10 +400,10 @@ function Array:filter(...)
   return self:select(...)
 end
 
--- Array#keepIf
+-- Array#keep_if
 -- ---------------------------------------------------------------------
 
-function Array:keepIf(callback)
+function Array:keep_if(callback)
   local removal = {}
 
   for i, _ in ipairs(self.__recipe) do
@@ -415,7 +415,7 @@ function Array:keepIf(callback)
   for j, position in ipairs(removal) do
     local offset = j - 1
 
-    self:deleteAt(position - offset)
+    self:delete_at(position - offset)
   end
 
   return self
@@ -436,10 +436,10 @@ function Array:reject(callback)
   return self.class.rubik(newArray)
 end
 
--- Array#deleteIf
+-- Array#delete_if
 -- ---------------------------------------------------------------------
 
-function Array:deleteIf(callback)
+function Array:delete_if(callback)
   local removal = {}
 
   for i, _ in ipairs(self.__recipe) do
@@ -451,7 +451,7 @@ function Array:deleteIf(callback)
   for j, position in ipairs(removal) do
     local offset = j - 1
 
-    self:deleteAt(position - offset)
+    self:delete_at(position - offset)
   end
 
   return self
@@ -610,9 +610,9 @@ function Array:index(value, callback)
   return self.class.rubik(nil)
 end
 
--- Array#findIndex alias
+-- Array#find_index alias
 
-function Array:findIndex(...)
+function Array:find_index(...)
   return self:index(...)
 end
 
@@ -746,10 +746,10 @@ function Array:rassoc(value)
   return self.class.rubik(nil)
 end
 
--- Array#valuesAt
+-- Array#values_at
 -- ---------------------------------------------------------------------
 
-function Array:valuesAt(...)
+function Array:values_at(...)
   local elements = {}
 
   for _, position in ipairs({ ... }) do -- each argument may be either an index or a range
@@ -791,7 +791,7 @@ function Array:shuffle(prng)
   end
 
   for max = indices:size():unwrap(), 1, -1 do
-    local index = indices:deleteAt(prng(max)):unwrap()
+    local index = indices:delete_at(prng(max)):unwrap()
 
     table.insert(shuffled, self.__recipe[index])
   end
