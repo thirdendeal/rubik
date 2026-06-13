@@ -2,13 +2,16 @@
 
 Ruby API brought to Lua
 
+## Install
+
+    luarocks install middleclass
+
 ## Testing
 
-Install [busted](https://luarocks.org/modules/lunarmodules/busted) and [inspect](https://luarocks.org/modules/kikito/inspect)
+Dependencies
 
     luarocks install busted
     luarocks install inspect
-    luarocks install middleclass
 
 Run
 
