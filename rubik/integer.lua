@@ -1,54 +1,47 @@
--- Enumerator
+-- Integer
 -- ---------------------------------------------------------------------
 
 local class = require("middleclass")
 
+local Object = require("rubik.object")
+
 -- ---------------------------------------------------------------------
 
-local Enumerator = class('Enumerator')
+local Integer = class("Integer", Object)
+
+-- ---------------------------------------------------------------------
+-- Private
+-- ---------------------------------------------------------------------
+
+local _QUOTE_METHODS = { "even?" }
 
 -- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::new
+-- Integer::wrap
 -- ---------------------------------------------------------------------
 
-function Enumerator:initialize(x, y)
-  if y then
-    self.size, self.newStepClosure = x, y
-  else
-    self.newStepClosure = x
-  end
+function Integer.static.wrap(value)
+  local object = Integer:new()
 
-  self.step = self.newStepClosure()
+  object.__recipe = value
+  object.class.rubik.patchQuoteMethods(object, _QUOTE_METHODS)
+
+  return object
 end
 
 -- ---------------------------------------------------------------------
 -- Instance
 -- ---------------------------------------------------------------------
 
--- Enumerator#next
+-- Integer#even?
 -- ---------------------------------------------------------------------
 
-function Enumerator:next()
-  return self.step()
-end
-
--- Enumerator#peek
--- ---------------------------------------------------------------------
-
-function Enumerator:peek()
-  return self.step(true)
-end
-
--- Enumerator#rewind
--- ---------------------------------------------------------------------
-
-function Enumerator:rewind()
-  self.step = self.newStepClosure()
+Integer["even?"] = function(self)
+  return self.class.rubik((self.__recipe % 2) == 0)
 end
 
 -- ---------------------------------------------------------------------
 
-return Enumerator
+return Integer

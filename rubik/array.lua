@@ -56,9 +56,7 @@ function Array:initialize(size, value, callback)
     end
   end
 
-  Array.rubik.patchQuoteMethods(self, _QUOTE_METHODS)
-
-  return self
+  self.class.rubik.patchQuoteMethods(self, _QUOTE_METHODS)
 end
 
 -- ---------------------------------------------------------------------
@@ -772,7 +770,7 @@ function Array:dig(...)
   local reached = self.__recipe
 
   for _, index in ipairs({ ... }) do
-    reached = Array.rubik.at(reached, index)
+    reached = self.class.rubik.at(reached, index)
   end
 
   return self.class.rubik(reached)

@@ -236,11 +236,7 @@ describe("Array", function()
     end)
 
     test("array:count(_, callback) -> integer", function()
-      local isEven = function(number)
-        return (number % 2) == 0
-      end
-
-      assert.equal(rubik.count({ 1, 1, 2, 3 }, _, isEven), 1)
+      assert.equal(rubik.count({ 1, 1, 2, 3 }, _, rubik["even?"]), 1)
     end)
   end)
 
@@ -496,11 +492,7 @@ describe("Array", function()
     test("array:keepIf(callback(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
-      local isEven = function(number)
-        return (number % 2) == 0
-      end
-
-      assert.equal(array:keepIf(isEven), array)
+      assert.equal(array:keepIf(rubik["even?"]), array)
       assert.equal(inspect(array:unwrap()), "{ 2, 4 }")
     end)
   end)
@@ -525,11 +517,7 @@ describe("Array", function()
     test("array:deleteIf(callback(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
-      local isEven = function(number)
-        return (number % 2) == 0
-      end
-
-      assert.equal(array:deleteIf(isEven), array)
+      assert.equal(array:deleteIf(rubik["even?"]), array)
       assert.equal(inspect(array:unwrap()), "{ 1, 3 }")
     end)
   end)
@@ -563,13 +551,9 @@ describe("Array", function()
       local eeee = { 2, 2, 2, 2 } -- even
       local eeoe = { 2, 2, 3, 2 } -- even odd
 
-      local isEven = function(element)
-        return (element % 2) == 0
-      end
-
-      assert.equal(rubik["all?"](empty, _, isEven), true)
-      assert.equal(rubik["all?"](eeee, _, isEven), true)
-      assert.equal(rubik["all?"](eeoe, _, isEven), false)
+      assert.equal(rubik["all?"](empty, _, rubik["even?"]), true)
+      assert.equal(rubik["all?"](eeee, _, rubik["even?"]), true)
+      assert.equal(rubik["all?"](eeoe, _, rubik["even?"]), false)
     end)
   end)
 
@@ -601,13 +585,9 @@ describe("Array", function()
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
 
-      local isEven = function(element)
-        return (element % 2) == 0
-      end
-
-      assert.equal(rubik["any?"](empty, _, isEven), false)
-      assert.equal(rubik["any?"](oooo, _, isEven), false)
-      assert.equal(rubik["any?"](ooeo, _, isEven), true)
+      assert.equal(rubik["any?"](empty, _, rubik["even?"]), false)
+      assert.equal(rubik["any?"](oooo, _, rubik["even?"]), false)
+      assert.equal(rubik["any?"](ooeo, _, rubik["even?"]), true)
     end)
   end)
 
@@ -639,13 +619,9 @@ describe("Array", function()
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
 
-      local isEven = function(element)
-        return (element % 2) == 0
-      end
-
-      assert.equal(rubik["none?"](empty, _, isEven), true)
-      assert.equal(rubik["none?"](oooo, _, isEven), true)
-      assert.equal(rubik["none?"](ooeo, _, isEven), false)
+      assert.equal(rubik["none?"](empty, _, rubik["even?"]), true)
+      assert.equal(rubik["none?"](oooo, _, rubik["even?"]), true)
+      assert.equal(rubik["none?"](ooeo, _, rubik["even?"]), false)
     end)
   end)
 
@@ -683,14 +659,10 @@ describe("Array", function()
       local ooeo = { 3, 3, 2, 3 } -- one
       local eoeo = { 2, 3, 2, 3 } -- more than one
 
-      local isEven = function(element)
-        return (element % 2) == 0
-      end
-
-      assert.equal(rubik["one?"](empty, _, isEven), false)
-      assert.equal(rubik["one?"](oooo, _, isEven), false)
-      assert.equal(rubik["one?"](ooeo, _, isEven), true)
-      assert.equal(rubik["one?"](eoeo, _, isEven), false)
+      assert.equal(rubik["one?"](empty, _, rubik["even?"]), false)
+      assert.equal(rubik["one?"](oooo, _, rubik["even?"]), false)
+      assert.equal(rubik["one?"](ooeo, _, rubik["even?"]), true)
+      assert.equal(rubik["one?"](eoeo, _, rubik["even?"]), false)
     end)
   end)
 

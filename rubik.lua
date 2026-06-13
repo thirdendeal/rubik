@@ -5,6 +5,7 @@ local Object = require("rubik.object")
 
 local Array = require("rubik.array")
 local Enumerator = require("rubik.enumerator")
+local Integer = require("rubik.integer")
 local Kernel = require("rubik.kernel")
 
 -- ---------------------------------------------------------------------
@@ -16,12 +17,16 @@ local metatable = {}
 -- ---------------------------------------------------------------------
 
 function rubik.wrap(recipe)
-  if type(recipe) == "table" then
+  local recipeType = type(recipe)
+
+  if recipeType == "table" then
     if recipe.__recipe then
       recipe = recipe.__recipe
     end
 
     return Array.wrap(recipe)
+  elseif recipeType == "number" then
+    return Integer.wrap(recipe) -- float disambiguation later
   else
     return Object.wrap(recipe)
   end
@@ -83,6 +88,7 @@ rubik.Object = Object
 
 rubik.Array = Array
 rubik.Enumerator = Enumerator
+rubik.Integer = Integer
 rubik.Kernel = Kernel
 
 -- ---------------------------------------------------------------------
@@ -91,6 +97,7 @@ Object.static.rubik = rubik
 
 Array.static.rubik = rubik
 Enumerator.static.rubik = rubik
+Integer.static.rubik = rubik
 Kernel.static.rubik = rubik
 
 -- Pseudo-Randomness
