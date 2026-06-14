@@ -2,6 +2,7 @@
 -- ---------------------------------------------------------------------
 
 local class = require("middleclass")
+local inspect = require("inspect")
 
 local Object = require("rubik.object")
 
@@ -825,6 +826,25 @@ function Array:cycle(count, callback)
   end
 
   return self.class.rubik(nil)
+end
+
+-- Array#inspect
+-- ---------------------------------------------------------------------
+
+function Array:inspect()
+  return self.class.rubik(inspect(self.__recipe))
+end
+
+-- Array#to_s alias
+
+function Array:to_s()
+  return self:inspect()
+end
+
+-- Array#__tostring metamethod
+
+function Array:__tostring()
+  return self:inspect():unwrap()
 end
 
 -- ---------------------------------------------------------------------

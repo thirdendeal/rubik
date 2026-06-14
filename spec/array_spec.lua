@@ -1005,4 +1005,14 @@ describe("Array", function()
       assert.equal(inspect(numbers), "{ 2, 4, 8, 16, 2, 4, 8, 16, 2, 4, 8, 16 }")
     end)
   end)
+
+  -- Array#inspect (Array#to_s alias) [Array#__tostring metamethod]
+  -- -------------------------------------------------------------------
+
+  describe("Array#inspect", function()
+    test("array:inspect() -> new string", function()
+      assert.equal(rubik.inspect({}), "{}")
+      assert.equal(rubik.inspect({ 1 }), "{ 1 }")
+    end)
+  end)
 end)
