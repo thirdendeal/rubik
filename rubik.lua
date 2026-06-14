@@ -13,7 +13,7 @@ local Kernel = require("rubik.kernel")
 local rubik = { _version = "0.0.0" }
 local metatable = {}
 
--- Wrap
+-- Rubik::wrap
 -- ---------------------------------------------------------------------
 
 function rubik.wrap(recipe)
@@ -32,13 +32,15 @@ function rubik.wrap(recipe)
   end
 end
 
+-- Rubik::__call metamethod
+--
 -- rubik(recipe)
 
 metatable.__call = function(_, ...)
   return rubik.wrap(...)
 end
 
--- Wrap, Forward and Unwrap
+-- Rubik::in_and_out
 -- ---------------------------------------------------------------------
 
 function rubik.in_and_out(recipe, method, ...)
@@ -47,6 +49,8 @@ function rubik.in_and_out(recipe, method, ...)
   return object[method](object, ...):unwrap()
 end
 
+-- Rubik::__index metamethod
+--
 -- rubik.method(recipe, ...)
 
 metatable.__index = function(_, index)
@@ -55,13 +59,11 @@ metatable.__index = function(_, index)
   end
 end
 
--- Ruby
+-- Rubik::["<=>"]
 -- ---------------------------------------------------------------------
 
--- Three-Way Comparison
-
 rubik["<=>"] = function(a, b)
-  if a > b then
+  if a > b then -- three-way comparison
     return 1
   elseif a == b then
     return 0
@@ -70,12 +72,12 @@ rubik["<=>"] = function(a, b)
   end
 end
 
--- Monkey Patch
+-- Rubik::patch_quote_methods
 -- ---------------------------------------------------------------------
 
 function rubik.patch_quote_methods(object, methods)
   for _, method in ipairs(methods) do
-    object[":" .. method] = function(...)
+    object[":" .. method] = function(...) -- monkey patch
       return object[method](object, ...)
     end
   end
