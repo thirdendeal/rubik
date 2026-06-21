@@ -106,6 +106,12 @@ function Array:at(index)
   return self.class.rubik(self.__recipe[_wrapAroundIndex(self.__recipe, index)])
 end
 
+-- Array#__index metamethod
+
+function Array:__index(index)
+  return self:at(index)
+end
+
 -- Array#fetch
 -- ---------------------------------------------------------------------
 

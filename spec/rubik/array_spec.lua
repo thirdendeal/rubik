@@ -134,17 +134,17 @@ describe("Array", function()
     end)
   end)
 
-  -- Array#at
+  -- Array#at [Array#__index metamethod]
   -- -------------------------------------------------------------------
 
   describe("Array#at", function()
     test("array:at(index) -> element", function()
-      local array = { 2, 4, 8, 16 }
+      local array = rubik({ 2, 4, 8, 16 })
 
-      assert.equal(rubik.at(array, 1), 2)
-      assert.equal(rubik.at(array, 100), nil)
-      assert.equal(rubik.at(array, -1), 16)
-      assert.equal(rubik.at(array, -100), nil)
+      assert.equal(array[1]:unwrap(), 2)
+      assert.equal(array[100]:unwrap(), nil)
+      assert.equal(array[-1]:unwrap(), 16)
+      assert.equal(array[-100]:unwrap(), nil)
     end)
   end)
 
