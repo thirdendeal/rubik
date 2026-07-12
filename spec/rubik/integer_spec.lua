@@ -61,4 +61,14 @@ describe("Integer", function()
       assert.equal(rubik[":zero?"](0), true)
     end)
   end)
+
+  -- Integer#abs (Integer#magnitude alias)
+  -- -------------------------------------------------------------------
+
+  describe("Integer#abs (Integer#magnitude alias)", function()
+    test("integer:abs() -> integer", function()
+      assert.equal(rubik.abs(100), 100)
+      assert.equal(rubik.abs(-100), 100)
+    end)
+  end)
 end)

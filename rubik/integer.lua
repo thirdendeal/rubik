@@ -56,6 +56,19 @@ Integer["zero?"] = function(self)
   return self.class.rubik(self.__recipe == 0)
 end
 
+-- Integer#abs
+-- ---------------------------------------------------------------------
+
+function Integer:abs()
+  return self.class.rubik(math.abs(self.__recipe))
+end
+
+-- Integer#magnitude alias
+
+function Integer:magnitude()
+  return self:abs()
+end
+
 -- ---------------------------------------------------------------------
 
 return Integer
