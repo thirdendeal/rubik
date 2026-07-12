@@ -1,26 +1,26 @@
--- Integer Spec
+-- String Spec
 -- ---------------------------------------------------------------------
 
 local inspect = require("inspect")
 
 local rubik = require("rubik")
 
--- Integer
+-- String
 -- ---------------------------------------------------------------------
 
-describe("Integer", function()
+describe("String", function()
   -- -------------------------------------------------------------------
   -- Class
   -- -------------------------------------------------------------------
 
-  -- Integer::wrap
+  -- String::wrap
   -- -------------------------------------------------------------------
 
-  describe("Integer::wrap", function()
-    test("Integer.wrap(value) -> new integer", function()
-      local integer = rubik.Integer.wrap(1)
+  describe("String::wrap", function()
+    test("String.wrap(value) -> new string", function()
+      local apple = rubik.String.wrap("apple")
 
-      assert.equal(integer:unwrap(), 1)
+      assert.equal(apple:unwrap(), "apple")
     end)
   end)
 
@@ -28,13 +28,13 @@ describe("Integer", function()
   -- Instance
   -- -------------------------------------------------------------------
 
-  -- Integer#even?
+  -- String#even?
   -- -------------------------------------------------------------------
 
-  describe("Integer#even?", function()
-    test("integer[\":even?\"]() -> true or false", function()
-      assert.equal(rubik[":even?"](1), false)
-      assert.equal(rubik[":even?"](2), true)
+  describe("String#empty?", function()
+    test("string[\":empty?\"]() -> true or false", function()
+      assert.equal(rubik[":empty?"]("non-zero length string"), false)
+      assert.equal(rubik[":empty?"](""), true)
     end)
   end)
 end)

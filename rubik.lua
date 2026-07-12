@@ -1,12 +1,12 @@
 -- Rubik
 -- ---------------------------------------------------------------------
 
-local Object = require("rubik.object")
-
 local Array = require("rubik.array")
 local Enumerator = require("rubik.enumerator")
 local Integer = require("rubik.integer")
 local Kernel = require("rubik.kernel")
+local Object = require("rubik.object")
+local String = require("rubik.string")
 
 -- ---------------------------------------------------------------------
 
@@ -27,6 +27,8 @@ function rubik.wrap(recipe)
     return Array.wrap(recipe)
   elseif recipeType == "number" then
     return Integer.wrap(recipe) -- float disambiguation later
+  elseif recipeType == "string" then
+    return String.wrap(recipe)
   else
     return Object.wrap(recipe)
   end
@@ -86,21 +88,21 @@ end
 -- Class Injection
 -- ---------------------------------------------------------------------
 
-rubik.Object = Object
-
 rubik.Array = Array
 rubik.Enumerator = Enumerator
 rubik.Integer = Integer
 rubik.Kernel = Kernel
+rubik.Object = Object
+rubik.String = String
 
 -- ---------------------------------------------------------------------
-
-Object.static.rubik = rubik
 
 Array.static.rubik = rubik
 Enumerator.static.rubik = rubik
 Integer.static.rubik = rubik
 Kernel.static.rubik = rubik
+Object.static.rubik = rubik
+String.static.rubik = rubik
 
 -- Pseudo-Randomness
 -- ---------------------------------------------------------------------
