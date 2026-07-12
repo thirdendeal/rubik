@@ -13,7 +13,7 @@ local Integer = class("Integer", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { "even?" }
+local _QUOTE_METHODS = { "even?", "odd?", "zero?" }
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -40,6 +40,20 @@ end
 
 Integer["even?"] = function(self)
   return self.class.rubik((self.__recipe % 2) == 0)
+end
+
+-- Integer#odd?
+-- ---------------------------------------------------------------------
+
+Integer["odd?"] = function(self)
+  return self.class.rubik((self.__recipe % 2) ~= 0)
+end
+
+-- Integer#zero?
+-- ---------------------------------------------------------------------
+
+Integer["zero?"] = function(self)
+  return self.class.rubik(self.__recipe == 0)
 end
 
 -- ---------------------------------------------------------------------
