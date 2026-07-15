@@ -37,4 +37,28 @@ describe("String", function()
       assert.equal(rubik["empty?"](""), true)
     end)
   end)
+
+  -- String#end_with?
+  -- -------------------------------------------------------------------
+
+  describe("String#end_with?", function()
+    test("string[\":end_with?\"](suffix...) -> true or false", function()
+      assert.equal(rubik["end_with?"]("pineapple", "apple"), true)
+      assert.equal(rubik["end_with?"]("pineapple", "pine"), false)
+
+      assert.equal(rubik["end_with?"]("pineapple", "pine", "apple", "grape"), true)
+    end)
+  end)
+
+  -- String#start_with?
+  -- -------------------------------------------------------------------
+
+  describe("String#start_with?", function()
+    test("string[\":start_with?\"]([prefixes]+) -> true or false", function()
+      assert.equal(rubik["start_with?"]("pineapple", "pine"), true)
+      assert.equal(rubik["start_with?"]("pineapple", "apple"), false)
+
+      assert.equal(rubik["start_with?"]("pineapple", "apple", "pine", "grape"), true)
+    end)
+  end)
 end)
