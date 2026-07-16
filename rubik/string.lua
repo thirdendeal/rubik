@@ -1,5 +1,7 @@
 -- String
 -- ---------------------------------------------------------------------
+--
+-- Missing: Case Mapping
 
 local class = require("middleclass")
 
@@ -52,7 +54,7 @@ String["end_with?"] = function(self, ...)
     local suffixLength = #suffix
 
     if suffixLength <= length then
-      local substring = string.sub(self.__recipe, length - suffixLength + 1, length)
+      local substring = self.__recipe:sub(length - suffixLength + 1, length)
 
       if substring == suffix then
         return self.class.rubik(true)
@@ -73,7 +75,7 @@ String["start_with?"] = function(self, ...)
     local prefixLength = #prefix
 
     if prefixLength <= length then
-      local substring = string.sub(self.__recipe, 1, prefixLength)
+      local substring = self.__recipe:sub(1, prefixLength)
 
       if substring == prefix then
         return self.class.rubik(true)
@@ -82,6 +84,50 @@ String["start_with?"] = function(self, ...)
   end
 
   return self.class.rubik(false)
+end
+
+-- String#capitalize
+-- ---------------------------------------------------------------------
+
+function String:capitalize()
+  local firstCharacter = self.__recipe:sub(1, 1)
+  local remainder = self.__recipe:sub(2, #self.__recipe)
+
+  return self.class.rubik(firstCharacter:upper() .. remainder:lower())
+end
+
+-- String#downcase
+-- ---------------------------------------------------------------------
+
+function String:downcase()
+  return self.class.rubik(self.__recipe:lower())
+end
+
+-- String#upcase
+-- ---------------------------------------------------------------------
+
+function String:upcase()
+  return self.class.rubik(self.__recipe:upper())
+end
+
+-- String#swapcase
+-- ---------------------------------------------------------------------
+
+function String:swapcase()
+  local cumulation = ""
+
+  for i = 1, #self.__recipe do
+    local character = self.__recipe:sub(i, i)
+    local lowerCase = character:lower()
+
+    if character == lowerCase then
+      cumulation = cumulation .. character:upper()
+    else
+      cumulation = cumulation .. lowerCase
+    end
+  end
+
+  return self.class.rubik(cumulation)
 end
 
 -- ---------------------------------------------------------------------

@@ -61,4 +61,46 @@ describe("String", function()
       assert.equal(rubik["start_with?"]("pineapple", "apple", "pine", "grape"), true)
     end)
   end)
+
+  -- String#capitalize
+  -- -------------------------------------------------------------------
+
+  describe("String#capitalize", function()
+    test("string:capitalize() -> string", function()
+      assert.equal(rubik.capitalize("Hello, World!"), "Hello, world!")
+
+      -- Upcases first character, downcases all others
+      assert.equal(rubik.capitalize("hello, World!"), "Hello, world!")
+    end)
+  end)
+
+  -- String#downcase
+  -- -------------------------------------------------------------------
+
+  describe("String#downcase", function()
+    test("string:downcase() -> string", function()
+      assert.equal(rubik.downcase("Hello, World!"), "hello, world!")
+      assert.equal(rubik.downcase("hello, world!"), "hello, world!")
+    end)
+  end)
+
+  -- String#upcase
+  -- -------------------------------------------------------------------
+
+  describe("String#upcase", function()
+    test("string:upcase() -> string", function()
+      assert.equal(rubik.upcase("Hello, World!"), "HELLO, WORLD!")
+      assert.equal(rubik.upcase("HELLO, WORLD!"), "HELLO, WORLD!")
+    end)
+  end)
+
+  -- String#swapcase
+  -- -------------------------------------------------------------------
+
+  describe("String#swapcase", function()
+    test("string:swapcase() -> string", function()
+      assert.equal(rubik.swapcase("Hello, World!"), "hELLO, wORLD!")
+      assert.equal(rubik.swapcase("hELLO, wORLD!"), "Hello, World!")
+    end)
+  end)
 end)
