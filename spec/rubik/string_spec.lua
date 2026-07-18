@@ -74,6 +74,17 @@ describe("String", function()
     end)
   end)
 
+  -- String#capitalize!
+
+  describe("String#capitalize!", function()
+    test("string[\":capitalize!\"]() -> self or nil", function()
+      local s = rubik("Hello, World!")
+
+      assert.equal(s[":capitalize!"]():unwrap(), "Hello, world!")
+      assert.equal(s[":capitalize!"]():unwrap(), nil)
+    end)
+  end)
+
   -- String#downcase
   -- -------------------------------------------------------------------
 
@@ -81,6 +92,17 @@ describe("String", function()
     test("string:downcase() -> string", function()
       assert.equal(rubik.downcase("Hello, World!"), "hello, world!")
       assert.equal(rubik.downcase("hello, world!"), "hello, world!")
+    end)
+  end)
+
+  -- String#downcase!
+
+  describe("String#downcase!", function()
+    test("string[\":downcase!\"]() -> self or nil", function()
+      local s = rubik("Hello, World!")
+
+      assert.equal(s[":downcase!"]():unwrap(), "hello, world!")
+      assert.equal(s[":downcase!"]():unwrap(), nil)
     end)
   end)
 
@@ -94,6 +116,17 @@ describe("String", function()
     end)
   end)
 
+  -- String#upcase!
+
+  describe("String#upcase!", function()
+    test("string[\":upcase!\"]() -> self or nil", function()
+      local s = rubik("Hello, World!")
+
+      assert.equal(s[":upcase!"]():unwrap(), "HELLO, WORLD!")
+      assert.equal(s[":upcase!"]():unwrap(), nil)
+    end)
+  end)
+
   -- String#swapcase
   -- -------------------------------------------------------------------
 
@@ -101,6 +134,21 @@ describe("String", function()
     test("string:swapcase() -> string", function()
       assert.equal(rubik.swapcase("Hello, World!"), "hELLO, wORLD!")
       assert.equal(rubik.swapcase("hELLO, wORLD!"), "Hello, World!")
+    end)
+  end)
+
+  -- String#swapcase!
+
+  describe("String#swapcase!", function()
+    test("string[\":swapcase!\"]() -> self or nil", function()
+      local s = rubik("Hello, World!")
+
+      assert.equal(s[":swapcase!"]():unwrap(), "hELLO, wORLD!")
+      assert.equal(s[":swapcase!"]():unwrap(), "Hello, World!")
+
+      local t = rubik(",!")
+
+      assert.equal(t[":swapcase!"]():unwrap(), nil)
     end)
   end)
 end)

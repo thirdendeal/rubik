@@ -15,7 +15,15 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?" }
+local _QUOTE_METHODS = { 
+  "empty?",
+  "end_with?",
+  "start_with?",
+  "capitalize!",
+  "upcase!",
+  "downcase!",
+  "swapcase!"
+}
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -96,6 +104,19 @@ function String:capitalize()
   return self.class.rubik(firstCharacter:upper() .. remainder:lower())
 end
 
+-- String#capitalize!
+
+String["capitalize!"] = function(self)
+  local initial = self.__recipe
+  self.__recipe = self:capitalize():unwrap()
+
+  if self.__recipe ~= initial then
+    return self
+  end
+
+  return self.class.rubik(nil)
+end
+
 -- String#downcase
 -- ---------------------------------------------------------------------
 
@@ -103,11 +124,37 @@ function String:downcase()
   return self.class.rubik(self.__recipe:lower())
 end
 
+-- String#downcase!
+
+String["downcase!"] = function(self)
+  local initial = self.__recipe
+  self.__recipe = self:downcase():unwrap()
+
+  if self.__recipe ~= initial then
+    return self
+  end
+
+  return self.class.rubik(nil)
+end
+
 -- String#upcase
 -- ---------------------------------------------------------------------
 
 function String:upcase()
   return self.class.rubik(self.__recipe:upper())
+end
+
+-- String#upcase!
+
+String["upcase!"] = function(self)
+  local initial = self.__recipe
+  self.__recipe = self:upcase():unwrap()
+
+  if self.__recipe ~= initial then
+    return self
+  end
+
+  return self.class.rubik(nil)
 end
 
 -- String#swapcase
@@ -128,6 +175,19 @@ function String:swapcase()
   end
 
   return self.class.rubik(cumulation)
+end
+
+-- String#swapcase!
+
+String["swapcase!"] = function(self)
+  local initial = self.__recipe
+  self.__recipe = self:swapcase():unwrap()
+
+  if self.__recipe ~= initial then
+    return self
+  end
+
+  return self.class.rubik(nil)
 end
 
 -- ---------------------------------------------------------------------
