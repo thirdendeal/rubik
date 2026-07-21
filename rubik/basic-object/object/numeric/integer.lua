@@ -3,11 +3,11 @@
 
 local class = require("middleclass")
 
-local Object = require("rubik.basic-object.object")
+local Numeric = require("rubik.basic-object.object.numeric")
 
 -- ---------------------------------------------------------------------
 
-local Integer = class("Integer", Object)
+local Integer = class("Integer", Numeric)
 
 -- ---------------------------------------------------------------------
 -- Private

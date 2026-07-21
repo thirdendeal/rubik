@@ -8,8 +8,11 @@ local Object = require("rubik.basic-object.object")
 
 local Array = require("rubik.basic-object.object.array")
 local Enumerator = require("rubik.basic-object.object.enumerator")
-local Integer = require("rubik.basic-object.object.integer")
+local Numeric = require("rubik.basic-object.object.numeric")
 local String = require("rubik.basic-object.object.string")
+
+local Float = require("rubik.basic-object.object.numeric.float")
+local Integer = require("rubik.basic-object.object.numeric.integer")
 
 -- ---------------------------------------------------------------------
 
@@ -29,7 +32,13 @@ function rubik.wrap(recipe)
 
     return Array.wrap(recipe)
   elseif recipeType == "number" then
-    return Integer.wrap(recipe) -- float disambiguation later
+    local _, fractionalPart = math.modf(recipe)
+
+    if fractionalPart == 0 then
+      return Integer.wrap(recipe)
+    else
+      return Float.wrap(recipe)
+    end
   elseif recipeType == "string" then
     return String.wrap(recipe)
   else
@@ -98,8 +107,11 @@ rubik.Object = Object
 
 rubik.Array = Array
 rubik.Enumerator = Enumerator
-rubik.Integer = Integer
+rubik.Numeric = Numeric
 rubik.String = String
+
+rubik.Float = Float
+rubik.Integer = Integer
 
 -- ---------------------------------------------------------------------
 
@@ -110,8 +122,11 @@ Object.static.rubik = rubik
 
 Array.static.rubik = rubik
 Enumerator.static.rubik = rubik
-Integer.static.rubik = rubik
+Numeric.static.rubik = rubik
 String.static.rubik = rubik
+
+Float.static.rubik = rubik
+Integer.static.rubik = rubik
 
 -- Pseudo-Randomness
 -- ---------------------------------------------------------------------
