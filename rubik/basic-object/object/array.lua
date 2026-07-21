@@ -4,7 +4,7 @@
 local class = require("middleclass")
 local inspect = require("inspect")
 
-local Object = require("rubik.object")
+local Object = require("rubik.basic-object.object")
 
 -- ---------------------------------------------------------------------
 

@@ -5,7 +5,7 @@
 
 local class = require("middleclass")
 
-local Object = require("rubik.object")
+local Object = require("rubik.basic-object.object")
 
 -- ---------------------------------------------------------------------
 
@@ -15,15 +15,7 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { 
-  "empty?",
-  "end_with?",
-  "start_with?",
-  "capitalize!",
-  "upcase!",
-  "downcase!",
-  "swapcase!"
-}
+local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "upcase!", "downcase!", "swapcase!" }
 
 -- ---------------------------------------------------------------------
 -- Class

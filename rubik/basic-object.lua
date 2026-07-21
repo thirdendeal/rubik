@@ -1,54 +1,44 @@
--- Enumerator
+-- BasicObject
 -- ---------------------------------------------------------------------
 
 local class = require("middleclass")
 
 -- ---------------------------------------------------------------------
 
-local Enumerator = class('Enumerator')
+local BasicObject = class("BasicObject")
 
 -- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::new
+-- BasicObject::wrap
 -- ---------------------------------------------------------------------
 
-function Enumerator:initialize(x, y)
-  if y then
-    self.size, self.newStepClosure = x, y
-  else
-    self.newStepClosure = x
-  end
+function BasicObject.static.wrap(value)
+  local basicObject = BasicObject:new()
 
-  self.step = self.newStepClosure()
+  basicObject.__recipe = value
+
+  return basicObject
 end
 
 -- ---------------------------------------------------------------------
 -- Instance
 -- ---------------------------------------------------------------------
 
--- Enumerator#next
+-- BasicObject#unwrap
 -- ---------------------------------------------------------------------
 
-function Enumerator:next()
-  return self.step()
+function BasicObject:unwrap()
+  return self.__recipe
 end
 
--- Enumerator#peek
--- ---------------------------------------------------------------------
+-- BasicObject#derubik alias
 
-function Enumerator:peek()
-  return self.step(true)
-end
-
--- Enumerator#rewind
--- ---------------------------------------------------------------------
-
-function Enumerator:rewind()
-  self.step = self.newStepClosure()
+function BasicObject:derubik()
+  return self:unwrap()
 end
 
 -- ---------------------------------------------------------------------
 
-return Enumerator
+return BasicObject

@@ -1,7 +1,7 @@
 -- Enumerator Spec
 -- ---------------------------------------------------------------------
 
-local Enumerator = require("rubik.enumerator")
+local Enumerator = require("rubik.basic-object.object.enumerator")
 
 -- ---------------------------------------------------------------------
 

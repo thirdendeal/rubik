@@ -1,44 +1,56 @@
--- Object
+-- Enumerator
 -- ---------------------------------------------------------------------
 
 local class = require("middleclass")
 
+local Object = require("rubik.basic-object.object")
+
 -- ---------------------------------------------------------------------
 
-local Object = class("Object")
+local Enumerator = class("Enumerator", Object)
 
 -- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
--- Object::wrap
+-- Enumerator::new
 -- ---------------------------------------------------------------------
 
-function Object.static.wrap(value)
-  local object = Object:new()
+function Enumerator:initialize(x, y)
+  if y then
+    self.size, self.newStepClosure = x, y
+  else
+    self.newStepClosure = x
+  end
 
-  object.__recipe = value
-
-  return object
+  self.step = self.newStepClosure()
 end
 
 -- ---------------------------------------------------------------------
 -- Instance
 -- ---------------------------------------------------------------------
 
--- Object#unwrap
+-- Enumerator#next
 -- ---------------------------------------------------------------------
 
-function Object:unwrap()
-  return self.__recipe
+function Enumerator:next()
+  return self.step()
 end
 
--- Object#derubik alias
+-- Enumerator#peek
+-- ---------------------------------------------------------------------
 
-function Object:derubik()
-  return self:unwrap()
+function Enumerator:peek()
+  return self.step(true)
+end
+
+-- Enumerator#rewind
+-- ---------------------------------------------------------------------
+
+function Enumerator:rewind()
+  self.step = self.newStepClosure()
 end
 
 -- ---------------------------------------------------------------------
 
-return Object
+return Enumerator

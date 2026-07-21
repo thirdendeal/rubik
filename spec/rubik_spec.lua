@@ -16,7 +16,7 @@ describe("Rubik", function()
     assert.equal(rubik.wrap({ 1 }).class.name, "Array")
     assert.equal(rubik.wrap(1).class.name, "Integer")
 
-    assert.equal(rubik.wrap(nil).class.name, "Object") -- temporary catch all
+    assert.equal(rubik.wrap(nil).class.name, "BasicObject") -- temporary catch all
   end)
 
   test("rubik(...) chain", function()
@@ -50,12 +50,9 @@ describe("Rubik", function()
   -- -------------------------------------------------------------------
 
   test("rubik.patch_quote_methods(object, methods) -> nil", function()
-    local counter = {
-      tally = 0,
-      ["increase"] = function(self)
-        self.tally = self.tally + 1
-      end
-    }
+    local counter = { tally = 0, ["increase"] = function(self)
+      self.tally = self.tally + 1
+    end }
 
     counter.increase(counter)
 
