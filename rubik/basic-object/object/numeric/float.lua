@@ -3,11 +3,11 @@
 
 local class = require("middleclass")
 
-local Float = require("rubik.basic-object.object.numeric")
+local Numeric = require("rubik.basic-object.object.numeric")
 
 -- ---------------------------------------------------------------------
 
-local Float = class("Float", Float)
+local Float = class("Float", Numeric)
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -16,10 +16,10 @@ local Float = class("Float", Float)
 -- Float::wrap
 -- ---------------------------------------------------------------------
 
-function Float.static.wrap(value)
+function Float.static.wrap(literal)
   local f = Float:new()
 
-  f.__recipe = value
+  f.__recipe = literal
 
   return f
 end

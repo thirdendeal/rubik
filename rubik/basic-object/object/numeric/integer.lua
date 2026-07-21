@@ -22,13 +22,13 @@ local _QUOTE_METHODS = { "even?", "odd?", "zero?" }
 -- Integer::wrap
 -- ---------------------------------------------------------------------
 
-function Integer.static.wrap(value)
-  local object = Integer:new()
+function Integer.static.wrap(literal)
+  local i = Integer:new()
 
-  object.__recipe = value
-  object.class.rubik.patch_quote_methods(object, _QUOTE_METHODS)
+  i.__recipe = literal
+  i.class.rubik.patch_quote_methods(i, _QUOTE_METHODS)
 
-  return object
+  return i
 end
 
 -- ---------------------------------------------------------------------

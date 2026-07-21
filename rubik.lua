@@ -42,7 +42,7 @@ function rubik.wrap(recipe)
   elseif recipeType == "string" then
     return String.wrap(recipe)
   else
-    return BasicObject.wrap(recipe)
+    return Object.wrap(recipe)
   end
 end
 

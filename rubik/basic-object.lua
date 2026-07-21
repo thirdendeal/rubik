@@ -14,12 +14,12 @@ local BasicObject = class("BasicObject")
 -- BasicObject::wrap
 -- ---------------------------------------------------------------------
 
-function BasicObject.static.wrap(value)
-  local basicObject = BasicObject:new()
+function BasicObject.static.wrap(literal)
+  local o = BasicObject:new()
 
-  basicObject.__recipe = value
+  o.__recipe = literal
 
-  return basicObject
+  return o
 end
 
 -- ---------------------------------------------------------------------

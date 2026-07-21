@@ -4,6 +4,7 @@
 local class = require("middleclass")
 
 local Object = require("rubik.basic-object.object")
+
 -- ---------------------------------------------------------------------
 
 local Numeric = class("Numeric", Object)
@@ -15,10 +16,10 @@ local Numeric = class("Numeric", Object)
 -- Numeric::wrap
 -- ---------------------------------------------------------------------
 
-function Numeric.static.wrap(value)
+function Numeric.static.wrap(literal)
   local n = Numeric:new()
 
-  n.__recipe = value
+  n.__recipe = literal
 
   return n
 end

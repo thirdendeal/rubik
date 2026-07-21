@@ -1,7 +1,5 @@
 -- String
 -- ---------------------------------------------------------------------
---
--- Missing: Case Mapping
 
 local class = require("middleclass")
 
@@ -24,13 +22,13 @@ local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "u
 -- String::wrap
 -- ---------------------------------------------------------------------
 
-function String.static.wrap(value)
-  local object = String:new()
+function String.static.wrap(literal)
+  local s = String:new()
 
-  object.__recipe = value
-  object.class.rubik.patch_quote_methods(object, _QUOTE_METHODS)
+  s.__recipe = literal
+  s.class.rubik.patch_quote_methods(s, _QUOTE_METHODS)
 
-  return object
+  return s
 end
 
 -- ---------------------------------------------------------------------
@@ -88,6 +86,8 @@ end
 
 -- String#capitalize
 -- ---------------------------------------------------------------------
+--
+-- Missing: Case Mapping
 
 function String:capitalize()
   local firstCharacter = self.__recipe:sub(1, 1)
@@ -111,6 +111,8 @@ end
 
 -- String#downcase
 -- ---------------------------------------------------------------------
+--
+-- Missing: Case Mapping
 
 function String:downcase()
   return self.class.rubik(self.__recipe:lower())
@@ -131,6 +133,8 @@ end
 
 -- String#upcase
 -- ---------------------------------------------------------------------
+--
+-- Missing: Case Mapping
 
 function String:upcase()
   return self.class.rubik(self.__recipe:upper())
@@ -151,6 +155,8 @@ end
 
 -- String#swapcase
 -- ---------------------------------------------------------------------
+--
+-- Missing: Case Mapping
 
 function String:swapcase()
   local cumulation = ""

@@ -29,23 +29,23 @@ end
 -- Array::wrap
 -- ---------------------------------------------------------------------
 
-function Array.static.wrap(value)
-  local array = Array:new()
+function Array.static.wrap(literal)
+  local newArray = Array:new()
 
-  if type(value) == "table" then
-    array:push(unpack(value))
+  if type(literal) == "table" then
+    newArray:push(unpack(literal))
   else
-    array:push(value)
+    newArray:push(literal)
   end
 
-  return array
+  return newArray
 end
 
 -- Array::new
--- ---------------------------------------------------------------------
 
 function Array:initialize(size, value, callback)
   self.__recipe = {}
+  self.class.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 
   if callback then
     for i = 1, size or 0, 1 do
@@ -56,8 +56,6 @@ function Array:initialize(size, value, callback)
       table.insert(self.__recipe, value)
     end
   end
-
-  self.class.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 end
 
 -- ---------------------------------------------------------------------

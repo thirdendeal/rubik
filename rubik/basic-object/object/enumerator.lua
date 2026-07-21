@@ -13,10 +13,20 @@ local Enumerator = class("Enumerator", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::new
+-- Enumerator::wrap
 -- ---------------------------------------------------------------------
 
+function Enumerator.static.wrap(recipe)
+  local newEnumerator = Enumerator:new(unpack(recipe))
+
+  return newEnumerator
+end
+
+-- Enumerator::new
+
 function Enumerator:initialize(x, y)
+  self.__recipe = { x, y }
+
   if y then
     self.size, self.newStepClosure = x, y
   else
