@@ -851,6 +851,23 @@ function Array:__tostring()
   return self:inspect():unwrap()
 end
 
+-- Array#sum
+-- ---------------------------------------------------------------------
+
+function Array:sum(init, callback)
+  local transform = callback or function(x)
+    return x
+  end
+
+  local total = init or 0
+
+  for _, value in ipairs(self.__recipe) do
+    total = total + transform(value) -- TODO: Replace `+ operator` with `+ method`
+  end
+
+  return self.class.rubik(total)
+end
+
 -- ---------------------------------------------------------------------
 
 return Array

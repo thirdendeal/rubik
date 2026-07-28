@@ -1015,4 +1015,26 @@ describe("Array", function()
       assert.equal(rubik.inspect({ 1 }), "{ 1 }")
     end)
   end)
+
+  -- Array#sum
+  -- -------------------------------------------------------------------
+
+  describe("Array#sum", function()
+    test("array:sum() -> object", function()
+      assert.equal(rubik.sum({ 1, 2, 3 }), 6)
+    end)
+
+    test("array:sum(init) -> object", function()
+      assert.equal(rubik.sum({ 1, 2, 3 }, 100), 106)
+    end)
+
+    test("array:sum(init, callback) -> object", function()
+      local square = function(x)
+        return x ^ 2
+      end
+
+      assert.equal(rubik.sum({ 1, 2, 3 }, 0, square), 14)
+      assert.equal(rubik.sum({ 1, 2, 3 }, 100, square), 114)
+    end)
+  end)
 end)
