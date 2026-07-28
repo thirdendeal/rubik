@@ -10,6 +10,12 @@ local Object = require("rubik.basic-object.object")
 local Numeric = class("Numeric", Object)
 
 -- ---------------------------------------------------------------------
+-- Private
+-- ---------------------------------------------------------------------
+
+local _QUOTE_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
+
+-- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
@@ -20,6 +26,7 @@ function Numeric.static.wrap(literal)
   local n = Numeric:new()
 
   n.__recipe = literal
+  n.class.rubik.patch_quote_methods(n, _QUOTE_METHODS)
 
   return n
 end
@@ -60,6 +67,34 @@ end
 
 function Numeric:modulo(other)
   return self.class.rubik(self.__recipe % other)
+end
+
+-- Numeric#positive?
+-- ---------------------------------------------------------------------
+
+Numeric["positive?"] = function(self)
+  return self.class.rubik(self.__recipe > 0)
+end
+
+-- Numeric#negative?
+-- ---------------------------------------------------------------------
+
+Numeric["negative?"] = function(self)
+  return self.class.rubik(self.__recipe < 0)
+end
+
+-- Numeric#zero?
+-- ---------------------------------------------------------------------
+
+Numeric["zero?"] = function(self)
+  return self.class.rubik(self.__recipe == 0)
+end
+
+-- Numeric#nonzero?
+-- ---------------------------------------------------------------------
+
+Numeric["nonzero?"] = function(self)
+  return self.class.rubik(self.__recipe ~= 0)
 end
 
 -- ---------------------------------------------------------------------

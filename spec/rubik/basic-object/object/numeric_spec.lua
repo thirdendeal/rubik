@@ -100,4 +100,50 @@ describe("Numeric", function()
       assert.equal(rubik.modulo(-6, -27), -6)
     end)
   end)
+
+  -- Numeric#positive?
+  -- -------------------------------------------------------------------
+
+  describe("Numeric#positive?", function()
+    test("numeric[\":positive?\"]() -> true or false", function()
+      assert.equal(rubik["positive?"](1), true)
+
+      assert.equal(rubik["positive?"](0), false)
+      assert.equal(rubik["positive?"](-1), false)
+    end)
+  end)
+
+  -- Numeric#negative?
+  -- -------------------------------------------------------------------
+
+  describe("Numeric#negative?", function()
+    test("numeric[\":negative?\"]() -> true or false", function()
+      assert.equal(rubik["negative?"](1), false)
+      assert.equal(rubik["negative?"](0), false)
+
+      assert.equal(rubik["negative?"](-1), true)
+    end)
+  end)
+
+  -- Numeric#zero?
+  -- -------------------------------------------------------------------
+
+  describe("Numeric#zero?", function()
+    test("numeric[\":zero?\"]() -> true or false", function()
+      assert.equal(rubik["zero?"](1), false)
+      assert.equal(rubik["zero?"](0), true)
+      assert.equal(rubik["zero?"](-1), false)
+    end)
+  end)
+
+  -- Numeric#nonzero?
+  -- -------------------------------------------------------------------
+
+  describe("Numeric#nonzero?", function()
+    test("numeric[\":nonzero?\"]() -> true or false", function()
+      assert.equal(rubik["nonzero?"](1), true)
+      assert.equal(rubik["nonzero?"](0), false)
+      assert.equal(rubik["nonzero?"](-1), true)
+    end)
+  end)
 end)
