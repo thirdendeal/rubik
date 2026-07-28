@@ -55,6 +55,13 @@ function Numeric:round(ndigits)
   return f:round(ndigits)
 end
 
+-- Numeric#modulo
+-- ---------------------------------------------------------------------
+
+function Numeric:modulo(other)
+  return self.class.rubik(self.__recipe % other)
+end
+
 -- ---------------------------------------------------------------------
 
 return Numeric

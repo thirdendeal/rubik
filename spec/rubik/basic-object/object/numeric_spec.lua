@@ -83,4 +83,21 @@ describe("Numeric", function()
       assert.equal(n:round(5):unwrap(), 10.2859)
     end)
   end)
+
+  -- Numeric#modulo
+  -- -------------------------------------------------------------------
+
+  describe("Numeric#modulo", function()
+    test("numeric:modulo(other) -> real numeric", function()
+      assert.equal(rubik.modulo(27, 6), 3)
+      assert.equal(rubik.modulo(-27, 6), 3)
+      assert.equal(rubik.modulo(27, -6), -3)
+      assert.equal(rubik.modulo(-27, -6), -3)
+
+      assert.equal(rubik.modulo(6, 27), 6)
+      assert.equal(rubik.modulo(-6, 27), 21)
+      assert.equal(rubik.modulo(6, -27), -21)
+      assert.equal(rubik.modulo(-6, -27), -6)
+    end)
+  end)
 end)
