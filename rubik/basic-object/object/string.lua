@@ -13,7 +13,16 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "upcase!", "downcase!", "swapcase!" }
+local _QUOTE_METHODS = {
+  "empty?",
+  "end_with?",
+  "start_with?",
+  "capitalize!",
+  "upcase!",
+  "downcase!",
+  "swapcase!",
+  "reverse!"
+}
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -186,6 +195,29 @@ String["swapcase!"] = function(self)
   end
 
   return self.class.rubik(nil)
+end
+
+-- String#reverse
+-- ---------------------------------------------------------------------
+
+function String:reverse()
+  local cumulation = ""
+
+  for i = #self.__recipe, 1, -1 do
+    local character = self.__recipe:sub(i, i)
+
+    cumulation = cumulation .. character
+  end
+
+  return self.class.rubik(cumulation)
+end
+
+-- String#reverse!
+
+String["reverse!"] = function(self)
+  self.__recipe = self:reverse():unwrap()
+
+  return self
 end
 
 -- ---------------------------------------------------------------------

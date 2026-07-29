@@ -151,4 +151,26 @@ describe("String", function()
       assert.equal(t[":swapcase!"]():unwrap(), nil)
     end)
   end)
+
+  -- String#reverse
+  -- -------------------------------------------------------------------
+
+  describe("String#reverse", function()
+    test("string:reverse() -> string", function()
+      assert.equal(rubik.reverse("abc"), "cba")
+      assert.equal(rubik.reverse("1"), "1")
+      assert.equal(rubik.reverse(""), "")
+    end)
+  end)
+
+  -- String#reverse!
+
+  describe("String#reverse!", function()
+    test("string[\":reverse!\"]() -> self", function()
+      local s = rubik("abc")
+
+      assert.equal(s[":reverse!"]():unwrap(), "cba")
+      assert.equal(s[":reverse!"]():unwrap(), "abc")
+    end)
+  end)
 end)

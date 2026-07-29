@@ -768,9 +768,9 @@ describe("Array", function()
 
   describe("Array#reverse", function()
     test("array:reverse() -> new array", function()
-      local array = { 1, 2, 3, 4 }
-
-      assert.equal(inspect(rubik.reverse(array)), "{ 4, 3, 2, 1 }")
+      assert.equal(inspect(rubik.reverse({ 1, 2, 3, 4 })), "{ 4, 3, 2, 1 }")
+      assert.equal(inspect(rubik.reverse({ "a" })), "{ \"a\" }")
+      assert.equal(inspect(rubik.reverse({})), "{}")
     end)
   end)
 
