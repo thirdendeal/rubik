@@ -29,6 +29,21 @@ function Enumerator:initialize(size, block)
   self:rewind()
 end
 
+-- Enumerator::produce
+-- ---------------------------------------------------------------------
+
+function Enumerator.static.produce(initial, block)
+  return Enumerator:new(_, function()
+    local current = initial
+
+    while true do
+      coroutine.yield(current)
+
+      current = block(current)
+    end
+  end)
+end
+
 -- ---------------------------------------------------------------------
 -- Instance
 -- ---------------------------------------------------------------------

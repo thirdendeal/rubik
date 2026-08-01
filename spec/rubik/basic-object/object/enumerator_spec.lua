@@ -6,6 +6,10 @@ local Enumerator = require("rubik.basic-object.object.enumerator")
 -- ---------------------------------------------------------------------
 
 describe("Enumerator", function()
+  -- -------------------------------------------------------------------
+  -- Setup
+  -- -------------------------------------------------------------------
+
   -- Initialize
   -- ---------------------------------------------------------------------
 
@@ -22,12 +26,33 @@ describe("Enumerator", function()
     end)
   end)
 
+  -- -------------------------------------------------------------------
+  -- Class
+  -- -------------------------------------------------------------------
+
   -- Enumerator#new
   -- -------------------------------------------------------------------
 
   test("Enumerator:new(_, callback) -> new enumerator", function()
     assert.equal(fibonacci.class, Enumerator)
   end)
+
+  -- Enumerator#produce
+  -- -------------------------------------------------------------------
+
+  test("Enumerator.produce(initial, block(previous)) -> new enumerator", function()
+    local numbers = Enumerator.produce(1, function(previous)
+      return previous + 1
+    end)
+
+    assert.equal(numbers:next(), 1)
+    assert.equal(numbers:next(), 2)
+    assert.equal(numbers:next(), 3)
+  end)
+
+  -- -------------------------------------------------------------------
+  -- Instance
+  -- -------------------------------------------------------------------
 
   -- Enumerator#next
   -- -------------------------------------------------------------------
