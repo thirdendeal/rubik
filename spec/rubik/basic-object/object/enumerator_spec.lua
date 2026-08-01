@@ -10,18 +10,14 @@ describe("Enumerator", function()
   -- ---------------------------------------------------------------------
 
   before_each(function()
-    fibonacci = Enumerator:new(function()
+    fibonacci = Enumerator:new(_, function()
       local a = 1
       local b = 1
 
-      return function(peek)
-        local fibonacciNumber = a
+      while true do
+        coroutine.yield(a)
 
-        if not peek then
-          a, b = b, a + b
-        end
-
-        return fibonacciNumber
+        a, b = b, a + b
       end
     end)
   end)
@@ -29,7 +25,7 @@ describe("Enumerator", function()
   -- Enumerator#new
   -- -------------------------------------------------------------------
 
-  test("Enumerator:new(callback) -> new enumerator", function()
+  test("Enumerator:new(_, callback) -> new enumerator", function()
     assert.equal(fibonacci.class, Enumerator)
   end)
 
@@ -63,15 +59,13 @@ describe("Enumerator", function()
   -- Enumerator#rewind
   -- -------------------------------------------------------------------
 
-  test("enumerator:peek() -> value", function()
+  test("enumerator:rewind() -> self", function()
     fibonacci:next() -- 1
     fibonacci:next() -- 1
     fibonacci:next() -- 2
     fibonacci:next() -- 3
 
-    assert.equal(fibonacci:next(), 5)
-
-    fibonacci:rewind()
+    assert.equal(fibonacci:rewind(), fibonacci)
 
     assert.equal(fibonacci:next(), 1)
   end)

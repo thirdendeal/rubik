@@ -17,23 +17,16 @@ local Enumerator = class("Enumerator", Object)
 -- ---------------------------------------------------------------------
 
 function Enumerator.static.wrap(recipe)
-  local newEnumerator = Enumerator:new(unpack(recipe))
-
-  return newEnumerator
+  return Enumerator:new(unpack(recipe))
 end
 
 -- Enumerator::new
 
-function Enumerator:initialize(x, y)
-  self.__recipe = { x, y }
+function Enumerator:initialize(size, block)
+  self.size = size
+  self.__block = block
 
-  if y then
-    self.size, self.newStepClosure = x, y
-  else
-    self.newStepClosure = x
-  end
-
-  self.step = self.newStepClosure()
+  self:rewind()
 end
 
 -- ---------------------------------------------------------------------
@@ -44,21 +37,38 @@ end
 -- ---------------------------------------------------------------------
 
 function Enumerator:next()
-  return self.step()
+  if self.__hasPeeked then
+    self.__hasPeeked = false
+
+    return self.__peekValue
+  else
+    local _, nextValue = coroutine.resume(self.__coroutine)
+
+    return nextValue
+  end
 end
 
 -- Enumerator#peek
 -- ---------------------------------------------------------------------
 
 function Enumerator:peek()
-  return self.step(true)
+  if not self.__hasPeeked then
+    self.__hasPeeked = true
+
+    _, self.__peekValue = coroutine.resume(self.__coroutine)
+  end
+
+  return self.__peekValue
 end
 
 -- Enumerator#rewind
 -- ---------------------------------------------------------------------
 
 function Enumerator:rewind()
-  self.step = self.newStepClosure()
+  self.__coroutine = coroutine.create(self.__block)
+  self.__hasPeeked = false
+
+  return self
 end
 
 -- ---------------------------------------------------------------------
