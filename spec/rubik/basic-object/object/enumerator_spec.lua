@@ -1,31 +1,14 @@
 -- Enumerator Spec
 -- ---------------------------------------------------------------------
 
-local Enumerator = require("rubik.basic-object.object.enumerator")
+local inspect = require("inspect")
 
+local rubik = require("rubik")
+
+-- Enumerator
 -- ---------------------------------------------------------------------
 
 describe("Enumerator", function()
-  -- -------------------------------------------------------------------
-  -- Setup
-  -- -------------------------------------------------------------------
-
-  -- Initialize
-  -- ---------------------------------------------------------------------
-
-  before_each(function()
-    fibonacci = Enumerator:new(_, function()
-      local a = 1
-      local b = 1
-
-      while true do
-        coroutine.yield(a)
-
-        a, b = b, a + b
-      end
-    end)
-  end)
-
   -- -------------------------------------------------------------------
   -- Class
   -- -------------------------------------------------------------------
@@ -33,21 +16,36 @@ describe("Enumerator", function()
   -- Enumerator#new
   -- -------------------------------------------------------------------
 
-  test("Enumerator:new(_, callback) -> new enumerator", function()
-    assert.equal(fibonacci.class, Enumerator)
+  describe("Enumerator::new", function()
+    test("Enumerator:new(_, block) -> new enumerator", function()
+      local e = rubik.Enumerator:new(_, function()
+        coroutine.yield(1)
+        coroutine.yield(2)
+        coroutine.yield(3)
+
+        -- implicit last value: nil
+      end)
+
+      assert.equal(e:next(), 1)
+      assert.equal(e:next(), 2)
+      assert.equal(e:next(), 3)
+      assert.equal(e:next(), nil)
+    end)
   end)
 
   -- Enumerator#produce
   -- -------------------------------------------------------------------
 
-  test("Enumerator.produce(initial, block(previous)) -> new enumerator", function()
-    local numbers = Enumerator.produce(1, function(previous)
-      return previous + 1
-    end)
+  describe("Enumerator::produce", function()
+    test("Enumerator.produce(initial, block(previous)) -> new enumerator", function()
+      local sequence = rubik.Enumerator.produce(2, function(previous)
+        return previous + 2
+      end)
 
-    assert.equal(numbers:next(), 1)
-    assert.equal(numbers:next(), 2)
-    assert.equal(numbers:next(), 3)
+      assert.equal(sequence:next(), 2) -- inifinite sequence
+      assert.equal(sequence:next(), 4)
+      assert.equal(sequence:next(), 6)
+    end)
   end)
 
   -- -------------------------------------------------------------------
@@ -57,41 +55,81 @@ describe("Enumerator", function()
   -- Enumerator#next
   -- -------------------------------------------------------------------
 
-  test("enumerator:next() -> value", function()
-    fibonacci:next() -- 1
-    fibonacci:next() -- 1
-    fibonacci:next() -- 2
-    fibonacci:next() -- 3
+  describe("Enumerator#next", function()
+    test("enumerator:next() -> object", function()
+      local e = rubik.Enumerator:new(_, function()
+        coroutine.yield(1)
+        coroutine.yield(2)
+        coroutine.yield(nil)
 
-    assert.equal(fibonacci:next(), 5)
+        return 3 -- explicit last value
+      end)
+
+      assert.equal(e:next(), 1)
+      assert.equal(e:next(), 2)
+      assert.equal(e:next(), nil)
+      assert.equal(e:next(), 3)
+
+      local success, _ = pcall(function() e:next() end) -- throws StopIteration error
+
+      assert.equal(success, false)
+    end)
   end)
 
   -- Enumerator#peek
   -- -------------------------------------------------------------------
 
-  test("enumerator:peek() -> value", function()
-    fibonacci:next() -- 1
-    fibonacci:next() -- 1
-    fibonacci:next() -- 2
+  describe("Enumerator#peek", function()
+    test("enumerator:peek() -> object", function()
+      local e = rubik.Enumerator:new(_, function()
+        coroutine.yield(1)
+        coroutine.yield(2)
+        coroutine.yield(nil)
 
-    fibonacci:peek() -- next would be 3
-    fibonacci:peek() -- next would be 3
-    fibonacci:peek() -- next would be 3
+        return 3 -- explicit last value
+      end)
 
-    assert.equal(fibonacci:next(), 3)
+      assert.equal(e:next(), 1)
+      assert.equal(e:next(), 2)
+      assert.equal(e:next(), nil)
+
+      assert.equal(e:peek(), 3) -- next is 3
+      assert.equal(e:peek(), 3) -- next is 3
+      assert.equal(e:peek(), 3) -- next is 3
+
+      assert.equal(e:next(), 3)
+
+      local success, _ = pcall(function() e:peek() end) -- throws StopIteration error
+
+      assert.equal(success, false)
+    end)
   end)
 
   -- Enumerator#rewind
   -- -------------------------------------------------------------------
 
-  test("enumerator:rewind() -> self", function()
-    fibonacci:next() -- 1
-    fibonacci:next() -- 1
-    fibonacci:next() -- 2
-    fibonacci:next() -- 3
+  describe("Enumerator#rewind", function()
+    test("enumerator:rewind() -> self", function()
+      local fibonacci = rubik.Enumerator:new(_, function()
+        local a = 1
+        local b = 1
 
-    assert.equal(fibonacci:rewind(), fibonacci)
+        while true do
+          coroutine.yield(a)
 
-    assert.equal(fibonacci:next(), 1)
+          a, b = b, a + b
+        end
+      end)
+
+      assert.equal(fibonacci:next(), 1)
+      assert.equal(fibonacci:next(), 1)
+      assert.equal(fibonacci:next(), 2)
+      assert.equal(fibonacci:next(), 3)
+      assert.equal(fibonacci:next(), 5)
+
+      assert.equal(fibonacci:rewind(), fibonacci)
+
+      assert.equal(fibonacci:next(), 1)
+    end)
   end)
 end)

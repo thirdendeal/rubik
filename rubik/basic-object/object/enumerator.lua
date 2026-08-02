@@ -57,9 +57,13 @@ function Enumerator:next()
 
     return self.__peekValue
   else
-    local _, nextValue = coroutine.resume(self.__coroutine)
+    local success, nextValue = coroutine.resume(self.__coroutine)
 
-    return nextValue
+    if success then
+      return nextValue
+    else
+      error("StopIteration", 2)
+    end
   end
 end
 
@@ -67,13 +71,19 @@ end
 -- ---------------------------------------------------------------------
 
 function Enumerator:peek()
+  local success = true
+
   if not self.__hasPeeked then
     self.__hasPeeked = true
 
-    _, self.__peekValue = coroutine.resume(self.__coroutine)
+    success, self.__peekValue = coroutine.resume(self.__coroutine)
   end
 
-  return self.__peekValue
+  if success then
+    return self.__peekValue
+  else
+    error("StopIteration", 2)
+  end
 end
 
 -- Enumerator#rewind
