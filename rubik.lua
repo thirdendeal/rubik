@@ -97,6 +97,15 @@ function rubik.patch_quote_methods(object, methods)
   end
 end
 
+-- Rubik::already?
+-- ---------------------------------------------------------------------
+
+rubik["already?"] = function(value)
+  local isSubclassOf = type(value) == "table" and value.class and value.class.isSubclassOf
+
+  return not not (isSubclassOf and value.class:isSubclassOf(BasicObject)) -- true or false
+end
+
 -- Class Injection
 -- ---------------------------------------------------------------------
 

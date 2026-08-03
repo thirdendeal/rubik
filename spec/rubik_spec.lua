@@ -48,12 +48,9 @@ describe("Rubik", function()
   -- -------------------------------------------------------------------
 
   test("rubik.patch_quote_methods(object, methods) -> nil", function()
-    local counter = {
-      tally = 0,
-      ["increase"] = function(self)
-        self.tally = self.tally + 1
-      end
-    }
+    local counter = { tally = 0, ["increase"] = function(self)
+      self.tally = self.tally + 1
+    end }
 
     counter.increase(counter)
 
@@ -63,5 +60,22 @@ describe("Rubik", function()
     counter[":increase"]()
 
     assert.equal(counter.tally, 2)
+  end)
+
+  -- Rubik::already?
+  -- -------------------------------------------------------------------
+
+  test("rubik[\"already?\"](value) -> true or false", function()
+    local t = {}
+    local emptyArray = rubik({})
+
+    assert.equal(rubik["already?"](t), false)
+    assert.equal(rubik["already?"](emptyArray), true)
+
+    local number = 1
+    local integer = rubik(1)
+
+    assert.equal(rubik["already?"](number), false)
+    assert.equal(rubik["already?"](integer), true)
   end)
 end)
