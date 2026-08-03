@@ -13,10 +13,10 @@ local Enumerator = class("Enumerator", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::wrap
+-- Enumerator::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Enumerator.static.wrap(recipe)
+function Enumerator.static.fromLiteral(recipe)
   return Enumerator:new(unpack(recipe))
 end
 

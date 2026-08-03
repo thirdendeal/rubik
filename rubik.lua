@@ -19,57 +19,53 @@ local Integer = require("rubik.basic-object.object.numeric.integer")
 local rubik = { _version = "0.0.0" }
 local metatable = {}
 
--- Rubik::wrap
+-- Rubik::fromLiteral
 -- ---------------------------------------------------------------------
 
-function rubik.wrap(recipe)
-  local recipeType = type(recipe)
+function rubik.fromLiteral(value)
+  local valueType = type(value)
 
-  if recipeType == "table" then
-    if recipe.__recipe then
-      recipe = recipe.__recipe
+  if valueType == "table" then
+    if value.__lua then
+      value = value.__lua
     end
 
-    return Array.wrap(recipe)
-  elseif recipeType == "number" then
-    local _, fractionalPart = math.modf(recipe)
+    return Array.fromLiteral(value)
+  elseif valueType == "number" then
+    local _, decimalPart = math.modf(value)
 
-    if fractionalPart == 0 then
-      return Integer.wrap(recipe)
+    if decimalPart == 0 then
+      return Integer.fromLiteral(value)
     else
-      return Float.wrap(recipe)
+      return Float.fromLiteral(value)
     end
-  elseif recipeType == "string" then
-    return String.wrap(recipe)
+  elseif valueType == "string" then
+    return String.fromLiteral(value)
   else
-    return Object.wrap(recipe)
+    return Object.fromLiteral(value)
   end
 end
 
 -- Rubik::__call metamethod
---
--- rubik(recipe)
 
 metatable.__call = function(_, ...)
-  return rubik.wrap(...)
+  return rubik.fromLiteral(...)
 end
 
 -- Rubik::in_and_out
 -- ---------------------------------------------------------------------
 
-function rubik.in_and_out(recipe, method, ...)
-  local object = rubik.wrap(recipe)
+function rubik.in_and_out(value, method, ...)
+  local object = rubik.fromLiteral(value)
 
-  return object[method](object, ...):unwrap()
+  return object[method](object, ...):derubik()
 end
 
 -- Rubik::__index metamethod
---
--- rubik.method(recipe, ...)
 
 metatable.__index = function(_, index)
-  return function(recipe, ...)
-    return rubik.in_and_out(recipe, index, ...)
+  return function(value, ...)
+    return rubik.in_and_out(value, index, ...)
   end
 end
 
@@ -101,9 +97,9 @@ end
 -- ---------------------------------------------------------------------
 
 rubik["already?"] = function(value)
-  local isSubclassOf = type(value) == "table" and value.class and value.class.isSubclassOf
+  local middleclass = type(value) == "table" and value.class and value.class.isSubclassOf
 
-  return not not (isSubclassOf and value.class:isSubclassOf(BasicObject)) -- true or false
+  return not not (middleclass and value.class:isSubclassOf(BasicObject)) -- true or false
 end
 
 -- Class Injection

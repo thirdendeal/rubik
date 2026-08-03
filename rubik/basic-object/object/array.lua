@@ -26,17 +26,13 @@ end
 -- Class
 -- ---------------------------------------------------------------------
 
--- Array::wrap
+-- Array::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Array.static.wrap(literal)
+function Array.static.fromLiteral(t)
   local newArray = Array:new()
 
-  if type(literal) == "table" then
-    newArray:push(unpack(literal))
-  else
-    newArray:push(literal)
-  end
+  newArray:push(unpack(t))
 
   return newArray
 end
@@ -44,16 +40,16 @@ end
 -- Array::new
 
 function Array:initialize(size, value, callback)
-  self.__recipe = {}
-  self.class.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+  self.__lua = {}
+  Array.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 
   if callback then
     for i = 1, size or 0, 1 do
-      table.insert(self.__recipe, callback(i))
+      table.insert(self.__lua, callback(i))
     end
   elseif value ~= nil then -- Lua won't allow { nil, nil, ..., nil }
     for _ = 1, size or 0, 1 do
-      table.insert(self.__recipe, value)
+      table.insert(self.__lua, value)
     end
   end
 end
@@ -69,7 +65,7 @@ function Array:first(n)
   if n then
     return self:slice(1, n)
   else
-    return self.class.rubik(self.__recipe[1])
+    return self.class.rubik(self.__lua[1])
   end
 end
 
@@ -84,9 +80,9 @@ end
 
 function Array:last(n)
   if n then
-    return self:slice({ #self.__recipe - n + 1, #self.__recipe })
+    return self:slice({ #self.__lua - n + 1, #self.__lua })
   else
-    return self.class.rubik(self.__recipe[#self.__recipe])
+    return self.class.rubik(self.__lua[#self.__lua])
   end
 end
 
@@ -94,14 +90,14 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:drop(n)
-  return self:slice({ 1, #self.__recipe - n })
+  return self:slice({ 1, #self.__lua - n })
 end
 
 -- Array#at
 -- ---------------------------------------------------------------------
 
 function Array:at(index)
-  return self.class.rubik(self.__recipe[_wrapAroundIndex(self.__recipe, index)])
+  return self.class.rubik(self.__lua[_wrapAroundIndex(self.__lua, index)])
 end
 
 -- Array#__index metamethod
@@ -114,7 +110,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:fetch(index, fallback, callback)
-  local element = self:at(index):unwrap()
+  local element = self:at(index):derubik()
 
   if element ~= nil then
     return self.class.rubik(element)
@@ -141,10 +137,10 @@ function Array:slice(x, y)
     end
 
     if range[2] < 0 then
-      range[2] = #self.__recipe + range[2] + 1
+      range[2] = #self.__lua + range[2] + 1
     end
 
-    return self.class.rubik({ unpack(self.__recipe, range[1], range[2]) })
+    return self.class.rubik({ unpack(self.__lua, range[1], range[2]) })
   elseif y == nil then
     -- array:slice(index)
 
@@ -154,7 +150,7 @@ function Array:slice(x, y)
 
     local start, length = x, y
 
-    return self.class.rubik({ unpack(self.__recipe, start, start + length - 1) })
+    return self.class.rubik({ unpack(self.__lua, start, start + length - 1) })
   end
 end
 
@@ -162,7 +158,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:size()
-  return self.class.rubik(#self.__recipe)
+  return self.class.rubik(#self.__lua)
 end
 
 -- Array#length alias
@@ -188,7 +184,7 @@ function Array:count(element, callback)
 
     local count = 0
 
-    for _, value in ipairs(self.__recipe) do
+    for _, value in ipairs(self.__lua) do
       if callback(value) then
         count = count + 1
       end
@@ -202,14 +198,14 @@ end
 -- ---------------------------------------------------------------------
 
 Array["empty?"] = function(self)
-  return self.class.rubik(#self.__recipe == 0)
+  return self.class.rubik(#self.__lua == 0)
 end
 
 -- Array#include?
 -- ---------------------------------------------------------------------
 
 Array["include?"] = function(self, value)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if element == value then
       return self.class.rubik(true)
     end
@@ -222,7 +218,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:push(...)
-  self:insert(#self.__recipe + 1, ...)
+  self:insert(#self.__lua + 1, ...)
 
   return self
 end
@@ -259,7 +255,7 @@ function Array:insert(index, ...)
   for j, value in ipairs({ ... }) do
     local offset = j - 1
 
-    table.insert(self.__recipe, index + offset, value)
+    table.insert(self.__lua, index + offset, value)
   end
 
   return self
@@ -269,21 +265,21 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:pop()
-  return self.class.rubik(table.remove(self.__recipe, #self.__recipe))
+  return self.class.rubik(table.remove(self.__lua, #self.__lua))
 end
 
 -- Array#shift
 -- ---------------------------------------------------------------------
 
 function Array:shift()
-  return self.class.rubik(table.remove(self.__recipe, 1))
+  return self.class.rubik(table.remove(self.__lua, 1))
 end
 
 -- Array#delete_at
 -- ---------------------------------------------------------------------
 
 function Array:delete_at(index)
-  return self.class.rubik(table.remove(self.__recipe, _wrapAroundIndex(self.__recipe, index)))
+  return self.class.rubik(table.remove(self.__lua, _wrapAroundIndex(self.__lua, index)))
 end
 
 -- Array#delete
@@ -292,7 +288,7 @@ end
 function Array:delete(value)
   local removal = {}
 
-  for i, element in ipairs(self.__recipe) do
+  for i, element in ipairs(self.__lua) do
     if element == value then
       table.insert(removal, i)
     end
@@ -317,7 +313,7 @@ function Array:uniq(callback)
     return element
   end
 
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if not hash[callback(element)] then
       hash[callback(element)] = element
     end
@@ -336,7 +332,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:each(callback)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     callback(element)
   end
 
@@ -347,8 +343,8 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:reverse_each(callback)
-  for i = #self.__recipe, 1, -1 do
-    callback(self.__recipe[i])
+  for i = #self.__lua, 1, -1 do
+    callback(self.__lua[i])
   end
 
   return self
@@ -358,7 +354,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:each_index(callback)
-  for index, _ in ipairs(self.__recipe) do
+  for index, _ in ipairs(self.__lua) do
     callback(index)
   end
 
@@ -371,7 +367,7 @@ end
 function Array:map(callback)
   local newArray = {}
 
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     table.insert(newArray, callback(element))
   end
 
@@ -390,7 +386,7 @@ end
 function Array:select(callback)
   local newArray = {}
 
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if callback(element) then
       table.insert(newArray, element)
     end
@@ -411,8 +407,8 @@ end
 function Array:keep_if(callback)
   local removal = {}
 
-  for i, _ in ipairs(self.__recipe) do
-    if not callback(self.__recipe[i]) then
+  for i, _ in ipairs(self.__lua) do
+    if not callback(self.__lua[i]) then
       table.insert(removal, i)
     end
   end
@@ -432,7 +428,7 @@ end
 function Array:reject(callback)
   local newArray = {}
 
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if not callback(element) then
       table.insert(newArray, element)
     end
@@ -447,8 +443,8 @@ end
 function Array:delete_if(callback)
   local removal = {}
 
-  for i, _ in ipairs(self.__recipe) do
-    if callback(self.__recipe[i]) then
+  for i, _ in ipairs(self.__lua) do
+    if callback(self.__lua[i]) then
       table.insert(removal, i)
     end
   end
@@ -466,7 +462,7 @@ end
 -- ---------------------------------------------------------------------
 
 Array["all?"] = function(self, value, callback)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     -- array[":all?"](_, callback)
 
     if callback ~= nil then
@@ -495,7 +491,7 @@ end
 -- ---------------------------------------------------------------------
 
 Array["any?"] = function(self, value, callback)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     -- array[":any?"](_, callback)
 
     if callback ~= nil then
@@ -524,7 +520,7 @@ end
 -- ---------------------------------------------------------------------
 
 Array["none?"] = function(self, value, callback)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     -- array[":none?"](_, callback)
 
     if callback ~= nil then
@@ -555,7 +551,7 @@ end
 Array["one?"] = function(self, value, callback)
   local found = false
 
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     -- array[":one?"](_, callback)
 
     if callback ~= nil then
@@ -596,7 +592,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:index(value, callback)
-  for index, element in ipairs(self.__recipe) do
+  for index, element in ipairs(self.__lua) do
     if callback ~= nil then
       -- array:index(_, callback)
 
@@ -625,8 +621,8 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:rindex(value, callback)
-  for index = #self.__recipe, 1, -1 do
-    local element = self.__recipe[index]
+  for index = #self.__lua, 1, -1 do
+    local element = self.__lua[index]
 
     if callback ~= nil then
       -- array:index(_, callback)
@@ -650,12 +646,12 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:minmax(callback)
-  local minimum = self.__recipe[1]
-  local maximum = self.__recipe[1]
+  local minimum = self.__lua[1]
+  local maximum = self.__lua[1]
 
   callback = callback or self.class.rubik["<=>"]
 
-  for _, value in ipairs(self.__recipe) do
+  for _, value in ipairs(self.__lua) do
     if callback(value, maximum) == 1 then
       maximum = value
     elseif callback(value, minimum) == -1 then
@@ -670,7 +666,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:sort(callback)
-  local copyArray = { unpack(self.__recipe) }
+  local copyArray = { unpack(self.__lua) }
 
   table.sort(copyArray, callback or function(a, b)
     return a < b
@@ -683,7 +679,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:reverse()
-  local copyArray = { unpack(self.__recipe) }
+  local copyArray = { unpack(self.__lua) }
   local size = #copyArray
 
   for i = 1, math.floor(size / 2), 1 do
@@ -725,7 +721,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:assoc(value)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if type(element) == "table" then
       if element[1] == value then
         return self.class.rubik(element)
@@ -740,7 +736,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:rassoc(value)
-  for _, element in ipairs(self.__recipe) do
+  for _, element in ipairs(self.__lua) do
     if type(element) == "table" then
       if element[2] == value then
         return self.class.rubik(element)
@@ -757,10 +753,14 @@ end
 function Array:values_at(...)
   local elements = {}
 
-  for _, position in ipairs({ ... }) do -- each argument may be either an index or a range
-    local foundElements = self.class.rubik.Kernel.Array(self:slice(position))
+  for _, at in ipairs({ ... }) do -- index or a range
+    local noneOneMany = self:slice(at):derubik()
 
-    for _, element in ipairs(foundElements:unwrap()) do
+    if type(noneOneMany) ~= "table" then
+      noneOneMany = { noneOneMany }
+    end
+
+    for _, element in ipairs(noneOneMany) do
       table.insert(elements, element)
     end
   end
@@ -772,7 +772,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:dig(...)
-  local reached = self.__recipe
+  local reached = self.__lua
 
   for _, index in ipairs({ ... }) do
     reached = self.class.rubik.at(reached, index)
@@ -785,7 +785,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:shuffle(prng)
-  local indices = Array:new(#self.__recipe, _, function(index)
+  local indices = Array:new(#self.__lua, _, function(index)
     return index
   end)
 
@@ -795,10 +795,10 @@ function Array:shuffle(prng)
     return math.random(max)
   end
 
-  for max = indices:size():unwrap(), 1, -1 do
-    local index = indices:delete_at(prng(max)):unwrap()
+  for max = indices:size():derubik(), 1, -1 do
+    local index = indices:delete_at(prng(max)):derubik()
 
-    table.insert(shuffled, self.__recipe[index])
+    table.insert(shuffled, self.__lua[index])
   end
 
   return self.class.rubik(shuffled)
@@ -836,7 +836,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:inspect()
-  return self.class.rubik(inspect(self.__recipe))
+  return self.class.rubik(inspect(self.__lua))
 end
 
 -- Array#to_s alias
@@ -848,7 +848,7 @@ end
 -- Array#__tostring metamethod
 
 function Array:__tostring()
-  return self:inspect():unwrap()
+  return self:inspect():derubik()
 end
 
 -- Array#sum
@@ -861,7 +861,7 @@ function Array:sum(init, callback)
 
   local total = init or 0
 
-  for _, value in ipairs(self.__recipe) do
+  for _, value in ipairs(self.__lua) do
     total = total + transform(value) -- TODO: Replace `+ operator` with `+ method`
   end
 

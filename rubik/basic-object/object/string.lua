@@ -13,31 +13,22 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = {
-  "empty?",
-  "end_with?",
-  "start_with?",
-  "capitalize!",
-  "upcase!",
-  "downcase!",
-  "swapcase!",
-  "reverse!"
-}
+local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "upcase!", "downcase!", "swapcase!", "reverse!" }
 
 -- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
--- String::wrap
+-- String::fromLiteral
 -- ---------------------------------------------------------------------
 
-function String.static.wrap(literal)
-  local s = String:new()
+function String.static.fromLiteral(s)
+  local newString = String:new()
 
-  s.__recipe = literal
-  s.class.rubik.patch_quote_methods(s, _QUOTE_METHODS)
+  newString.__lua = s
+  String.rubik.patch_quote_methods(newString, _QUOTE_METHODS)
 
-  return s
+  return newString
 end
 
 -- ---------------------------------------------------------------------
@@ -48,20 +39,20 @@ end
 -- ---------------------------------------------------------------------
 
 String["empty?"] = function(self)
-  return self.class.rubik(#self.__recipe == 0)
+  return self.class.rubik(#self.__lua == 0)
 end
 
 -- String#end_with?
 -- ---------------------------------------------------------------------
 
 String["end_with?"] = function(self, ...)
-  local length = #self.__recipe
+  local length = #self.__lua
 
   for _, suffix in ipairs({ ... }) do
     local suffixLength = #suffix
 
     if suffixLength <= length then
-      local substring = self.__recipe:sub(length - suffixLength + 1, length)
+      local substring = self.__lua:sub(length - suffixLength + 1, length)
 
       if substring == suffix then
         return self.class.rubik(true)
@@ -76,13 +67,13 @@ end
 -- ---------------------------------------------------------------------
 
 String["start_with?"] = function(self, ...)
-  local length = #self.__recipe
+  local length = #self.__lua
 
   for _, prefix in ipairs({ ... }) do
     local prefixLength = #prefix
 
     if prefixLength <= length then
-      local substring = self.__recipe:sub(1, prefixLength)
+      local substring = self.__lua:sub(1, prefixLength)
 
       if substring == prefix then
         return self.class.rubik(true)
@@ -99,8 +90,8 @@ end
 -- Missing: Case Mapping
 
 function String:capitalize()
-  local firstCharacter = self.__recipe:sub(1, 1)
-  local remainder = self.__recipe:sub(2, #self.__recipe)
+  local firstCharacter = self.__lua:sub(1, 1)
+  local remainder = self.__lua:sub(2, #self.__lua)
 
   return self.class.rubik(firstCharacter:upper() .. remainder:lower())
 end
@@ -108,10 +99,10 @@ end
 -- String#capitalize!
 
 String["capitalize!"] = function(self)
-  local initial = self.__recipe
-  self.__recipe = self:capitalize():unwrap()
+  local initial = self.__lua
+  self.__lua = self:capitalize():derubik()
 
-  if self.__recipe ~= initial then
+  if self.__lua ~= initial then
     return self
   end
 
@@ -124,16 +115,16 @@ end
 -- Missing: Case Mapping
 
 function String:downcase()
-  return self.class.rubik(self.__recipe:lower())
+  return self.class.rubik(self.__lua:lower())
 end
 
 -- String#downcase!
 
 String["downcase!"] = function(self)
-  local initial = self.__recipe
-  self.__recipe = self:downcase():unwrap()
+  local initial = self.__lua
+  self.__lua = self:downcase():derubik()
 
-  if self.__recipe ~= initial then
+  if self.__lua ~= initial then
     return self
   end
 
@@ -146,16 +137,16 @@ end
 -- Missing: Case Mapping
 
 function String:upcase()
-  return self.class.rubik(self.__recipe:upper())
+  return self.class.rubik(self.__lua:upper())
 end
 
 -- String#upcase!
 
 String["upcase!"] = function(self)
-  local initial = self.__recipe
-  self.__recipe = self:upcase():unwrap()
+  local initial = self.__lua
+  self.__lua = self:upcase():derubik()
 
-  if self.__recipe ~= initial then
+  if self.__lua ~= initial then
     return self
   end
 
@@ -170,8 +161,8 @@ end
 function String:swapcase()
   local cumulation = ""
 
-  for i = 1, #self.__recipe do
-    local character = self.__recipe:sub(i, i)
+  for i = 1, #self.__lua do
+    local character = self.__lua:sub(i, i)
     local lowerCase = character:lower()
 
     if character == lowerCase then
@@ -187,10 +178,10 @@ end
 -- String#swapcase!
 
 String["swapcase!"] = function(self)
-  local initial = self.__recipe
-  self.__recipe = self:swapcase():unwrap()
+  local initial = self.__lua
+  self.__lua = self:swapcase():derubik()
 
-  if self.__recipe ~= initial then
+  if self.__lua ~= initial then
     return self
   end
 
@@ -203,8 +194,8 @@ end
 function String:reverse()
   local cumulation = ""
 
-  for i = #self.__recipe, 1, -1 do
-    local character = self.__recipe:sub(i, i)
+  for i = #self.__lua, 1, -1 do
+    local character = self.__lua:sub(i, i)
 
     cumulation = cumulation .. character
   end
@@ -215,7 +206,7 @@ end
 -- String#reverse!
 
 String["reverse!"] = function(self)
-  self.__recipe = self:reverse():unwrap()
+  self.__lua = self:reverse():derubik()
 
   return self
 end

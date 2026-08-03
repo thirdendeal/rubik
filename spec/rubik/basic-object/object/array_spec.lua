@@ -13,28 +13,18 @@ describe("Array", function()
   -- Class
   -- -------------------------------------------------------------------
 
-  -- Array::wrap
+  -- Array::fromLiteral
   -- -------------------------------------------------------------------
 
-  describe("Array::wrap", function()
-    test("Array.wrap() -> new array", function()
-      local empty = rubik.Array.wrap()
+  describe("Array::fromLiteral", function()
+    test("Array.fromLiteral(t) -> new array", function()
+      local none = rubik.Array.fromLiteral({})
+      local one = rubik.Array.fromLiteral({ 1 })
+      local many = rubik.Array.fromLiteral({ 1, 2, 3, 4 })
 
-      assert.equal(inspect(empty:unwrap()), "{}")
-    end)
-
-    test("Array.wrap(value) -> new array", function()
-      local array = rubik.Array.wrap(1)
-
-      assert.equal(inspect(array:unwrap()), "{ 1 }")
-    end)
-
-    test("Array.wrap(table) -> new array", function()
-      local empty = rubik.Array.wrap({})
-      local array = rubik.Array.wrap({ 1, 2, 3, 4 })
-
-      assert.equal(inspect(empty:unwrap()), "{}")
-      assert.equal(inspect(array:unwrap()), "{ 1, 2, 3, 4 }")
+      assert.equal(inspect(none:derubik()), "{}")
+      assert.equal(inspect(one:derubik()), "{ 1 }")
+      assert.equal(inspect(many:derubik()), "{ 1, 2, 3, 4 }")
     end)
   end)
 
@@ -45,19 +35,19 @@ describe("Array", function()
     test("Array:new() -> new array", function()
       local empty = rubik.Array:new()
 
-      assert.equal(inspect(empty:unwrap()), "{}")
+      assert.equal(inspect(empty:derubik()), "{}")
     end)
 
     test("Array:new(size) -> new array", function()
       local empty = rubik.Array:new(1000) -- Lua won't allow { nil, nil, ..., nil }
 
-      assert.equal(inspect(empty:unwrap()), "{}")
+      assert.equal(inspect(empty:derubik()), "{}")
     end)
 
     test("Array:new(size, value) -> new array", function()
       local array = rubik.Array:new(4, 1)
 
-      assert.equal(inspect(array:unwrap()), "{ 1, 1, 1, 1 }")
+      assert.equal(inspect(array:derubik()), "{ 1, 1, 1, 1 }")
     end)
 
     test("Array:new(size, _, callback(index)) -> new array", function()
@@ -65,7 +55,7 @@ describe("Array", function()
         return math.pow(2, index)
       end)
 
-      assert.equal(inspect(array:unwrap()), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4, 8, 16 }")
     end)
   end)
 
@@ -141,10 +131,10 @@ describe("Array", function()
     test("array:at(index) -> element", function()
       local array = rubik({ 2, 4, 8, 16 })
 
-      assert.equal(array[1]:unwrap(), 2)
-      assert.equal(array[100]:unwrap(), nil)
-      assert.equal(array[-1]:unwrap(), 16)
-      assert.equal(array[-100]:unwrap(), nil)
+      assert.equal(array[1]:derubik(), 2)
+      assert.equal(array[100]:derubik(), nil)
+      assert.equal(array[-1]:derubik(), 16)
+      assert.equal(array[-100]:derubik(), nil)
     end)
   end)
 
@@ -273,10 +263,10 @@ describe("Array", function()
       local array = rubik({})
 
       assert.equal(array:push(2), array)
-      assert.equal(inspect(array:unwrap()), "{ 2 }")
+      assert.equal(inspect(array:derubik()), "{ 2 }")
 
       assert.equal(array:push(4, 8, 16), array)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4, 8, 16 }")
     end)
   end)
 
@@ -288,10 +278,10 @@ describe("Array", function()
       local array = rubik({})
 
       assert.equal(array:unshift(16), array)
-      assert.equal(inspect(array:unwrap()), "{ 16 }")
+      assert.equal(inspect(array:derubik()), "{ 16 }")
 
       assert.equal(array:unshift(2, 4, 8), array)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4, 8, 16 }")
     end)
   end)
 
@@ -303,13 +293,13 @@ describe("Array", function()
       local array = rubik({})
 
       assert.equal(array:insert(1, 4), array)
-      assert.equal(inspect(array:unwrap()), "{ 4 }")
+      assert.equal(inspect(array:derubik()), "{ 4 }")
 
       assert.equal(array:insert(1, 2), array)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4 }")
 
       assert.equal(array:insert(3, 8, 16), array)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4, 8, 16 }")
     end)
   end)
 
@@ -320,14 +310,14 @@ describe("Array", function()
     test("array:pop() -> element or nil", function()
       local array = rubik({ 2, 4 })
 
-      assert.equal(array:pop():unwrap(), 4)
-      assert.equal(inspect(array:unwrap()), "{ 2 }")
+      assert.equal(array:pop():derubik(), 4)
+      assert.equal(inspect(array:derubik()), "{ 2 }")
 
-      assert.equal(array:pop():unwrap(), 2)
-      assert.equal(inspect(array:unwrap()), "{}")
+      assert.equal(array:pop():derubik(), 2)
+      assert.equal(inspect(array:derubik()), "{}")
 
-      assert.equal(array:pop():unwrap(), nil)
-      assert.equal(inspect(array:unwrap()), "{}")
+      assert.equal(array:pop():derubik(), nil)
+      assert.equal(inspect(array:derubik()), "{}")
     end)
   end)
 
@@ -338,14 +328,14 @@ describe("Array", function()
     test("array:shift() -> element or nil", function()
       local array = rubik({ 2, 4 })
 
-      assert.equal(array:shift():unwrap(), 2)
-      assert.equal(inspect(array:unwrap()), "{ 4 }")
+      assert.equal(array:shift():derubik(), 2)
+      assert.equal(inspect(array:derubik()), "{ 4 }")
 
-      assert.equal(array:shift():unwrap(), 4)
-      assert.equal(inspect(array:unwrap()), "{}")
+      assert.equal(array:shift():derubik(), 4)
+      assert.equal(inspect(array:derubik()), "{}")
 
-      assert.equal(array:shift():unwrap(), nil)
-      assert.equal(inspect(array:unwrap()), "{}")
+      assert.equal(array:shift():derubik(), nil)
+      assert.equal(inspect(array:derubik()), "{}")
     end)
   end)
 
@@ -356,14 +346,14 @@ describe("Array", function()
     test("array:delete_at(index) -> element or nil", function()
       local array = rubik({ 2, 4, 8, 16 })
 
-      assert.equal(array:delete_at(-2):unwrap(), 8)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4, 16 }")
+      assert.equal(array:delete_at(-2):derubik(), 8)
+      assert.equal(inspect(array:derubik()), "{ 2, 4, 16 }")
 
-      assert.equal(array:delete_at(2):unwrap(), 4)
-      assert.equal(inspect(array:unwrap()), "{ 2, 16 }")
+      assert.equal(array:delete_at(2):derubik(), 4)
+      assert.equal(inspect(array:derubik()), "{ 2, 16 }")
 
-      assert.equal(array:delete_at(100):unwrap(), nil)
-      assert.equal(inspect(array:unwrap()), "{ 2, 16 }")
+      assert.equal(array:delete_at(100):derubik(), nil)
+      assert.equal(inspect(array:derubik()), "{ 2, 16 }")
     end)
   end)
 
@@ -374,11 +364,11 @@ describe("Array", function()
     test("array:delete(value) -> value or nil", function()
       local array = rubik({ 1, 2, 1, 2, 3, 3, 1, 1 })
 
-      assert.equal(array:delete(1):unwrap(), 1)
-      assert.equal(inspect(array:unwrap()), "{ 2, 2, 3, 3 }")
+      assert.equal(array:delete(1):derubik(), 1)
+      assert.equal(inspect(array:derubik()), "{ 2, 2, 3, 3 }")
 
-      assert.equal(array:delete(1):unwrap(), nil)
-      assert.equal(inspect(array:unwrap()), "{ 2, 2, 3, 3 }")
+      assert.equal(array:delete(1):derubik(), nil)
+      assert.equal(inspect(array:derubik()), "{ 2, 2, 3, 3 }")
     end)
   end)
 
@@ -416,8 +406,8 @@ describe("Array", function()
 
       assert.equal(returns, numbers)
 
-      assert.equal(inspect(numbers:unwrap()), "{ 1, 2, 3, 4 }")
-      assert.equal(inspect(squares:unwrap()), "{ 1, 4, 9, 16 }")
+      assert.equal(inspect(numbers:derubik()), "{ 1, 2, 3, 4 }")
+      assert.equal(inspect(squares:derubik()), "{ 1, 4, 9, 16 }")
     end)
   end)
 
@@ -435,8 +425,8 @@ describe("Array", function()
 
       assert.equal(returns, numbers)
 
-      assert.equal(inspect(numbers:unwrap()), "{ 1, 2, 3, 4 }")
-      assert.equal(inspect(reverse:unwrap()), "{ 4, 3, 2, 1 }")
+      assert.equal(inspect(numbers:derubik()), "{ 1, 2, 3, 4 }")
+      assert.equal(inspect(reverse:derubik()), "{ 4, 3, 2, 1 }")
     end)
   end)
 
@@ -449,13 +439,13 @@ describe("Array", function()
       local indexValuePairs = rubik({})
 
       local returns = numbers:each_index(function(index)
-        indexValuePairs:push({ index, numbers:at(index):unwrap() })
+        indexValuePairs:push({ index, numbers:at(index):derubik() })
       end)
 
       assert.equal(returns, numbers)
 
-      assert.equal(inspect(numbers:unwrap()), "{ 2, 4, 8, 16 }")
-      assert.equal(inspect(indexValuePairs:unwrap()), "{ { 1, 2 }, { 2, 4 }, { 3, 8 }, { 4, 16 } }")
+      assert.equal(inspect(numbers:derubik()), "{ 2, 4, 8, 16 }")
+      assert.equal(inspect(indexValuePairs:derubik()), "{ { 1, 2 }, { 2, 4 }, { 3, 8 }, { 4, 16 } }")
     end)
   end)
 
@@ -493,7 +483,7 @@ describe("Array", function()
       local array = rubik({ 1, 2, 3, 4 })
 
       assert.equal(array:keep_if(rubik["even?"]), array)
-      assert.equal(inspect(array:unwrap()), "{ 2, 4 }")
+      assert.equal(inspect(array:derubik()), "{ 2, 4 }")
     end)
   end)
 
@@ -518,7 +508,7 @@ describe("Array", function()
       local array = rubik({ 1, 2, 3, 4 })
 
       assert.equal(array:delete_if(rubik["even?"]), array)
-      assert.equal(inspect(array:unwrap()), "{ 1, 3 }")
+      assert.equal(inspect(array:derubik()), "{ 1, 3 }")
     end)
   end)
 

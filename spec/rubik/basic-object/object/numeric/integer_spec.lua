@@ -13,14 +13,14 @@ describe("Integer", function()
   -- Class
   -- -------------------------------------------------------------------
 
-  -- Integer::wrap
+  -- Integer::fromLiteral
   -- -------------------------------------------------------------------
 
-  describe("Integer::wrap", function()
-    test("Integer.wrap(value) -> new integer", function()
-      local integer = rubik.Integer.wrap(1)
+  describe("Integer::fromLiteral", function()
+    test("Integer.fromLiteral(value) -> new integer", function()
+      local integer = rubik.Integer.fromLiteral(1)
 
-      assert.equal(integer:unwrap(), 1)
+      assert.equal(integer:derubik(), 1)
     end)
   end)
 

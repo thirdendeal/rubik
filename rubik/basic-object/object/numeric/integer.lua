@@ -19,16 +19,18 @@ local _QUOTE_METHODS = { "even?", "odd?", "zero?" }
 -- Class
 -- ---------------------------------------------------------------------
 
--- Integer::wrap
+-- Integer::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Integer.static.wrap(literal)
-  local i = Integer:new()
+function Integer.static.fromLiteral(number)
+  local newInteger = Integer:new()
 
-  i.__recipe = literal
-  i.class.rubik.patch_quote_methods(i, _QUOTE_METHODS)
+  local integerPart, _ = math.modf(number)
 
-  return i
+  newInteger.__lua = integerPart
+  Integer.rubik.patch_quote_methods(newInteger, _QUOTE_METHODS)
+
+  return newInteger
 end
 
 -- ---------------------------------------------------------------------
@@ -39,28 +41,28 @@ end
 -- ---------------------------------------------------------------------
 
 Integer["even?"] = function(self)
-  return self.class.rubik((self.__recipe % 2) == 0)
+  return self.class.rubik((self.__lua % 2) == 0)
 end
 
 -- Integer#odd?
 -- ---------------------------------------------------------------------
 
 Integer["odd?"] = function(self)
-  return self.class.rubik((self.__recipe % 2) ~= 0)
+  return self.class.rubik((self.__lua % 2) ~= 0)
 end
 
 -- Integer#zero?
 -- ---------------------------------------------------------------------
 
 Integer["zero?"] = function(self)
-  return self.class.rubik(self.__recipe == 0)
+  return self.class.rubik(self.__lua == 0)
 end
 
 -- Integer#abs
 -- ---------------------------------------------------------------------
 
 function Integer:abs()
-  return self.class.rubik(math.abs(self.__recipe))
+  return self.class.rubik(math.abs(self.__lua))
 end
 
 -- Integer#magnitude alias

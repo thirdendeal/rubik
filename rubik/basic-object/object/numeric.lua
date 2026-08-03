@@ -19,13 +19,13 @@ local _QUOTE_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
 -- Class
 -- ---------------------------------------------------------------------
 
--- Numeric::wrap
+-- Numeric::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Numeric.static.wrap(literal)
+function Numeric.static.fromLiteral(literal)
   local n = Numeric:new()
 
-  n.__recipe = literal
+  n.__lua = literal
   n.class.rubik.patch_quote_methods(n, _QUOTE_METHODS)
 
   return n
@@ -39,7 +39,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:floor(ndigits)
-  local f = self.class.rubik.Float.wrap(self.__recipe)
+  local f = self.class.rubik.Float.fromLiteral(self.__lua)
 
   return f:floor(ndigits)
 end
@@ -48,7 +48,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:ceil(ndigits)
-  local f = self.class.rubik.Float.wrap(self.__recipe)
+  local f = self.class.rubik.Float.fromLiteral(self.__lua)
 
   return f:ceil(ndigits)
 end
@@ -57,7 +57,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:round(ndigits)
-  local f = self.class.rubik.Float.wrap(self.__recipe)
+  local f = self.class.rubik.Float.fromLiteral(self.__lua)
 
   return f:round(ndigits)
 end
@@ -66,35 +66,35 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:modulo(other)
-  return self.class.rubik(self.__recipe % other)
+  return self.class.rubik(self.__lua % other)
 end
 
 -- Numeric#positive?
 -- ---------------------------------------------------------------------
 
 Numeric["positive?"] = function(self)
-  return self.class.rubik(self.__recipe > 0)
+  return self.class.rubik(self.__lua > 0)
 end
 
 -- Numeric#negative?
 -- ---------------------------------------------------------------------
 
 Numeric["negative?"] = function(self)
-  return self.class.rubik(self.__recipe < 0)
+  return self.class.rubik(self.__lua < 0)
 end
 
 -- Numeric#zero?
 -- ---------------------------------------------------------------------
 
 Numeric["zero?"] = function(self)
-  return self.class.rubik(self.__recipe == 0)
+  return self.class.rubik(self.__lua == 0)
 end
 
 -- Numeric#nonzero?
 -- ---------------------------------------------------------------------
 
 Numeric["nonzero?"] = function(self)
-  return self.class.rubik(self.__recipe ~= 0)
+  return self.class.rubik(self.__lua ~= 0)
 end
 
 -- ---------------------------------------------------------------------

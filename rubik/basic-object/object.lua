@@ -13,15 +13,15 @@ local Object = class("Object", BasicObject)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Object::wrap
+-- Object::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Object.static.wrap(literal)
-  local o = Object:new()
+function Object.static.fromLiteral(value)
+  local newObject = Object:new()
 
-  o.__recipe = literal
+  newObject.__lua = value
 
-  return o
+  return newObject
 end
 
 -- ---------------------------------------------------------------------

@@ -16,13 +16,13 @@ local Kernel = class("Kernel")
 
 function Kernel.static.Array(recipe)
   if type(recipe) == "table" then
-    if recipe.__recipe then
-      recipe = recipe.__recipe
+    if recipe.__lua then
+      recipe = recipe.__lua
     end
 
-    return Kernel.rubik.Array.wrap(recipe)
+    return Kernel.rubik.Array.fromLiteral(recipe)
   else
-    return Kernel.rubik.Array.wrap({ recipe })
+    return Kernel.rubik.Array.fromLiteral({ recipe })
   end
 end
 

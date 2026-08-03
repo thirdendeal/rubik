@@ -13,15 +13,15 @@ local Float = class("Float", Numeric)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Float::wrap
+-- Float::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Float.static.wrap(literal)
-  local f = Float:new()
+function Float.static.fromLiteral(number)
+  local newFloat = Float:new()
 
-  f.__recipe = literal
+  newFloat.__lua = number
 
-  return f
+  return newFloat
 end
 
 -- ---------------------------------------------------------------------
@@ -35,7 +35,7 @@ function Float:floor(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.floor(self.__recipe * modfier) / modfier
+  local f = math.floor(self.__lua * modfier) / modfier
 
   return self.class.rubik(f)
 end
@@ -47,7 +47,7 @@ function Float:ceil(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.ceil(self.__recipe * modfier) / modfier
+  local f = math.ceil(self.__lua * modfier) / modfier
 
   return self.class.rubik(f)
 end
@@ -59,7 +59,7 @@ function Float:round(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.floor((self.__recipe * modfier) + 0.5) / modfier
+  local f = math.floor((self.__lua * modfier) + 0.5) / modfier
 
   return self.class.rubik(f)
 end

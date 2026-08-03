@@ -9,12 +9,12 @@ local rubik = require("rubik")
 -- ---------------------------------------------------------------------
 
 describe("Rubik", function()
-  -- Rubik::wrap [Rubik::__call metamethod]
+  -- Rubik::fromLiteral [Rubik::__call metamethod]
   -- -------------------------------------------------------------------
 
-  test("rubik.wrap(recipe) -> new object", function()
-    assert.equal(rubik.wrap({ 1 }).class.name, "Array")
-    assert.equal(rubik.wrap(1).class.name, "Integer")
+  test("rubik.fromLiteral(recipe) -> new object", function()
+    assert.equal(rubik.fromLiteral({ 1 }).class.name, "Array")
+    assert.equal(rubik.fromLiteral(1).class.name, "Integer")
   end)
 
   test("rubik(...) chain", function()
@@ -32,7 +32,7 @@ describe("Rubik", function()
   test("rubik.in_and_out(recipe, method, ...) -> new value", function()
     local array = { 4, 3, 2, 1 }
 
-    assert.equal(rubik.in_and_out(array, "max"), rubik(array):max():unwrap())
+    assert.equal(rubik.in_and_out(array, "max"), rubik(array):max():derubik())
   end)
 
   -- Rubik::["<=>"]

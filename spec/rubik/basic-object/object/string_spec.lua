@@ -13,14 +13,14 @@ describe("String", function()
   -- Class
   -- -------------------------------------------------------------------
 
-  -- String::wrap
+  -- String::fromLiteral
   -- -------------------------------------------------------------------
 
-  describe("String::wrap", function()
-    test("String.wrap(value) -> new string", function()
-      local apple = rubik.String.wrap("apple")
+  describe("String::fromLiteral", function()
+    test("String.fromLiteral(value) -> new string", function()
+      local apple = rubik.String.fromLiteral("apple")
 
-      assert.equal(apple:unwrap(), "apple")
+      assert.equal(apple:derubik(), "apple")
     end)
   end)
 
@@ -80,8 +80,8 @@ describe("String", function()
     test("string[\":capitalize!\"]() -> self or nil", function()
       local s = rubik("Hello, World!")
 
-      assert.equal(s[":capitalize!"]():unwrap(), "Hello, world!")
-      assert.equal(s[":capitalize!"]():unwrap(), nil)
+      assert.equal(s[":capitalize!"]():derubik(), "Hello, world!")
+      assert.equal(s[":capitalize!"]():derubik(), nil)
     end)
   end)
 
@@ -101,8 +101,8 @@ describe("String", function()
     test("string[\":downcase!\"]() -> self or nil", function()
       local s = rubik("Hello, World!")
 
-      assert.equal(s[":downcase!"]():unwrap(), "hello, world!")
-      assert.equal(s[":downcase!"]():unwrap(), nil)
+      assert.equal(s[":downcase!"]():derubik(), "hello, world!")
+      assert.equal(s[":downcase!"]():derubik(), nil)
     end)
   end)
 
@@ -122,8 +122,8 @@ describe("String", function()
     test("string[\":upcase!\"]() -> self or nil", function()
       local s = rubik("Hello, World!")
 
-      assert.equal(s[":upcase!"]():unwrap(), "HELLO, WORLD!")
-      assert.equal(s[":upcase!"]():unwrap(), nil)
+      assert.equal(s[":upcase!"]():derubik(), "HELLO, WORLD!")
+      assert.equal(s[":upcase!"]():derubik(), nil)
     end)
   end)
 
@@ -143,12 +143,12 @@ describe("String", function()
     test("string[\":swapcase!\"]() -> self or nil", function()
       local s = rubik("Hello, World!")
 
-      assert.equal(s[":swapcase!"]():unwrap(), "hELLO, wORLD!")
-      assert.equal(s[":swapcase!"]():unwrap(), "Hello, World!")
+      assert.equal(s[":swapcase!"]():derubik(), "hELLO, wORLD!")
+      assert.equal(s[":swapcase!"]():derubik(), "Hello, World!")
 
       local t = rubik(",!")
 
-      assert.equal(t[":swapcase!"]():unwrap(), nil)
+      assert.equal(t[":swapcase!"]():derubik(), nil)
     end)
   end)
 
@@ -169,8 +169,8 @@ describe("String", function()
     test("string[\":reverse!\"]() -> self", function()
       local s = rubik("abc")
 
-      assert.equal(s[":reverse!"]():unwrap(), "cba")
-      assert.equal(s[":reverse!"]():unwrap(), "abc")
+      assert.equal(s[":reverse!"]():derubik(), "cba")
+      assert.equal(s[":reverse!"]():derubik(), "abc")
     end)
   end)
 end)
