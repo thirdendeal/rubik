@@ -42,7 +42,7 @@ function rubik.fromLiteral(value)
   elseif valueType == "string" then
     return String.fromLiteral(value)
   else
-    return Object.fromLiteral(value)
+    return BasicObject.fromLiteral(value)
   end
 end
 

@@ -22,13 +22,13 @@ local _QUOTE_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
 -- Numeric::fromLiteral
 -- ---------------------------------------------------------------------
 
-function Numeric.static.fromLiteral(literal)
-  local n = Numeric:new()
+function Numeric.static.fromLiteral(number)
+  local newNumeric = Numeric:new()
 
-  n.__lua = literal
-  n.class.rubik.patch_quote_methods(n, _QUOTE_METHODS)
+  newNumeric.__lua = number
+  Numeric.rubik.patch_quote_methods(newNumeric, _QUOTE_METHODS)
 
-  return n
+  return newNumeric
 end
 
 -- ---------------------------------------------------------------------

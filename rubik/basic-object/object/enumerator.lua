@@ -13,14 +13,8 @@ local Enumerator = class("Enumerator", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::fromLiteral
--- ---------------------------------------------------------------------
-
-function Enumerator.static.fromLiteral(recipe)
-  return Enumerator:new(unpack(recipe))
-end
-
 -- Enumerator::new
+-- ---------------------------------------------------------------------
 
 function Enumerator:initialize(size, block)
   self.size = size
