@@ -8,8 +8,11 @@ local Object = require("rubik.basic-object.object")
 
 local Array = require("rubik.basic-object.object.array")
 local Enumerator = require("rubik.basic-object.object.enumerator")
+local FalseClass = require("rubik.basic-object.object.false-class")
+local NilClass = require("rubik.basic-object.object.nil-class")
 local Numeric = require("rubik.basic-object.object.numeric")
 local String = require("rubik.basic-object.object.string")
+local TrueClass = require("rubik.basic-object.object.true-class")
 
 local Float = require("rubik.basic-object.object.numeric.float")
 local Integer = require("rubik.basic-object.object.numeric.integer")
@@ -25,7 +28,17 @@ local metatable = {}
 function rubik.fromLiteral(value)
   local valueType = type(value)
 
-  if valueType == "table" then
+  -- TODO: Define optimal checking order
+
+  if valueType == "boolean" then
+    if value then
+      return TrueClass.fromLiteral()
+    else
+      return FalseClass.fromLiteral()
+    end
+  elseif valueType == "nil" then
+    return NilClass.fromLiteral()
+  elseif valueType == "table" then
     if value.__lua then
       value = value.__lua
     end
@@ -112,8 +125,11 @@ rubik.Object = Object
 
 rubik.Array = Array
 rubik.Enumerator = Enumerator
+rubik.FalseClass = FalseClass
+rubik.NilClass = NilClass
 rubik.Numeric = Numeric
 rubik.String = String
+rubik.TrueClass = TrueClass
 
 rubik.Float = Float
 rubik.Integer = Integer
@@ -127,8 +143,11 @@ Object.static.rubik = rubik
 
 Array.static.rubik = rubik
 Enumerator.static.rubik = rubik
+FalseClass.static.rubik = rubik
+NilClass.static.rubik = rubik
 Numeric.static.rubik = rubik
 String.static.rubik = rubik
+TrueClass.static.rubik = rubik
 
 Float.static.rubik = rubik
 Integer.static.rubik = rubik

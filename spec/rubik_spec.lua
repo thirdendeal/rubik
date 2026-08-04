@@ -12,18 +12,30 @@ describe("Rubik", function()
   -- Rubik::fromLiteral [Rubik::__call metamethod]
   -- -------------------------------------------------------------------
 
-  test("rubik.fromLiteral(recipe) -> new object", function()
-    assert.equal(rubik.fromLiteral({ 1 }).class.name, "Array")
-    assert.equal(rubik.fromLiteral(1).class.name, "Integer")
+  test("rubik(value) -> new object", function()
+    assert.equal(rubik({}).class.name, "Array")
+    assert.equal(rubik(false).class.name, "FalseClass")
+    assert.equal(rubik(1.5).class.name, "Float")
+    assert.equal(rubik(1.0).class.name, "Integer") -- 1.0 and 1 are equal in Lua
+    assert.equal(rubik(1).class.name, "Integer")
+    assert.equal(rubik(nil).class.name, "NilClass")
+    assert.equal(rubik("").class.name, "String")
+    assert.equal(rubik(true).class.name, "TrueClass")
+
+    local co = coroutine.create(function() end)
+
+    assert.equal(rubik(co).class.name, "BasicObject") -- fallback
   end)
 
-  test("rubik(...) chain", function()
-    local evenCubes = rubik({ 1, 2, 3, 4 })
-        :filter(function(x) return x % 2 == 0 end)
-        :map(function(x) return math.pow(x, 3) end)
-        :derubik()
+  test("rubik(value) -> new object (chain)", function()
+    local pipeline = rubik({ 1, 2, 3, 4 })
+        :filter(rubik["odd?"])                                -- Array: { 1, 3 }
+        :map(function(number) return math.pow(number, 3) end) -- Array: { 1, 27 }
+        :sum()                                                -- Integer: 28
+        [":odd?"]()                                           -- FalseClass: false
+        :derubik()                                            -- false
 
-    assert.equal(inspect(evenCubes), "{ 8, 64 }")
+    assert.equal(pipeline, false)
   end)
 
   -- Rubik::in_and_out [Rubik::__index metamethod]
@@ -48,9 +60,12 @@ describe("Rubik", function()
   -- -------------------------------------------------------------------
 
   test("rubik.patch_quote_methods(object, methods) -> nil", function()
-    local counter = { tally = 0, ["increase"] = function(self)
-      self.tally = self.tally + 1
-    end }
+    local counter = {
+      tally = 0,
+      ["increase"] = function(self)
+        self.tally = self.tally + 1
+      end
+    }
 
     counter.increase(counter)
 
