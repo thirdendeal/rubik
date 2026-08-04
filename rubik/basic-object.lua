@@ -30,7 +30,11 @@ end
 -- ---------------------------------------------------------------------
 
 function BasicObject:derubik()
-  return self.__lua
+  if self.__lua then
+    return self.__lua
+  else
+    error("NoLuaEquivalent")
+  end
 end
 
 -- ---------------------------------------------------------------------
