@@ -71,6 +71,19 @@ function Integer:magnitude()
   return self:abs()
 end
 
+-- Integer#succ
+-- ---------------------------------------------------------------------
+
+function Integer:succ()
+  return self.class.rubik(self.__lua + 1)
+end
+
+-- Integer#next alias
+
+function Integer:next()
+  return self:succ()
+end
+
 -- ---------------------------------------------------------------------
 
 return Integer

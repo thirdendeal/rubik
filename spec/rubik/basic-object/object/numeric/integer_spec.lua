@@ -71,4 +71,14 @@ describe("Integer", function()
       assert.equal(rubik.abs(-100), 100)
     end)
   end)
+
+  -- Integer#succ (Integer#next alias)
+  -- -------------------------------------------------------------------
+
+  describe("Integer#succ (Integer#next alias)", function()
+    test("integer:succ() -> integer", function()
+      assert.equal(rubik.succ(1), 2)
+      assert.equal(rubik.succ(-1), 0)
+    end)
+  end)
 end)
