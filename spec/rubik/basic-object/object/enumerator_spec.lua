@@ -26,10 +26,10 @@ describe("Enumerator", function()
         -- implicit last value: nil
       end)
 
-      assert.equal(e:next(), 1)
-      assert.equal(e:next(), 2)
-      assert.equal(e:next(), 3)
-      assert.equal(e:next(), nil)
+      assert.equal(e:next():derubik(), 1)
+      assert.equal(e:next():derubik(), 2)
+      assert.equal(e:next():derubik(), 3)
+      assert.equal(e:next():derubik(), nil)
     end)
   end)
 
@@ -42,9 +42,9 @@ describe("Enumerator", function()
         return previous + 2
       end)
 
-      assert.equal(sequence:next(), 2) -- inifinite sequence
-      assert.equal(sequence:next(), 4)
-      assert.equal(sequence:next(), 6)
+      assert.equal(sequence:next():derubik(), 2) -- inifinite sequence
+      assert.equal(sequence:next():derubik(), 4)
+      assert.equal(sequence:next():derubik(), 6)
     end)
   end)
 
@@ -65,10 +65,10 @@ describe("Enumerator", function()
         return 3 -- explicit last value
       end)
 
-      assert.equal(e:next(), 1)
-      assert.equal(e:next(), 2)
-      assert.equal(e:next(), nil)
-      assert.equal(e:next(), 3)
+      assert.equal(e:next():derubik(), 1)
+      assert.equal(e:next():derubik(), 2)
+      assert.equal(e:next():derubik(), nil)
+      assert.equal(e:next():derubik(), 3)
 
       local success, _ = pcall(function() e:next() end) -- throws StopIteration error
 
@@ -89,15 +89,15 @@ describe("Enumerator", function()
         return 3 -- explicit last value
       end)
 
-      assert.equal(e:next(), 1)
-      assert.equal(e:next(), 2)
-      assert.equal(e:next(), nil)
+      assert.equal(e:next():derubik(), 1)
+      assert.equal(e:next():derubik(), 2)
+      assert.equal(e:next():derubik(), nil)
 
-      assert.equal(e:peek(), 3) -- next is 3
-      assert.equal(e:peek(), 3) -- next is 3
-      assert.equal(e:peek(), 3) -- next is 3
+      assert.equal(e:peek():derubik(), 3) -- next is 3
+      assert.equal(e:peek():derubik(), 3) -- next is 3
+      assert.equal(e:peek():derubik(), 3) -- next is 3
 
-      assert.equal(e:next(), 3)
+      assert.equal(e:next():derubik(), 3)
 
       local success, _ = pcall(function() e:peek() end) -- throws StopIteration error
 
@@ -121,15 +121,15 @@ describe("Enumerator", function()
         end
       end)
 
-      assert.equal(fibonacci:next(), 1)
-      assert.equal(fibonacci:next(), 1)
-      assert.equal(fibonacci:next(), 2)
-      assert.equal(fibonacci:next(), 3)
-      assert.equal(fibonacci:next(), 5)
+      assert.equal(fibonacci:next():derubik(), 1)
+      assert.equal(fibonacci:next():derubik(), 1)
+      assert.equal(fibonacci:next():derubik(), 2)
+      assert.equal(fibonacci:next():derubik(), 3)
+      assert.equal(fibonacci:next():derubik(), 5)
 
       assert.equal(fibonacci:rewind(), fibonacci)
 
-      assert.equal(fibonacci:next(), 1)
+      assert.equal(fibonacci:next():derubik(), 1)
     end)
   end)
 end)

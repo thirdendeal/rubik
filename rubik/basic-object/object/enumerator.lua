@@ -54,7 +54,7 @@ function Enumerator:next()
     local success, nextValue = coroutine.resume(self.__coroutine)
 
     if success then
-      return nextValue
+      return Enumerator.rubik(nextValue)
     else
       error("StopIteration", 2)
     end
@@ -69,8 +69,9 @@ function Enumerator:peek()
 
   if not self.__hasPeeked then
     self.__hasPeeked = true
-
     success, self.__peekValue = coroutine.resume(self.__coroutine)
+
+    self.__peekValue = Enumerator.rubik(self.__peekValue)
   end
 
   if success then
