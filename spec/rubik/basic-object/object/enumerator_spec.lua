@@ -76,6 +76,24 @@ describe("Enumerator", function()
     end)
   end)
 
+  -- Enumerator#next_values
+  -- -------------------------------------------------------------------
+
+  describe("Enumerator#next_values", function()
+    test("enumerator:next_values() -> new array", function()
+      local e = rubik.Enumerator:new(_, function()
+        coroutine.yield(1)
+        coroutine.yield({ 2 })
+
+        -- implicit last value: nil
+      end)
+
+      assert.equal(inspect(e:next_values():derubik()), "{ 1 }")
+      assert.equal(inspect(e:next_values():derubik()), "{ { 2 } }")
+      assert.equal(inspect(e:next_values():derubik()), "{}")
+    end)
+  end)
+
   -- Enumerator#peek
   -- -------------------------------------------------------------------
 
@@ -102,6 +120,33 @@ describe("Enumerator", function()
       local success, _ = pcall(function() e:peek() end) -- throws StopIteration error
 
       assert.equal(success, false)
+    end)
+  end)
+
+  -- Enumerator#peek_values
+  -- -------------------------------------------------------------------
+
+  describe("Enumerator#peek_values", function()
+    test("enumerator:peek_values() -> new array", function()
+      local e = rubik.Enumerator:new(_, function()
+        coroutine.yield(1)
+        coroutine.yield({ 2 })
+
+        -- implicit last value: nil
+      end)
+
+      assert.equal(inspect(e:peek_values():derubik()), "{ 1 }")
+      assert.equal(inspect(e:peek_values():derubik()), "{ 1 }")
+
+      e:next()
+
+      assert.equal(inspect(e:peek_values():derubik()), "{ { 2 } }")
+      assert.equal(inspect(e:peek_values():derubik()), "{ { 2 } }")
+
+      e:next()
+
+      assert.equal(inspect(e:peek_values():derubik()), "{}")
+      assert.equal(inspect(e:peek_values():derubik()), "{}")
     end)
   end)
 

@@ -61,6 +61,13 @@ function Enumerator:next()
   end
 end
 
+-- Enumerator#next_values
+-- ---------------------------------------------------------------------
+
+function Enumerator:next_values()
+  return Enumerator.rubik({}):push(self:next():derubik())
+end
+
 -- Enumerator#peek
 -- ---------------------------------------------------------------------
 
@@ -79,6 +86,13 @@ function Enumerator:peek()
   else
     error("StopIteration", 2)
   end
+end
+
+-- Enumerator#peek_values
+-- ---------------------------------------------------------------------
+
+function Enumerator:peek_values()
+  return Enumerator.rubik({}):push(self:peek():derubik())
 end
 
 -- Enumerator#rewind
