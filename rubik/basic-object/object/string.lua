@@ -13,7 +13,16 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "upcase!", "downcase!", "swapcase!", "reverse!" }
+local _QUOTE_METHODS = {
+  "empty?",
+  "end_with?",
+  "start_with?",
+  "capitalize!",
+  "upcase!",
+  "downcase!",
+  "swapcase!",
+  "reverse!"
+}
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -39,7 +48,7 @@ end
 -- ---------------------------------------------------------------------
 
 String["empty?"] = function(self)
-  return self.class.rubik(#self.__lua == 0)
+  return String.rubik(#self.__lua == 0)
 end
 
 -- String#end_with?
@@ -55,12 +64,12 @@ String["end_with?"] = function(self, ...)
       local substring = self.__lua:sub(length - suffixLength + 1, length)
 
       if substring == suffix then
-        return self.class.rubik(true)
+        return String.rubik(true)
       end
     end
   end
 
-  return self.class.rubik(false)
+  return String.rubik(false)
 end
 
 -- String#start_with?
@@ -76,12 +85,12 @@ String["start_with?"] = function(self, ...)
       local substring = self.__lua:sub(1, prefixLength)
 
       if substring == prefix then
-        return self.class.rubik(true)
+        return String.rubik(true)
       end
     end
   end
 
-  return self.class.rubik(false)
+  return String.rubik(false)
 end
 
 -- String#capitalize
@@ -93,7 +102,7 @@ function String:capitalize()
   local firstCharacter = self.__lua:sub(1, 1)
   local remainder = self.__lua:sub(2, #self.__lua)
 
-  return self.class.rubik(firstCharacter:upper() .. remainder:lower())
+  return String.rubik(firstCharacter:upper() .. remainder:lower())
 end
 
 -- String#capitalize!
@@ -106,7 +115,7 @@ String["capitalize!"] = function(self)
     return self
   end
 
-  return self.class.rubik(nil)
+  return String.rubik(nil)
 end
 
 -- String#downcase
@@ -115,7 +124,7 @@ end
 -- Missing: Case Mapping
 
 function String:downcase()
-  return self.class.rubik(self.__lua:lower())
+  return String.rubik(self.__lua:lower())
 end
 
 -- String#downcase!
@@ -128,7 +137,7 @@ String["downcase!"] = function(self)
     return self
   end
 
-  return self.class.rubik(nil)
+  return String.rubik(nil)
 end
 
 -- String#upcase
@@ -137,7 +146,7 @@ end
 -- Missing: Case Mapping
 
 function String:upcase()
-  return self.class.rubik(self.__lua:upper())
+  return String.rubik(self.__lua:upper())
 end
 
 -- String#upcase!
@@ -150,7 +159,7 @@ String["upcase!"] = function(self)
     return self
   end
 
-  return self.class.rubik(nil)
+  return String.rubik(nil)
 end
 
 -- String#swapcase
@@ -172,7 +181,7 @@ function String:swapcase()
     end
   end
 
-  return self.class.rubik(cumulation)
+  return String.rubik(cumulation)
 end
 
 -- String#swapcase!
@@ -185,7 +194,7 @@ String["swapcase!"] = function(self)
     return self
   end
 
-  return self.class.rubik(nil)
+  return String.rubik(nil)
 end
 
 -- String#reverse
@@ -200,7 +209,7 @@ function String:reverse()
     cumulation = cumulation .. character
   end
 
-  return self.class.rubik(cumulation)
+  return String.rubik(cumulation)
 end
 
 -- String#reverse!

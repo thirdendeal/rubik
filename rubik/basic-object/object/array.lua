@@ -65,7 +65,7 @@ function Array:first(n)
   if n then
     return self:slice(1, n)
   else
-    return self.class.rubik(self.__lua[1])
+    return Array.rubik(self.__lua[1])
   end
 end
 
@@ -82,7 +82,7 @@ function Array:last(n)
   if n then
     return self:slice({ #self.__lua - n + 1, #self.__lua })
   else
-    return self.class.rubik(self.__lua[#self.__lua])
+    return Array.rubik(self.__lua[#self.__lua])
   end
 end
 
@@ -97,7 +97,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:at(index)
-  return self.class.rubik(self.__lua[_wrapAroundIndex(self.__lua, index)])
+  return Array.rubik(self.__lua[_wrapAroundIndex(self.__lua, index)])
 end
 
 -- Array#__index metamethod
@@ -113,12 +113,12 @@ function Array:fetch(index, fallback, callback)
   local element = self:at(index):derubik()
 
   if element ~= nil then
-    return self.class.rubik(element)
+    return Array.rubik(element)
   else
     if callback then
-      return self.class.rubik(callback(index))
+      return Array.rubik(callback(index))
     else
-      return self.class.rubik(fallback)
+      return Array.rubik(fallback)
     end
   end
 end
@@ -140,7 +140,7 @@ function Array:slice(x, y)
       range[2] = #self.__lua + range[2] + 1
     end
 
-    return self.class.rubik({ unpack(self.__lua, range[1], range[2]) })
+    return Array.rubik({ unpack(self.__lua, range[1], range[2]) })
   elseif y == nil then
     -- array:slice(index)
 
@@ -150,7 +150,7 @@ function Array:slice(x, y)
 
     local start, length = x, y
 
-    return self.class.rubik({ unpack(self.__lua, start, start + length - 1) })
+    return Array.rubik({ unpack(self.__lua, start, start + length - 1) })
   end
 end
 
@@ -158,7 +158,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:size()
-  return self.class.rubik(#self.__lua)
+  return Array.rubik(#self.__lua)
 end
 
 -- Array#length alias
@@ -190,7 +190,7 @@ function Array:count(element, callback)
       end
     end
 
-    return self.class.rubik(count)
+    return Array.rubik(count)
   end
 end
 
@@ -198,7 +198,7 @@ end
 -- ---------------------------------------------------------------------
 
 Array["empty?"] = function(self)
-  return self.class.rubik(#self.__lua == 0)
+  return Array.rubik(#self.__lua == 0)
 end
 
 -- Array#include?
@@ -207,11 +207,11 @@ end
 Array["include?"] = function(self, value)
   for _, element in ipairs(self.__lua) do
     if element == value then
-      return self.class.rubik(true)
+      return Array.rubik(true)
     end
   end
 
-  return self.class.rubik(false)
+  return Array.rubik(false)
 end
 
 -- Array#push
@@ -265,21 +265,21 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:pop()
-  return self.class.rubik(table.remove(self.__lua, #self.__lua))
+  return Array.rubik(table.remove(self.__lua, #self.__lua))
 end
 
 -- Array#shift
 -- ---------------------------------------------------------------------
 
 function Array:shift()
-  return self.class.rubik(table.remove(self.__lua, 1))
+  return Array.rubik(table.remove(self.__lua, 1))
 end
 
 -- Array#delete_at
 -- ---------------------------------------------------------------------
 
 function Array:delete_at(index)
-  return self.class.rubik(table.remove(self.__lua, _wrapAroundIndex(self.__lua, index)))
+  return Array.rubik(table.remove(self.__lua, _wrapAroundIndex(self.__lua, index)))
 end
 
 -- Array#delete
@@ -300,7 +300,7 @@ function Array:delete(value)
     self:delete_at(position - offset)
   end
 
-  return self.class.rubik(#removal ~= 0 and value or nil)
+  return Array.rubik(#removal ~= 0 and value or nil)
 end
 
 -- Array#uniq
@@ -325,7 +325,7 @@ function Array:uniq(callback)
     table.insert(newArray, value)
   end
 
-  return self.class.rubik(newArray)
+  return Array.rubik(newArray)
 end
 
 -- Array#each
@@ -371,7 +371,7 @@ function Array:map(callback)
     table.insert(newArray, callback(element))
   end
 
-  return self.class.rubik(newArray)
+  return Array.rubik(newArray)
 end
 
 -- Array#collect alias
@@ -392,7 +392,7 @@ function Array:select(callback)
     end
   end
 
-  return self.class.rubik(newArray)
+  return Array.rubik(newArray)
 end
 
 -- Array#filter alias
@@ -434,7 +434,7 @@ function Array:reject(callback)
     end
   end
 
-  return self.class.rubik(newArray)
+  return Array.rubik(newArray)
 end
 
 -- Array#delete_if
@@ -467,24 +467,24 @@ Array["all?"] = function(self, value, callback)
 
     if callback ~= nil then
       if not callback(element) then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     elseif value ~= nil then
       -- array[":all?"](value)
 
       if element ~= value then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     else
       -- array[":all?"]()
 
       if not element then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     end
   end
 
-  return self.class.rubik(true)
+  return Array.rubik(true)
 end
 
 -- Array#any?
@@ -496,24 +496,24 @@ Array["any?"] = function(self, value, callback)
 
     if callback ~= nil then
       if callback(element) then
-        return self.class.rubik(true)
+        return Array.rubik(true)
       end
     elseif value ~= nil then
       -- array[":any?"](value)
 
       if element == value then
-        return self.class.rubik(true)
+        return Array.rubik(true)
       end
     else
       -- array[":any?"]()
 
       if element then
-        return self.class.rubik(true)
+        return Array.rubik(true)
       end
     end
   end
 
-  return self.class.rubik(false)
+  return Array.rubik(false)
 end
 
 -- Array#none?
@@ -525,24 +525,24 @@ Array["none?"] = function(self, value, callback)
 
     if callback ~= nil then
       if callback(element) then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     elseif value ~= nil then
       -- array[":none?"](value)
 
       if element == value then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     else
       -- array[":none?"]()
 
       if element then
-        return self.class.rubik(false)
+        return Array.rubik(false)
       end
     end
   end
 
-  return self.class.rubik(true)
+  return Array.rubik(true)
 end
 
 -- Array#one?
@@ -557,7 +557,7 @@ Array["one?"] = function(self, value, callback)
     if callback ~= nil then
       if callback(element) then
         if found then
-          return self.class.rubik(false)
+          return Array.rubik(false)
         else
           found = true
         end
@@ -567,7 +567,7 @@ Array["one?"] = function(self, value, callback)
 
       if element == value then
         if found then
-          return self.class.rubik(false)
+          return Array.rubik(false)
         else
           found = true
         end
@@ -577,7 +577,7 @@ Array["one?"] = function(self, value, callback)
 
       if element then
         if found then
-          return self.class.rubik(false)
+          return Array.rubik(false)
         else
           found = true
         end
@@ -585,7 +585,7 @@ Array["one?"] = function(self, value, callback)
     end
   end
 
-  return self.class.rubik(found)
+  return Array.rubik(found)
 end
 
 -- Array#index
@@ -597,18 +597,18 @@ function Array:index(value, callback)
       -- array:index(_, callback)
 
       if callback(element) then
-        return self.class.rubik(index)
+        return Array.rubik(index)
       end
     elseif value ~= nil then
       -- array:index(value)
 
       if element == value then
-        return self.class.rubik(index)
+        return Array.rubik(index)
       end
     end
   end
 
-  return self.class.rubik(nil)
+  return Array.rubik(nil)
 end
 
 -- Array#find_index alias
@@ -628,18 +628,18 @@ function Array:rindex(value, callback)
       -- array:index(_, callback)
 
       if callback(element) then
-        return self.class.rubik(index)
+        return Array.rubik(index)
       end
     elseif value ~= nil then
       -- array:index(value)
 
       if element == value then
-        return self.class.rubik(index)
+        return Array.rubik(index)
       end
     end
   end
 
-  return self.class.rubik(nil)
+  return Array.rubik(nil)
 end
 
 -- Array#minmax
@@ -649,7 +649,7 @@ function Array:minmax(callback)
   local minimum = self.__lua[1]
   local maximum = self.__lua[1]
 
-  callback = callback or self.class.rubik["<=>"]
+  callback = callback or Array.rubik["<=>"]
 
   for _, value in ipairs(self.__lua) do
     if callback(value, maximum) == 1 then
@@ -659,7 +659,7 @@ function Array:minmax(callback)
     end
   end
 
-  return self.class.rubik({ minimum, maximum })
+  return Array.rubik({ minimum, maximum })
 end
 
 -- Array#sort
@@ -672,7 +672,7 @@ function Array:sort(callback)
     return a < b
   end)
 
-  return self.class.rubik(copyArray)
+  return Array.rubik(copyArray)
 end
 
 -- Array#reverse
@@ -688,7 +688,7 @@ function Array:reverse()
     copyArray[i], copyArray[opposite] = copyArray[opposite], copyArray[i]
   end
 
-  return self.class.rubik(copyArray)
+  return Array.rubik(copyArray)
 end
 
 -- Array#max
@@ -724,12 +724,12 @@ function Array:assoc(value)
   for _, element in ipairs(self.__lua) do
     if type(element) == "table" then
       if element[1] == value then
-        return self.class.rubik(element)
+        return Array.rubik(element)
       end
     end
   end
 
-  return self.class.rubik(nil)
+  return Array.rubik(nil)
 end
 
 -- Array#rassoc
@@ -739,12 +739,12 @@ function Array:rassoc(value)
   for _, element in ipairs(self.__lua) do
     if type(element) == "table" then
       if element[2] == value then
-        return self.class.rubik(element)
+        return Array.rubik(element)
       end
     end
   end
 
-  return self.class.rubik(nil)
+  return Array.rubik(nil)
 end
 
 -- Array#values_at
@@ -765,7 +765,7 @@ function Array:values_at(...)
     end
   end
 
-  return self.class.rubik(elements)
+  return Array.rubik(elements)
 end
 
 -- Array#dig
@@ -775,10 +775,10 @@ function Array:dig(...)
   local reached = self.__lua
 
   for _, index in ipairs({ ... }) do
-    reached = self.class.rubik.at(reached, index)
+    reached = Array.rubik.at(reached, index)
   end
 
-  return self.class.rubik(reached)
+  return Array.rubik(reached)
 end
 
 -- Array#shuffle
@@ -801,7 +801,7 @@ function Array:shuffle(prng)
     table.insert(shuffled, self.__lua[index])
   end
 
-  return self.class.rubik(shuffled)
+  return Array.rubik(shuffled)
 end
 
 -- Array#sample
@@ -829,14 +829,14 @@ function Array:cycle(count, callback)
     end
   end
 
-  return self.class.rubik(nil)
+  return Array.rubik(nil)
 end
 
 -- Array#inspect
 -- ---------------------------------------------------------------------
 
 function Array:inspect()
-  return self.class.rubik(inspect(self.__lua))
+  return Array.rubik(inspect(self.__lua))
 end
 
 -- Array#to_s alias
@@ -865,7 +865,7 @@ function Array:sum(init, callback)
     total = total + transform(value) -- TODO: Replace `+ operator` with `+ method`
   end
 
-  return self.class.rubik(total)
+  return Array.rubik(total)
 end
 
 -- ---------------------------------------------------------------------

@@ -41,28 +41,28 @@ end
 -- ---------------------------------------------------------------------
 
 Integer["even?"] = function(self)
-  return self.class.rubik((self.__lua % 2) == 0)
+  return Integer.rubik((self.__lua % 2) == 0)
 end
 
 -- Integer#odd?
 -- ---------------------------------------------------------------------
 
 Integer["odd?"] = function(self)
-  return self.class.rubik((self.__lua % 2) ~= 0)
+  return Integer.rubik((self.__lua % 2) ~= 0)
 end
 
 -- Integer#zero?
 -- ---------------------------------------------------------------------
 
 Integer["zero?"] = function(self)
-  return self.class.rubik(self.__lua == 0)
+  return Integer.rubik(self.__lua == 0)
 end
 
 -- Integer#abs
 -- ---------------------------------------------------------------------
 
 function Integer:abs()
-  return self.class.rubik(math.abs(self.__lua))
+  return Integer.rubik(math.abs(self.__lua))
 end
 
 -- Integer#magnitude alias
@@ -75,7 +75,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Integer:succ()
-  return self.class.rubik(self.__lua + 1)
+  return Integer.rubik(self.__lua + 1)
 end
 
 -- Integer#next alias

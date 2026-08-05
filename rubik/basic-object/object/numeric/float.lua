@@ -37,7 +37,7 @@ function Float:floor(ndigits)
 
   local f = math.floor(self.__lua * modfier) / modfier
 
-  return self.class.rubik(f)
+  return Float.rubik(f)
 end
 
 -- Float#ceil
@@ -49,7 +49,7 @@ function Float:ceil(ndigits)
 
   local f = math.ceil(self.__lua * modfier) / modfier
 
-  return self.class.rubik(f)
+  return Float.rubik(f)
 end
 
 -- Float#round
@@ -61,7 +61,7 @@ function Float:round(ndigits)
 
   local f = math.floor((self.__lua * modfier) + 0.5) / modfier
 
-  return self.class.rubik(f)
+  return Float.rubik(f)
 end
 
 -- ---------------------------------------------------------------------
