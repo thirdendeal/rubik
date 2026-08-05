@@ -869,9 +869,12 @@ describe("Array", function()
     test("array:values_at(...) -> new array", function()
       local array = { 2, 4, 8, 16 }
 
-      assert.equal(inspect(rubik.values_at(array, 1, 4)), "{ 2, 16 }")
-      assert.equal(inspect(rubik.values_at(array, { 1, 4 })), "{ 2, 4, 8, 16 }")
-      assert.equal(inspect(rubik.values_at(array, 1, -1, 1, -1)), "{ 2, 16, 2, 16 }")
+      assert.equal(inspect(rubik.values_at(array, 1, 4)), "{ 2, 16 }")                -- by index
+      assert.equal(inspect(rubik.values_at(array, { 1, 4 })), "{ 2, 4, 8, 16 }")      -- by range
+      assert.equal(inspect(rubik.values_at(array, 1, -1, 1, -1)), "{ 2, 16, 2, 16 }") -- repeat hits
+
+      -- mix: by index, by range and repeat hits
+      assert.equal(inspect(rubik.values_at(array, 1, { 2, 4 }, 1, { 2, 4 })), "{ 2, 4, 8, 16, 2, 4, 8, 16 }")
 
       assert.equal(inspect(rubik.values_at(array, 100, -100)), "{}")
     end)
