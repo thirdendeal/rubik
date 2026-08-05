@@ -11,15 +11,17 @@ local BasicObject = class("BasicObject")
 -- Class
 -- ---------------------------------------------------------------------
 
--- BasicObject::fromLiteral
+-- BasicObject::new (Rubik + Ruby)
 -- ---------------------------------------------------------------------
 
+function BasicObject:initialize(value)
+  self.__lua = value
+end
+
+-- BasicObject::fromLiteral
+
 function BasicObject.static.fromLiteral(value)
-  local newBasicObject = BasicObject:new()
-
-  newBasicObject.__lua = value
-
-  return newBasicObject
+  return BasicObject:new(value)
 end
 
 -- ---------------------------------------------------------------------

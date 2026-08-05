@@ -26,18 +26,8 @@ end
 -- Class
 -- ---------------------------------------------------------------------
 
--- Array::fromLiteral
+-- Array::new (Rubik + Ruby)
 -- ---------------------------------------------------------------------
-
-function Array.static.fromLiteral(t)
-  local newArray = Array:new()
-
-  newArray:push(unpack(t))
-
-  return newArray
-end
-
--- Array::new
 
 function Array:initialize(size, value, callback)
   self.__lua = {}
@@ -52,6 +42,12 @@ function Array:initialize(size, value, callback)
       table.insert(self.__lua, value)
     end
   end
+end
+
+-- Array::fromLiteral
+
+function Array.static.fromLiteral(t)
+  return Array:new():push(unpack(t))
 end
 
 -- ---------------------------------------------------------------------

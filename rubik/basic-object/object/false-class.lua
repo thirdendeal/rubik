@@ -13,15 +13,17 @@ local FalseClass = class("FalseClass", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- FalseClass::fromLiteral
+-- FalseClass::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
+function FalseClass:initialize()
+  self.__lua = false
+end
+
+-- FalseClass::fromLiteral
+
 function FalseClass.static.fromLiteral()
-  local newFalse = FalseClass:new()
-
-  newFalse.__lua = false
-
-  return newFalse
+  return FalseClass:new()
 end
 
 -- ---------------------------------------------------------------------

@@ -13,15 +13,17 @@ local TrueClass = class("TrueClass", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- TrueClass::fromLiteral
+-- TrueClass::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
+function TrueClass:initialize()
+  self.__lua = true
+end
+
+-- TrueClass::fromLiteral
+
 function TrueClass.static.fromLiteral()
-  local newTrue = TrueClass:new()
-
-  newTrue.__lua = true
-
-  return newTrue
+  return TrueClass:new()
 end
 
 -- ---------------------------------------------------------------------

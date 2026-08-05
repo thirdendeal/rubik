@@ -13,15 +13,17 @@ local Float = class("Float", Numeric)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Float::fromLiteral
+-- Float::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
+function Float:initialize(number)
+  self.__lua = number
+end
+
+-- Float::fromLiteral
+
 function Float.static.fromLiteral(number)
-  local newFloat = Float:new()
-
-  newFloat.__lua = number
-
-  return newFloat
+  return Float:new(number)
 end
 
 -- ---------------------------------------------------------------------

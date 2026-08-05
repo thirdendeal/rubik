@@ -13,7 +13,7 @@ local Enumerator = class("Enumerator", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- Enumerator::new
+-- Enumerator::new (Rubik + Ruby)
 -- ---------------------------------------------------------------------
 
 function Enumerator:initialize(size, block)

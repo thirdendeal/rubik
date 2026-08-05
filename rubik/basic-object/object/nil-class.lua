@@ -13,15 +13,17 @@ local NilClass = class("NilClass", Object)
 -- Class
 -- ---------------------------------------------------------------------
 
--- NilClass::fromLiteral
+-- NilClass::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
+function NilClass:initialize()
+  self.__lua = nil
+end
+
+-- NilClass::fromLiteral
+
 function NilClass.static.fromLiteral()
-  local newNil = NilClass:new()
-
-  newNil.__lua = nil
-
-  return newNil
+  return NilClass:new()
 end
 
 -- ---------------------------------------------------------------------

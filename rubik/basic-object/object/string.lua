@@ -28,16 +28,19 @@ local _QUOTE_METHODS = {
 -- Class
 -- ---------------------------------------------------------------------
 
--- String::fromLiteral
+-- String::new (Rubik + Ruby)
 -- ---------------------------------------------------------------------
 
+function String:initialize(s)
+  self.__lua = s
+
+  String.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+end
+
+-- String::fromLiteral
+
 function String.static.fromLiteral(s)
-  local newString = String:new()
-
-  newString.__lua = s
-  String.rubik.patch_quote_methods(newString, _QUOTE_METHODS)
-
-  return newString
+  return String:new(s)
 end
 
 -- ---------------------------------------------------------------------

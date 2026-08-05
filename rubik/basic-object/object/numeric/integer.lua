@@ -19,18 +19,20 @@ local _QUOTE_METHODS = { "even?", "odd?", "zero?" }
 -- Class
 -- ---------------------------------------------------------------------
 
--- Integer::fromLiteral
+-- Integer::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
-function Integer.static.fromLiteral(number)
-  local newInteger = Integer:new()
-
+function Integer:initialize(number)
   local integerPart, _ = math.modf(number)
+  self.__lua = integerPart
 
-  newInteger.__lua = integerPart
-  Integer.rubik.patch_quote_methods(newInteger, _QUOTE_METHODS)
+  Integer.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+end
 
-  return newInteger
+-- Integer::fromLiteral
+
+function Integer.static.fromLiteral(number)
+  return Integer:new(number)
 end
 
 -- ---------------------------------------------------------------------

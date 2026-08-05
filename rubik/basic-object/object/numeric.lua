@@ -19,16 +19,19 @@ local _QUOTE_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
 -- Class
 -- ---------------------------------------------------------------------
 
--- Numeric::fromLiteral
+-- Numeric::new (Rubik Only)
 -- ---------------------------------------------------------------------
 
+function Numeric:initialize(number)
+  self.__lua = number
+
+  Numeric.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+end
+
+-- Numeric::fromLiteral
+
 function Numeric.static.fromLiteral(number)
-  local newNumeric = Numeric:new()
-
-  newNumeric.__lua = number
-  Numeric.rubik.patch_quote_methods(newNumeric, _QUOTE_METHODS)
-
-  return newNumeric
+  return Numeric:new(number)
 end
 
 -- ---------------------------------------------------------------------
