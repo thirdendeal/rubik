@@ -29,13 +29,13 @@ end
 -- Array::new (Rubik + Ruby)
 -- ---------------------------------------------------------------------
 
-function Array:initialize(size, value, callback)
+function Array:initialize(size, value, block)
   self.__lua = {}
   Array.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 
-  if callback then
-    for i = 1, size or 0, 1 do
-      table.insert(self.__lua, callback(i))
+  if block then
+    for index = 1, size or 0, 1 do
+      table.insert(self.__lua, block(index))
     end
   elseif value ~= nil then -- Lua won't allow { nil, nil, ..., nil }
     for _ = 1, size or 0, 1 do
@@ -105,14 +105,14 @@ end
 -- Array#fetch
 -- ---------------------------------------------------------------------
 
-function Array:fetch(index, fallback, callback)
+function Array:fetch(index, fallback, block)
   local element = self:at(index):derubik()
 
   if element ~= nil then
     return Array.rubik(element)
   else
-    if callback then
-      return Array.rubik(callback(index))
+    if block then
+      return Array.rubik(block(index))
     else
       return Array.rubik(fallback)
     end
@@ -166,22 +166,22 @@ end
 -- Array#count
 -- ---------------------------------------------------------------------
 
-function Array:count(element, callback)
-  if element == nil and callback == nil then
+function Array:count(element, block)
+  if element == nil and block == nil then
     -- array:count()
     return self:size()
   else
     -- array:count(element)
-    -- array:count(_, callback(element))
+    -- array:count(_, block(element))
 
-    callback = callback or function(value)
+    block = block or function(value)
       return value == element
     end
 
     local count = 0
 
     for _, value in ipairs(self.__lua) do
-      if callback(value) then
+      if block(value) then
         count = count + 1
       end
     end
@@ -302,16 +302,16 @@ end
 -- Array#uniq
 -- ---------------------------------------------------------------------
 
-function Array:uniq(callback)
+function Array:uniq(block)
   local hash = {}
 
-  callback = callback or function(element)
+  block = block or function(element)
     return element
   end
 
   for _, element in ipairs(self.__lua) do
-    if not hash[callback(element)] then
-      hash[callback(element)] = element
+    if not hash[block(element)] then
+      hash[block(element)] = element
     end
   end
 
@@ -327,9 +327,9 @@ end
 -- Array#each
 -- ---------------------------------------------------------------------
 
-function Array:each(callback)
+function Array:each(block)
   for _, element in ipairs(self.__lua) do
-    callback(element)
+    block(element)
   end
 
   return self
@@ -338,9 +338,11 @@ end
 -- Array#reverse_each
 -- ---------------------------------------------------------------------
 
-function Array:reverse_each(callback)
-  for i = #self.__lua, 1, -1 do
-    callback(self.__lua[i])
+function Array:reverse_each(block)
+  for index = #self.__lua, 1, -1 do
+    local element = self.__lua[index]
+
+    block(element)
   end
 
   return self
@@ -349,9 +351,9 @@ end
 -- Array#each_index
 -- ---------------------------------------------------------------------
 
-function Array:each_index(callback)
+function Array:each_index(block)
   for index, _ in ipairs(self.__lua) do
-    callback(index)
+    block(index)
   end
 
   return self
@@ -360,11 +362,11 @@ end
 -- Array#map
 -- ---------------------------------------------------------------------
 
-function Array:map(callback)
+function Array:map(block)
   local newArray = {}
 
   for _, element in ipairs(self.__lua) do
-    table.insert(newArray, callback(element))
+    table.insert(newArray, block(element))
   end
 
   return Array.rubik(newArray)
@@ -379,11 +381,11 @@ end
 -- Array#select
 -- ---------------------------------------------------------------------
 
-function Array:select(callback)
+function Array:select(block)
   local newArray = {}
 
   for _, element in ipairs(self.__lua) do
-    if callback(element) then
+    if block(element) then
       table.insert(newArray, element)
     end
   end
@@ -400,11 +402,11 @@ end
 -- Array#keep_if
 -- ---------------------------------------------------------------------
 
-function Array:keep_if(callback)
+function Array:keep_if(block)
   local removal = {}
 
   for i, _ in ipairs(self.__lua) do
-    if not callback(self.__lua[i]) then
+    if not block(self.__lua[i]) then
       table.insert(removal, i)
     end
   end
@@ -421,11 +423,11 @@ end
 -- Array#reject
 -- ---------------------------------------------------------------------
 
-function Array:reject(callback)
+function Array:reject(block)
   local newArray = {}
 
   for _, element in ipairs(self.__lua) do
-    if not callback(element) then
+    if not block(element) then
       table.insert(newArray, element)
     end
   end
@@ -436,11 +438,11 @@ end
 -- Array#delete_if
 -- ---------------------------------------------------------------------
 
-function Array:delete_if(callback)
+function Array:delete_if(block)
   local removal = {}
 
   for i, _ in ipairs(self.__lua) do
-    if callback(self.__lua[i]) then
+    if block(self.__lua[i]) then
       table.insert(removal, i)
     end
   end
@@ -457,12 +459,12 @@ end
 -- Array#all?
 -- ---------------------------------------------------------------------
 
-Array["all?"] = function(self, value, callback)
+Array["all?"] = function(self, value, block)
   for _, element in ipairs(self.__lua) do
-    -- array[":all?"](_, callback)
+    -- array[":all?"](_, block)
 
-    if callback ~= nil then
-      if not callback(element) then
+    if block ~= nil then
+      if not block(element) then
         return Array.rubik(false)
       end
     elseif value ~= nil then
@@ -486,12 +488,12 @@ end
 -- Array#any?
 -- ---------------------------------------------------------------------
 
-Array["any?"] = function(self, value, callback)
+Array["any?"] = function(self, value, block)
   for _, element in ipairs(self.__lua) do
-    -- array[":any?"](_, callback)
+    -- array[":any?"](_, block)
 
-    if callback ~= nil then
-      if callback(element) then
+    if block ~= nil then
+      if block(element) then
         return Array.rubik(true)
       end
     elseif value ~= nil then
@@ -515,12 +517,12 @@ end
 -- Array#none?
 -- ---------------------------------------------------------------------
 
-Array["none?"] = function(self, value, callback)
+Array["none?"] = function(self, value, block)
   for _, element in ipairs(self.__lua) do
-    -- array[":none?"](_, callback)
+    -- array[":none?"](_, block)
 
-    if callback ~= nil then
-      if callback(element) then
+    if block ~= nil then
+      if block(element) then
         return Array.rubik(false)
       end
     elseif value ~= nil then
@@ -544,14 +546,14 @@ end
 -- Array#one?
 -- ---------------------------------------------------------------------
 
-Array["one?"] = function(self, value, callback)
+Array["one?"] = function(self, value, block)
   local found = false
 
   for _, element in ipairs(self.__lua) do
-    -- array[":one?"](_, callback)
+    -- array[":one?"](_, block)
 
-    if callback ~= nil then
-      if callback(element) then
+    if block ~= nil then
+      if block(element) then
         if found then
           return Array.rubik(false)
         else
@@ -587,12 +589,12 @@ end
 -- Array#index
 -- ---------------------------------------------------------------------
 
-function Array:index(value, callback)
+function Array:index(value, block)
   for index, element in ipairs(self.__lua) do
-    if callback ~= nil then
-      -- array:index(_, callback)
+    if block ~= nil then
+      -- array:index(_, block)
 
-      if callback(element) then
+      if block(element) then
         return Array.rubik(index)
       end
     elseif value ~= nil then
@@ -616,14 +618,14 @@ end
 -- Array#rindex
 -- ---------------------------------------------------------------------
 
-function Array:rindex(value, callback)
+function Array:rindex(value, block)
   for index = #self.__lua, 1, -1 do
     local element = self.__lua[index]
 
-    if callback ~= nil then
-      -- array:index(_, callback)
+    if block ~= nil then
+      -- array:index(_, block)
 
-      if callback(element) then
+      if block(element) then
         return Array.rubik(index)
       end
     elseif value ~= nil then
@@ -641,16 +643,16 @@ end
 -- Array#minmax
 -- ---------------------------------------------------------------------
 
-function Array:minmax(callback)
+function Array:minmax(block)
   local minimum = self.__lua[1]
   local maximum = self.__lua[1]
 
-  callback = callback or Array.rubik["<=>"]
+  block = block or Array.rubik["<=>"]
 
   for _, value in ipairs(self.__lua) do
-    if callback(value, maximum) == 1 then
+    if block(value, maximum) == 1 then
       maximum = value
-    elseif callback(value, minimum) == -1 then
+    elseif block(value, minimum) == -1 then
       minimum = value
     end
   end
@@ -661,10 +663,10 @@ end
 -- Array#sort
 -- ---------------------------------------------------------------------
 
-function Array:sort(callback)
+function Array:sort(block)
   local copyArray = { unpack(self.__lua) }
 
-  table.sort(copyArray, callback or function(a, b)
+  table.sort(copyArray, block or function(a, b)
     return a < b
   end)
 
@@ -690,8 +692,8 @@ end
 -- Array#max
 -- ---------------------------------------------------------------------
 
-function Array:max(n, callback)
-  local sorted = self:sort(callback)
+function Array:max(n, block)
+  local sorted = self:sort(block)
 
   if type(n) == "number" then
     return sorted:last(n):reverse()
@@ -703,8 +705,8 @@ end
 -- Array#min
 -- ---------------------------------------------------------------------
 
-function Array:min(n, callback)
-  local sorted = self:sort(callback)
+function Array:min(n, block)
+  local sorted = self:sort(block)
 
   if type(n) == "number" then
     return sorted:first(n)
@@ -814,14 +816,14 @@ end
 -- Array#cycle
 -- ---------------------------------------------------------------------
 
-function Array:cycle(count, callback)
+function Array:cycle(count, block)
   if count then
     for _ = 1, count, 1 do
-      self:each(callback)
+      self:each(block)
     end
   else
     while true do
-      self:each(callback)
+      self:each(block)
     end
   end
 
@@ -850,8 +852,8 @@ end
 -- Array#sum
 -- ---------------------------------------------------------------------
 
-function Array:sum(init, callback)
-  local transform = callback or function(x)
+function Array:sum(init, block)
+  local transform = block or function(x)
     return x
   end
 

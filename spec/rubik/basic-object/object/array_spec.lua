@@ -50,7 +50,7 @@ describe("Array", function()
       assert.equal(inspect(array:derubik()), "{ 1, 1, 1, 1 }")
     end)
 
-    test("Array:new(size, _, callback(index)) -> new array", function()
+    test("Array:new(size, _, block(index)) -> new array", function()
       local array = rubik.Array:new(4, _, function(index)
         return math.pow(2, index)
       end)
@@ -158,7 +158,7 @@ describe("Array", function()
       assert.equal(rubik.fetch(array, -1, "not found"), 4)
     end)
 
-    test("array:fetch(index, _, callback(index)) -> element", function()
+    test("array:fetch(index, _, block(index)) -> element", function()
       local notFound = function(index)
         return "No element at " .. index
       end
@@ -225,7 +225,7 @@ describe("Array", function()
       assert.equal(rubik.count(array, "3"), 0)
     end)
 
-    test("array:count(_, callback) -> integer", function()
+    test("array:count(_, block(element)) -> integer", function()
       assert.equal(rubik.count({ 1, 1, 2, 3 }, _, rubik["even?"]), 1)
     end)
   end)
@@ -381,7 +381,7 @@ describe("Array", function()
       assert.equal(inspect(rubik.uniq({ 1, 1, 2, 2, 3, 3 })), "{ 1, 2, 3 }")
     end)
 
-    test("array:uniq(callback(element)) -> new array", function()
+    test("array:uniq(block(element)) -> new array", function()
       local letters = { "a", "bb", "ccc", "d", "ee", "fff" }
 
       local byLength = function(element)
@@ -396,7 +396,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#each", function()
-    test("array:each(callback(element)) -> self", function()
+    test("array:each(block(element)) -> self", function()
       local numbers = rubik({ 1, 2, 3, 4 })
       local squares = rubik({})
 
@@ -415,7 +415,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#reverse_each", function()
-    test("array:reverse_each(callback(element)) -> self", function()
+    test("array:reverse_each(block(element)) -> self", function()
       local numbers = rubik({ 1, 2, 3, 4 })
       local reverse = rubik({})
 
@@ -434,7 +434,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#each_index", function()
-    test("array:each_index(callback(index)) -> self", function()
+    test("array:each_index(block(index)) -> self", function()
       local numbers = rubik({ 2, 4, 8, 16 })
       local indexValuePairs = rubik({})
 
@@ -453,7 +453,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#map (Array#collect alias)", function()
-    test("array:map(callback(element)) -> new array", function()
+    test("array:map(block(element)) -> new array", function()
       local squares = rubik.map({ 1, 2, 3, 4 }, function(number)
         return math.pow(number, 2)
       end)
@@ -466,7 +466,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#select (Array#filter alias)", function()
-    test("array:select(callback(element)) -> new array", function()
+    test("array:select(block(element)) -> new array", function()
       local evenNumbers = rubik.select({ 1, 2, 3, 4 }, function(number)
         return (number % 2) == 0
       end)
@@ -479,7 +479,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#keep_if", function()
-    test("array:keep_if(callback(element)) -> self", function()
+    test("array:keep_if(block(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
       assert.equal(array:keep_if(rubik["even?"]), array)
@@ -491,7 +491,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#reject", function()
-    test("array:reject(callback(element)) -> new array", function()
+    test("array:reject(block(element)) -> new array", function()
       local oddNumbers = rubik.reject({ 1, 2, 3, 4 }, function(number)
         return (number % 2) == 0
       end)
@@ -504,7 +504,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#delete_if", function()
-    test("array:delete_if(callback(element)) -> self", function()
+    test("array:delete_if(block(element)) -> self", function()
       local array = rubik({ 1, 2, 3, 4 })
 
       assert.equal(array:delete_if(rubik["even?"]), array)
@@ -536,7 +536,7 @@ describe("Array", function()
       assert.equal(rubik["all?"](oozo, 1), false)
     end)
 
-    test("array[\"all?\"](_, callback(element)) -> true or false", function()
+    test("array[\"all?\"](_, block(element)) -> true or false", function()
       local empty = {}
       local eeee = { 2, 2, 2, 2 } -- even
       local eeoe = { 2, 2, 3, 2 } -- even odd
@@ -570,7 +570,7 @@ describe("Array", function()
       assert.equal(rubik["any?"](oozo, 100), false)
     end)
 
-    test("array[\"any?\"](_, callback(element)) -> true or false", function()
+    test("array[\"any?\"](_, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
@@ -604,7 +604,7 @@ describe("Array", function()
       assert.equal(rubik["none?"](oozo, 0), false)
     end)
 
-    test("array[\"none?\"](_, callback(element)) -> true or false", function()
+    test("array[\"none?\"](_, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
@@ -643,7 +643,7 @@ describe("Array", function()
       assert.equal(rubik["one?"](ozoz, 1), false)
     end)
 
-    test("array[\"one?\"](_, callback(element)) -> true or false", function()
+    test("array[\"one?\"](_, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- none
       local ooeo = { 3, 3, 2, 3 } -- one
@@ -667,7 +667,7 @@ describe("Array", function()
       assert.equal(rubik.index(array, 100), nil)
     end)
 
-    test("array:index(_, callback(element)) -> integer or nil", function()
+    test("array:index(_, block(element)) -> integer or nil", function()
       local array = { 2, 4, 8, 16 }
 
       local greaterThanFive = function(element)
@@ -694,7 +694,7 @@ describe("Array", function()
       assert.equal(rubik.rindex(array, 100), nil)
     end)
 
-    test("array:rindex(_, callback(element)) -> integer or nil", function()
+    test("array:rindex(_, block(element)) -> integer or nil", function()
       local array = { 2, 4, 8, 16 }
 
       local greaterThanFive = function(element)
@@ -719,7 +719,7 @@ describe("Array", function()
       assert.equal(inspect(rubik.minmax({ 8, 4, 2, 1 })), "{ 1, 8 }")
     end)
 
-    test("array:minmax(callback(a, b)) -> new array", function()
+    test("array:minmax(block(a, b)) -> new array", function()
       local array = { "rubik", "minmax", "array", "callback", "a", "b", "min", "max" }
 
       local byLength = function(a, b)
@@ -741,7 +741,7 @@ describe("Array", function()
       assert.equal(inspect(array), "{ 8, 4, 2, 1 }")
     end)
 
-    test("array:sort(callback) -> new array", function()
+    test("array:sort(block(a, b)) -> new array", function()
       local array = { 1, 2, 4, 8 }
 
       local reverse = function(a, b)
@@ -780,7 +780,7 @@ describe("Array", function()
       assert.equal(inspect(rubik.max(array, 4)), "{ 27, 9, 8, 4 }")
     end)
 
-    test("array:max(_, callback) -> element", function()
+    test("array:max(_, block(a, b)) -> element", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
@@ -790,7 +790,7 @@ describe("Array", function()
       assert.equal(rubik.max(array, _, byLength), "dddd")
     end)
 
-    test("array:max(n, callback) -> new array", function()
+    test("array:max(n, block(a, b)) -> new array", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
@@ -817,7 +817,7 @@ describe("Array", function()
       assert.equal(inspect(rubik.min(array, 4)), "{ 1, 1, 2, 3 }")
     end)
 
-    test("array:min(_, callback) -> element", function()
+    test("array:min(_, block(a, b)) -> element", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
@@ -827,7 +827,7 @@ describe("Array", function()
       assert.equal(rubik.min(array, _, byLength), "a")
     end)
 
-    test("array:min(n, callback) -> new array", function()
+    test("array:min(n, block(a, b)) -> new array", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
@@ -981,7 +981,7 @@ describe("Array", function()
   -- -------------------------------------------------------------------
 
   describe("Array#cycle", function()
-    test("array:cycle(count, callback) -> nil", function()
+    test("array:cycle(count, block(element)) -> nil", function()
       local array = { 2, 4, 8, 16 }
 
       local numbers = {}
@@ -1021,7 +1021,7 @@ describe("Array", function()
       assert.equal(rubik.sum({ 1, 2, 3 }, 100), 106)
     end)
 
-    test("array:sum(init, callback) -> object", function()
+    test("array:sum(init, block(element)) -> object", function()
       local square = function(x)
         return x ^ 2
       end
