@@ -17,7 +17,7 @@ local Enumerator = class("Enumerator", Object)
 -- ---------------------------------------------------------------------
 
 function Enumerator:initialize(size, block)
-  self.size = size
+  self.__size = size
   self.__block = block
 
   self:rewind()
@@ -103,6 +103,15 @@ function Enumerator:rewind()
   self.__hasPeeked = false
 
   return self
+end
+
+-- Enumerator#size
+-- ---------------------------------------------------------------------
+
+-- TODO: Handle `__size` being either a value or a callable object
+
+function Enumerator:size()
+  return Enumerator.rubik(self.__size)
 end
 
 -- ---------------------------------------------------------------------

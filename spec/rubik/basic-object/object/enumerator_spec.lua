@@ -177,4 +177,21 @@ describe("Enumerator", function()
       assert.equal(fibonacci:next():derubik(), 1)
     end)
   end)
+
+  -- Enumerator#size
+  -- -------------------------------------------------------------------
+
+  describe("Enumerator#size", function()
+    test("enumerator:size() -> integer or nil", function()
+      local yieldOne = function()
+        return 1
+      end
+
+      local e1 = rubik.Enumerator:new(_, yieldOne)
+      assert.equal(e1:size():derubik(), nil)
+
+      local e2 = rubik.Enumerator:new(8, yieldOne)
+      assert.equal(e2:size():derubik(), 8)
+    end)
+  end)
 end)
