@@ -27,7 +27,7 @@ function NilClass.static.fromLiteral()
 end
 
 -- ---------------------------------------------------------------------
--- Instance
+-- Super
 -- ---------------------------------------------------------------------
 
 -- NilClass#derubik
@@ -35,6 +35,38 @@ end
 
 function NilClass:derubik()
   return self.__lua
+end
+
+-- ---------------------------------------------------------------------
+-- Instance
+-- ---------------------------------------------------------------------
+
+-- NilClass#to_a
+-- ---------------------------------------------------------------------
+
+function NilClass:to_a()
+  return NilClass.rubik.Array:new()
+end
+
+-- NilClass#to_f
+-- ---------------------------------------------------------------------
+
+function NilClass:to_f()
+  return NilClass.rubik.Float:new(0)
+end
+
+-- NilClass#to_i
+-- ---------------------------------------------------------------------
+
+function NilClass:to_i()
+  return NilClass.rubik.Integer:new(0)
+end
+
+-- NilClass#to_s
+-- ---------------------------------------------------------------------
+
+function NilClass:to_s()
+  return NilClass.rubik.String:new("")
 end
 
 -- ---------------------------------------------------------------------
