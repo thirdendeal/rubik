@@ -64,4 +64,36 @@ describe("Hash", function()
       assert.equal(hash:delete("fruit"):derubik(), nil)
     end)
   end)
+
+  -- Hash#keys
+  -- -------------------------------------------------------------------
+
+  describe("Hash#keys", function()
+    test("hash:keys() -> array", function()
+      local hash = rubik({ fruit = "apple" })
+
+      hash:store("tool", "hammer")
+      hash:store("debugger", "gdb")
+
+      hash:delete("tool")
+
+      assert.equal(inspect(hash:keys():derubik()), "{ \"fruit\", \"debugger\" }")
+    end)
+  end)
+
+  -- Hash#values
+  -- -------------------------------------------------------------------
+
+  describe("Hash#values", function()
+    test("hash:values() -> array", function()
+      local hash = rubik({ fruit = "apple" })
+
+      hash:store("tool", "hammer")
+      hash:store("debugger", "gdb")
+
+      hash:delete("tool")
+
+      assert.equal(inspect(hash:values():derubik()), "{ \"apple\", \"gdb\" }")
+    end)
+  end)
 end)
