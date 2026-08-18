@@ -16,6 +16,16 @@ local Hash = class("Hash", Object)
 local __QUOTED_METHODS = { "empty?" }
 
 -- ---------------------------------------------------------------------
+
+local __get_default = function(self, key)
+  if self.__default_proc then
+    return self.__default_proc(self, key)
+  else
+    return self.__default
+  end
+end
+
+-- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
@@ -44,11 +54,25 @@ end
 -- Instance
 -- ---------------------------------------------------------------------
 
--- Hash#[]
+-- Hash#access
 -- ---------------------------------------------------------------------
+--
+-- Ruby's Hash#[]
 
 function Hash:__index(key)
-  return Hash.rubik(self.__lua[key])
+  if self.__lua[key] == nil then
+    if key == "__default" then
+      return rawget(self, "__default")
+    end
+
+    if key == "__default_proc" then
+      return rawget(self, "__default_proc")
+    end
+
+    return Hash.rubik(__get_default(self, key))
+  else
+    return Hash.rubik(self.__lua[key])
+  end
 end
 
 -- Hash#store
@@ -117,6 +141,42 @@ end
 
 Hash["empty?"] = function(self)
   return Hash.rubik(self:size()[":zero?"]())
+end
+
+-- Hash#__newindex metamethod
+-- ---------------------------------------------------------------------
+
+-- Hash#default=
+-- Hash#default_proc=
+
+function Hash:__newindex(key, value)
+  if key == "default" then
+    self.__default = value
+    self.__default_proc = nil
+  elseif key == "default_proc" then
+    self.__default_proc = value
+    self.__default = nil
+  else
+    rawset(self, key, value)
+  end
+end
+
+-- Hash#default
+-- ---------------------------------------------------------------------
+
+function Hash:default(key)
+  if key == nil then
+    return Hash.rubik(self.__default)
+  else
+    return Hash.rubik(__get_default(self, key))
+  end
+end
+
+-- Hash#default_proc
+-- ---------------------------------------------------------------------
+
+function Hash:default_proc()
+  return Hash.rubik(self.__default_proc)
 end
 
 -- ---------------------------------------------------------------------

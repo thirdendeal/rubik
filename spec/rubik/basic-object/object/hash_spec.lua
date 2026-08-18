@@ -132,4 +132,68 @@ describe("Hash", function()
       assert.equal(hash[":empty?"]():derubik(), true)
     end)
   end)
+
+  -- Hash#default
+  -- -------------------------------------------------------------------
+
+  describe("Hash#default", function()
+    test("hash:default() -> value or nil", function()
+      local hash = rubik({ key = "value" })
+
+      assert.equal(hash:default():derubik(), nil)
+    end)
+  end)
+
+  -- Hash#default_proc
+  -- -------------------------------------------------------------------
+
+  describe("Hash#default_proc", function()
+    test("hash:default_proc() -> block(self, key) or nil", function()
+      local hash = rubik({ key = "value" })
+
+      assert.equal(hash:default_proc():derubik(), nil)
+    end)
+  end)
+
+  -- Hash#default=
+  -- -------------------------------------------------------------------
+
+  describe("Hash#default=", function()
+    test("hash.default = value", function()
+      local hash = rubik({ key = "value" })
+
+      hash.default_proc = function(self, key)
+        return "could not found: " .. key
+      end
+      hash.default = "not found" -- default unsets default_proc
+
+      assert.equal(hash:default_proc():derubik(), nil)
+      assert.equal(hash:default():derubik(), "not found")
+
+      assert.equal(hash["key"]:derubik(), "value")
+      assert.equal(hash["table"]:derubik(), "not found")
+    end)
+  end)
+
+  -- Hash#default_proc=
+  -- -------------------------------------------------------------------
+
+  describe("Hash#default", function()
+    test("hash.default_proc = block(self, key)", function()
+      local hash = rubik({ key = "value" })
+
+      local message = function(self, key)
+        return "could not found: " .. key
+      end
+
+      hash.default = "not found"
+      hash.default_proc = message -- default_proc unsets default
+
+      assert.equal(hash:default():derubik(), nil)
+      assert.equal(hash:default_proc():derubik(), message)
+
+      assert.equal(hash["key"]:derubik(), "value")
+      assert.equal(hash["table"]:derubik(), "could not found: table")
+    end)
+  end)
 end)
