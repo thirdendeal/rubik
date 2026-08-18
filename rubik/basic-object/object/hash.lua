@@ -10,6 +10,12 @@ local Object = require("rubik.basic-object.object")
 local Hash = class("Hash", Object)
 
 -- ---------------------------------------------------------------------
+-- Private
+-- ---------------------------------------------------------------------
+
+local _QUOTE_METHODS = { "empty?" }
+
+-- ---------------------------------------------------------------------
 -- Class
 -- ---------------------------------------------------------------------
 
@@ -19,6 +25,8 @@ local Hash = class("Hash", Object)
 function Hash:initialize(t)
   self.__lua = {}
   self.__orderedKeys = Hash.rubik.Array:new() -- TODO: Use Set
+
+  Hash.rubik.patch_quote_methods(self, _QUOTE_METHODS)
 
   for key, value in pairs(t) do
     self:store(key, value)
@@ -89,6 +97,26 @@ function Hash:values()
   end)
 
   return Hash.rubik(orderedValues)
+end
+
+-- Hash#size
+-- ---------------------------------------------------------------------
+
+function Hash:size()
+  return self.__orderedKeys:size()
+end
+
+-- Hash#length alias
+
+function Hash:length()
+  return self:size()
+end
+
+-- Hash#empty?
+-- ---------------------------------------------------------------------
+
+Hash["empty?"] = function(self)
+  return Hash.rubik(self:size()[":zero?"]())
 end
 
 -- ---------------------------------------------------------------------

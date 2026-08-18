@@ -96,4 +96,40 @@ describe("Hash", function()
       assert.equal(inspect(hash:values():derubik()), "{ \"apple\", \"gdb\" }")
     end)
   end)
+
+  -- Hash#size
+  -- -------------------------------------------------------------------
+
+  describe("Hash#size", function()
+    test("hash:size() -> integer", function()
+      local hash = rubik.Hash.fromLiteral({})
+
+      assert.equal(hash:size():derubik(), 0)
+
+      hash:store("first", "mario")
+      hash:store("second", "luigi")
+
+      assert.equal(hash:size():derubik(), 2)
+
+      hash:delete("first")
+
+      assert.equal(hash:size():derubik(), 1)
+    end)
+  end)
+
+  -- Hash#empty?
+  -- -------------------------------------------------------------------
+
+  describe("Hash#empty?", function()
+    test("hash[\":empty?\"]() -> true or false", function()
+      local hash = rubik.Hash.fromLiteral({})
+      assert.equal(hash[":empty?"]():derubik(), true)
+
+      hash:store(1, "one")
+      assert.equal(hash[":empty?"]():derubik(), false)
+
+      hash:delete(1)
+      assert.equal(hash[":empty?"]():derubik(), true)
+    end)
+  end)
 end)
