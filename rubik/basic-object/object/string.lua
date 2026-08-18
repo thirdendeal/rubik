@@ -13,16 +13,7 @@ local String = class("String", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = {
-  "empty?",
-  "end_with?",
-  "start_with?",
-  "capitalize!",
-  "upcase!",
-  "downcase!",
-  "swapcase!",
-  "reverse!"
-}
+local __QUOTED_METHODS = { "empty?", "end_with?", "start_with?", "capitalize!", "upcase!", "downcase!", "swapcase!", "reverse!" }
 
 -- ---------------------------------------------------------------------
 -- Class
@@ -34,7 +25,7 @@ local _QUOTE_METHODS = {
 function String:initialize(s)
   self.__lua = s
 
-  String.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+  String.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
 end
 
 -- String::fromLiteral

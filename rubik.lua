@@ -106,10 +106,10 @@ rubik["<=>"] = function(a, b)
   end
 end
 
--- Rubik::patch_quote_methods
+-- Rubik::patch_quoted_methods
 -- ---------------------------------------------------------------------
 
-function rubik.patch_quote_methods(object, methods)
+function rubik.patch_quoted_methods(object, methods)
   for _, method in ipairs(methods) do
     object[":" .. method] = function(...) -- monkey patch
       return object[method](object, ...)

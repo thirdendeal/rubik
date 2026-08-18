@@ -14,11 +14,11 @@ local Array = class("Array", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local _QUOTE_METHODS = { "empty?", "include?", "all?", "any?", "none?", "one?" }
+local __QUOTED_METHODS = { "empty?", "include?", "all?", "any?", "none?", "one?" }
 
 -- ---------------------------------------------------------------------
 
-local _wrapAroundIndex = function(t, index)
+local __wrapAroundIndex = function(t, index)
   return index > 0 and index or #t + index + 1
 end
 
@@ -31,7 +31,7 @@ end
 
 function Array:initialize(size, value, block)
   self.__lua = {}
-  Array.rubik.patch_quote_methods(self, _QUOTE_METHODS)
+  Array.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
 
   if block then
     for index = 1, size or 0, 1 do
@@ -93,7 +93,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:at(index)
-  return Array.rubik(self.__lua[_wrapAroundIndex(self.__lua, index)])
+  return Array.rubik(self.__lua[__wrapAroundIndex(self.__lua, index)])
 end
 
 -- Array#__index metamethod
@@ -246,7 +246,7 @@ end
 -- Behavior does not change if `index` is negative, unlike Ruby
 
 function Array:insert(index, ...)
-  index = _wrapAroundIndex(self, index)
+  index = __wrapAroundIndex(self, index)
 
   for j, value in ipairs({ ... }) do
     local offset = j - 1
@@ -275,7 +275,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:delete_at(index)
-  return Array.rubik(table.remove(self.__lua, _wrapAroundIndex(self.__lua, index)))
+  return Array.rubik(table.remove(self.__lua, __wrapAroundIndex(self.__lua, index)))
 end
 
 -- Array#delete
