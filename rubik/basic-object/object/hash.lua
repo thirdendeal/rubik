@@ -13,7 +13,7 @@ local Hash = class("Hash", Object)
 -- Private
 -- ---------------------------------------------------------------------
 
-local __QUOTED_METHODS = { "empty?" }
+local __QUOTED_METHODS = { "empty?", "include?", "has_key?", "member?", "key?", "value?" }
 
 -- ---------------------------------------------------------------------
 
@@ -177,6 +177,38 @@ end
 
 function Hash:default_proc()
   return Hash.rubik(self.__default_proc)
+end
+
+-- Hash#include?
+-- ---------------------------------------------------------------------
+
+Hash["include?"] = function(self, key)
+  return self.__orderedKeys[":include?"](key)
+end
+
+-- Hash#has_key? alias
+
+Hash["has_key?"] = function(self, key)
+  return self[":include?"](key)
+end
+
+-- Hash#member? alias
+
+Hash["member?"] = function(self, key)
+  return self[":include?"](key)
+end
+
+-- Hash#key? alias
+
+Hash["key?"] = function(self, key)
+  return self[":include?"](key)
+end
+
+-- Hash#value?
+-- ---------------------------------------------------------------------
+
+Hash["value?"] = function(self, value)
+  return self:values()[":include?"](value)
 end
 
 -- ---------------------------------------------------------------------

@@ -196,4 +196,36 @@ describe("Hash", function()
       assert.equal(hash["table"]:derubik(), "could not found: table")
     end)
   end)
+
+  -- Hash#include? (Hash#has_key?, Hash#member? and Hash#key? alias)
+  -- -------------------------------------------------------------------
+
+  describe("Hash#include? (Hash#has_key?, Hash#member? and Hash#key? alias)", function()
+    test("hash[\":include?\"](key) -> true or false", function()
+      local hash = rubik({ name = "leaf" })
+
+      assert.equal(hash[":include?"]("name"):derubik(), true)
+      assert.equal(hash[":include?"]("leaf"):derubik(), false)
+
+      assert.equal(hash[":include?"]("color"):derubik(), false)
+      hash:store("color", "green")
+      assert.equal(hash[":include?"]("color"):derubik(), true)
+    end)
+  end)
+
+  -- Hash#value?
+  -- -------------------------------------------------------------------
+
+  describe("Hash#value?", function()
+    test("hash[\":value?\"](value) -> true or false", function()
+      local hash = rubik({ name = "leaf" })
+
+      assert.equal(hash[":value?"]("name"):derubik(), false)
+      assert.equal(hash[":value?"]("leaf"):derubik(), true)
+
+      assert.equal(hash[":value?"]("green"):derubik(), false)
+      hash:store("color", "green")
+      assert.equal(hash[":value?"]("green"):derubik(), true)
+    end)
+  end)
 end)
