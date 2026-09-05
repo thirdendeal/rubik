@@ -60,4 +60,16 @@ describe("NilClass", function()
       assert.equal(s:derubik(), "")
     end)
   end)
+
+  -- NilClass#to_h
+  -- -------------------------------------------------------------------
+
+  describe("NilClass#to_h", function()
+    test("instance:to_h() -> Hash {}", function()
+      local hash = rubik(nil):to_h()
+
+      assert.equal(hash.class.name, "Hash")
+      assert.equal(inspect(hash:derubik()), "{}")
+    end)
+  end)
 end)

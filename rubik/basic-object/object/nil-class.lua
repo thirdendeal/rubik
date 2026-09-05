@@ -69,6 +69,13 @@ function NilClass:to_s()
   return NilClass.rubik("String", "")
 end
 
+-- NilClass#to_h
+-- ---------------------------------------------------------------------
+
+function NilClass:to_h()
+  return NilClass.rubik("Hash", {})
+end
+
 -- ---------------------------------------------------------------------
 
 return NilClass
