@@ -38,6 +38,11 @@ describe("Rubik", function()
     assert.equal(pipeline, false)
   end)
 
+  test("rubik(class, value) -> new object", function()
+    assert.equal(rubik({}).class.name, "Array")
+    assert.equal(rubik("Hash", {}).class.name, "Hash")
+  end)
+
   -- Rubik::in_and_out [Rubik::__index metamethod]
   -- -------------------------------------------------------------------
 

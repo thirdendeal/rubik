@@ -20,9 +20,9 @@ function Kernel.static.Array(recipe)
       recipe = recipe.__lua
     end
 
-    return Kernel.rubik.Array.fromLiteral(recipe)
+    return Kernel.rubik("Array", recipe)
   else
-    return Kernel.rubik.Array.fromLiteral({ recipe })
+    return Kernel.rubik("Array", { recipe })
   end
 end
 

@@ -34,7 +34,7 @@ end
 
 function Hash:initialize(t)
   self.__lua = {}
-  self.__orderedKeys = Hash.rubik.Array:new() -- TODO: Use Set
+  self.__orderedKeys = Hash.rubik("Array", {}) -- TODO: Use Set
 
   Hash.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
 

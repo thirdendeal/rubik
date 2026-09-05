@@ -45,28 +45,28 @@ end
 -- ---------------------------------------------------------------------
 
 function NilClass:to_a()
-  return NilClass.rubik.Array:new()
+  return NilClass.rubik("Array", {})
 end
 
 -- NilClass#to_f
 -- ---------------------------------------------------------------------
 
 function NilClass:to_f()
-  return NilClass.rubik.Float:new(0)
+  return NilClass.rubik("Float", 0)
 end
 
 -- NilClass#to_i
 -- ---------------------------------------------------------------------
 
 function NilClass:to_i()
-  return NilClass.rubik.Integer:new(0)
+  return NilClass.rubik("Integer", 0)
 end
 
 -- NilClass#to_s
 -- ---------------------------------------------------------------------
 
 function NilClass:to_s()
-  return NilClass.rubik.String:new("")
+  return NilClass.rubik("String", "")
 end
 
 -- ---------------------------------------------------------------------

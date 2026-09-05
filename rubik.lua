@@ -26,7 +26,16 @@ local metatable = {}
 -- Rubik::fromLiteral
 -- ---------------------------------------------------------------------
 
-function rubik.fromLiteral(value)
+-- rubik.fromLiteral(value)
+-- rubik.fromLiteral(class, value)
+
+function rubik.fromLiteral(...)
+  if #arg == 2 then
+    return rubik[arg[1]].fromLiteral(arg[2])
+  end
+
+  local value = arg[1]
+
   if rubik["already?"](value) then
     return value
   end
@@ -71,6 +80,9 @@ function rubik.fromLiteral(value)
 end
 
 -- Rubik::__call metamethod
+
+-- rubik(value)
+-- rubik(class, value)
 
 metatable.__call = function(_, ...)
   return rubik.fromLiteral(...)

@@ -42,7 +42,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:floor(ndigits)
-  local f = Numeric.rubik.Float.fromLiteral(self.__lua)
+  local f = Numeric.rubik("Float", self.__lua)
 
   return f:floor(ndigits)
 end
@@ -51,7 +51,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:ceil(ndigits)
-  local f = Numeric.rubik.Float.fromLiteral(self.__lua)
+  local f = Numeric.rubik("Float", self.__lua)
 
   return f:ceil(ndigits)
 end
@@ -60,7 +60,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Numeric:round(ndigits)
-  local f = Numeric.rubik.Float.fromLiteral(self.__lua)
+  local f = Numeric.rubik("Float", self.__lua)
 
   return f:round(ndigits)
 end
