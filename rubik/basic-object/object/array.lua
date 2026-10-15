@@ -14,7 +14,14 @@ local Array = class("Array", Object)
 -- Private
 -- -----------------------------------------------------------------------------
 
-local __QUOTED_METHODS = { "empty?", "include?", "all?", "any?", "none?", "one?" }
+local __QUOTE_METHODS = {
+  "empty?",
+  "include?",
+  "all?",
+  "any?",
+  "none?",
+  "one?"
+}
 
 -- -----------------------------------------------------------------------------
 
@@ -31,7 +38,7 @@ end
 
 function Array:initialize(size, value, block)
   self.__lua = {}
-  Array.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
+  Array.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 
   if block then
     for index = 1, size or 0, 1 do

@@ -13,7 +13,11 @@ local Integer = class("Integer", Numeric)
 -- Private
 -- -----------------------------------------------------------------------------
 
-local __QUOTED_METHODS = { "even?", "odd?", "zero?" }
+local __QUOTE_METHODS = {
+  "even?",
+  "odd?",
+  "zero?"
+}
 
 -- -----------------------------------------------------------------------------
 -- Class
@@ -26,7 +30,7 @@ function Integer:initialize(number)
   local integerPart, _ = math.modf(number)
   self.__lua = integerPart
 
-  Integer.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
+  Integer.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 end
 
 -- Integer::fromLiteral

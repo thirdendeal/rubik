@@ -13,7 +13,14 @@ local Hash = class("Hash", Object)
 -- Private
 -- -----------------------------------------------------------------------------
 
-local __QUOTED_METHODS = { "empty?", "include?", "has_key?", "member?", "key?", "value?" }
+local __QUOTE_METHODS = {
+  "empty?",
+  "include?",
+  "has_key?",
+  "member?",
+  "key?",
+  "value?"
+}
 
 -- -----------------------------------------------------------------------------
 
@@ -36,7 +43,7 @@ function Hash:initialize(t)
   self.__lua = {}
   self.__orderedKeys = Hash.rubik("Array", {}) -- TODO: Use Set
 
-  Hash.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
+  Hash.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 
   for key, value in pairs(t) do
     self:store(key, value)

@@ -13,7 +13,12 @@ local Numeric = class("Numeric", Object)
 -- Private
 -- -----------------------------------------------------------------------------
 
-local __QUOTED_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
+local __QUOTE_METHODS = {
+  "positive?",
+  "negative?",
+  "zero?",
+  "nonzero?"
+}
 
 -- -----------------------------------------------------------------------------
 -- Class
@@ -25,7 +30,7 @@ local __QUOTED_METHODS = { "positive?", "negative?", "zero?", "nonzero?" }
 function Numeric:initialize(number)
   self.__lua = number
 
-  Numeric.rubik.patch_quoted_methods(self, __QUOTED_METHODS)
+  Numeric.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 end
 
 -- Numeric::fromLiteral

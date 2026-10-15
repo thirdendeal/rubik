@@ -61,10 +61,10 @@ describe("Rubik", function()
     assert.equal(rubik["<=>"](2, 4), -1)
   end)
 
-  -- Rubik::patch_quoted_methods
+  -- Rubik::patch_quote_methods
   -- ---------------------------------------------------------------------------
 
-  test("rubik.patch_quoted_methods(object, methods) -> nil", function()
+  test("rubik.patch_quote_methods(object, methods) -> nil", function()
     local counter = {
       tally = 0,
       ["increase"] = function(self)
@@ -76,7 +76,7 @@ describe("Rubik", function()
 
     assert.equal(counter.tally, 1)
 
-    rubik.patch_quoted_methods(counter, { "increase" })
+    rubik.patch_quote_methods(counter, { "increase" })
     counter[":increase"]()
 
     assert.equal(counter.tally, 2)
