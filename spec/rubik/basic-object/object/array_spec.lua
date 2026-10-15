@@ -1,20 +1,20 @@
 -- Array Spec
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 local inspect = require("inspect")
 
 local rubik = require("rubik")
 
 -- Array
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 describe("Array", function()
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
   -- Class
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   -- Array::fromLiteral
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array::fromLiteral", function()
     test("Array.fromLiteral(t) -> new array", function()
@@ -29,7 +29,7 @@ describe("Array", function()
   end)
 
   -- Array::new
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array::new", function()
     test("Array:new() -> new array", function()
@@ -59,12 +59,12 @@ describe("Array", function()
     end)
   end)
 
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
   -- Instance
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   -- Array#first (Array#take alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#first (Array#take alias)", function()
     test("array:first() -> element or nil", function()
@@ -86,7 +86,7 @@ describe("Array", function()
   end)
 
   -- Array#last
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#last", function()
     test("array:last() -> element", function()
@@ -108,7 +108,7 @@ describe("Array", function()
   end)
 
   -- Array#drop
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#drop", function()
     test("array:drop(n) -> new array", function()
@@ -125,7 +125,7 @@ describe("Array", function()
   end)
 
   -- Array#at [Array#__index metamethod]
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#at", function()
     test("array:at(index) -> element", function()
@@ -139,7 +139,7 @@ describe("Array", function()
   end)
 
   -- Array#fetch
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#fetch", function()
     test("array:fetch(index) -> element", function()
@@ -169,7 +169,7 @@ describe("Array", function()
   end)
 
   -- Array#slice
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#slice", function()
     test("array:slice(index) -> element or nil", function()
@@ -199,7 +199,7 @@ describe("Array", function()
   end)
 
   -- Array#size (Array#length alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#size (Array#length alias)", function()
     test("array:size() -> integer", function()
@@ -209,7 +209,7 @@ describe("Array", function()
   end)
 
   -- Array#count
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#count", function()
     test("array:count() -> integer", function()
@@ -231,7 +231,7 @@ describe("Array", function()
   end)
 
   -- Array#empty?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#empty?", function()
     test("array[\":empty?\"]() -> true or false", function()
@@ -244,7 +244,7 @@ describe("Array", function()
   end)
 
   -- Array#include?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#include?", function()
     test("array[\":include?\"](value) -> true or false", function()
@@ -256,7 +256,7 @@ describe("Array", function()
   end)
 
   -- Array#push (Array#append alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#push (Array#append alias)", function()
     test("array:push(...) -> self", function()
@@ -271,7 +271,7 @@ describe("Array", function()
   end)
 
   -- Array#unshift (Array#prepend alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#unshift (Array#prepend alias)", function()
     test("array:unshift(...) -> self", function()
@@ -286,7 +286,7 @@ describe("Array", function()
   end)
 
   -- Array#insert
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#insert", function()
     test("array:insert(index, ...) -> self", function()
@@ -304,7 +304,7 @@ describe("Array", function()
   end)
 
   -- Array#pop
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#pop", function()
     test("array:pop() -> element or nil", function()
@@ -322,7 +322,7 @@ describe("Array", function()
   end)
 
   -- Array#shift
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#shift", function()
     test("array:shift() -> element or nil", function()
@@ -340,7 +340,7 @@ describe("Array", function()
   end)
 
   -- Array#delete_at
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#delete_at", function()
     test("array:delete_at(index) -> element or nil", function()
@@ -358,7 +358,7 @@ describe("Array", function()
   end)
 
   -- Array#delete
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#delete", function()
     test("array:delete(value) -> value or nil", function()
@@ -373,7 +373,7 @@ describe("Array", function()
   end)
 
   -- Array#uniq
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#uniq", function()
     test("array:uniq() -> new array", function()
@@ -393,7 +393,7 @@ describe("Array", function()
   end)
 
   -- Array#each
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#each", function()
     test("array:each(block(element)) -> self", function()
@@ -412,7 +412,7 @@ describe("Array", function()
   end)
 
   -- Array#reverse_each
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#reverse_each", function()
     test("array:reverse_each(block(element)) -> self", function()
@@ -431,7 +431,7 @@ describe("Array", function()
   end)
 
   -- Array#each_index
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#each_index", function()
     test("array:each_index(block(index)) -> self", function()
@@ -450,7 +450,7 @@ describe("Array", function()
   end)
 
   -- Array#map (Array#collect alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#map (Array#collect alias)", function()
     test("array:map(block(element)) -> new array", function()
@@ -463,7 +463,7 @@ describe("Array", function()
   end)
 
   -- Array#select (Array#filter alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#select (Array#filter alias)", function()
     test("array:select(block(element)) -> new array", function()
@@ -476,7 +476,7 @@ describe("Array", function()
   end)
 
   -- Array#keep_if
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#keep_if", function()
     test("array:keep_if(block(element)) -> self", function()
@@ -488,7 +488,7 @@ describe("Array", function()
   end)
 
   -- Array#reject
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#reject", function()
     test("array:reject(block(element)) -> new array", function()
@@ -501,7 +501,7 @@ describe("Array", function()
   end)
 
   -- Array#delete_if
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#delete_if", function()
     test("array:delete_if(block(element)) -> self", function()
@@ -513,7 +513,7 @@ describe("Array", function()
   end)
 
   -- Array#all?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#all?", function()
     test("array[\":all?\"]() -> true or false", function()
@@ -548,7 +548,7 @@ describe("Array", function()
   end)
 
   -- Array#any?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#any?", function()
     test("array[\":any?\"]() -> true or false", function()
@@ -582,7 +582,7 @@ describe("Array", function()
   end)
 
   -- Array#none?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#none?", function()
     test("array[\":none?\"]() -> true or false", function()
@@ -616,7 +616,7 @@ describe("Array", function()
   end)
 
   -- Array#one?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#one?", function()
     test("array[\":one?\"]() -> true or false", function()
@@ -657,7 +657,7 @@ describe("Array", function()
   end)
 
   -- Array#index (Array#find_index alias)
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#index (Array#find_index alias)", function()
     test("array:index(value) -> integer or nil", function()
@@ -684,7 +684,7 @@ describe("Array", function()
   end)
 
   -- Array#rindex
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#rindex", function()
     test("array:rindex(value) -> integer or nil", function()
@@ -711,7 +711,7 @@ describe("Array", function()
   end)
 
   -- Array#minmax
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#minmax", function()
     test("array:minmax() -> new array", function()
@@ -731,7 +731,7 @@ describe("Array", function()
   end)
 
   -- Array#sort
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#sort", function()
     test("array:sort() -> new array", function()
@@ -754,7 +754,7 @@ describe("Array", function()
   end)
 
   -- Array#reverse
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#reverse", function()
     test("array:reverse() -> new array", function()
@@ -765,7 +765,7 @@ describe("Array", function()
   end)
 
   -- Array#max
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#max", function()
     test("array:max() -> element", function()
@@ -802,7 +802,7 @@ describe("Array", function()
   end)
 
   -- Array#min
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#min", function()
     test("array:min() -> element", function()
@@ -839,7 +839,7 @@ describe("Array", function()
   end)
 
   -- Array#assoc
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#assoc", function()
     test("array:assoc(value) -> new array or nil", function()
@@ -851,7 +851,7 @@ describe("Array", function()
   end)
 
   -- Array#rassoc
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#rassoc", function()
     test("array:rassoc(value) -> new array or nil", function()
@@ -863,7 +863,7 @@ describe("Array", function()
   end)
 
   -- Array#values_at
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#values_at", function()
     test("array:values_at(...) -> new array", function()
@@ -881,7 +881,7 @@ describe("Array", function()
   end)
 
   -- Array#dig
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#dig", function()
     test("array:dig(...) -> element or nil", function()
@@ -895,7 +895,7 @@ describe("Array", function()
   end)
 
   -- Array#shuffle
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#shuffle", function()
     test("array:shuffle() -> new array", function()
@@ -928,7 +928,7 @@ describe("Array", function()
   end)
 
   -- Array#sample
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#sample", function()
     test("array:sample() -> element", function()
@@ -978,7 +978,7 @@ describe("Array", function()
   end)
 
   -- Array#cycle
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#cycle", function()
     test("array:cycle(count, block(element)) -> nil", function()
@@ -1000,7 +1000,7 @@ describe("Array", function()
   end)
 
   -- Array#inspect (Array#to_s alias) [Array#__tostring metamethod]
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#inspect", function()
     test("array:inspect() -> new string", function()
@@ -1010,7 +1010,7 @@ describe("Array", function()
   end)
 
   -- Array#sum
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   describe("Array#sum", function()
     test("array:sum() -> object", function()

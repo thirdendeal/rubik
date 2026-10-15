@@ -1,16 +1,16 @@
 -- Rubik Spec
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 local inspect = require("inspect")
 
 local rubik = require("rubik")
 
 -- Rubik
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 describe("Rubik", function()
   -- Rubik::fromLiteral [Rubik::__call metamethod]
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   test("rubik(value) -> new object", function()
     assert.equal(rubik({}).class.name, "Array")
@@ -44,7 +44,7 @@ describe("Rubik", function()
   end)
 
   -- Rubik::in_and_out [Rubik::__index metamethod]
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   test("rubik.in_and_out(recipe, method, ...) -> new value", function()
     local array = { 4, 3, 2, 1 }
@@ -53,7 +53,7 @@ describe("Rubik", function()
   end)
 
   -- Rubik::["<=>"]
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   test("rubik[\"<=>\"](a, b) -> 1, 0 or -1", function()
     assert.equal(rubik["<=>"](4, 2), 1)
@@ -62,12 +62,15 @@ describe("Rubik", function()
   end)
 
   -- Rubik::patch_quoted_methods
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   test("rubik.patch_quoted_methods(object, methods) -> nil", function()
-    local counter = { tally = 0, ["increase"] = function(self)
-      self.tally = self.tally + 1
-    end }
+    local counter = {
+      tally = 0,
+      ["increase"] = function(self)
+        self.tally = self.tally + 1
+      end
+    }
 
     counter.increase(counter)
 
@@ -80,7 +83,7 @@ describe("Rubik", function()
   end)
 
   -- Rubik::already?
-  -- -------------------------------------------------------------------
+  -- ---------------------------------------------------------------------------
 
   test("rubik[\"already?\"](value) -> true or false", function()
     local t = {}

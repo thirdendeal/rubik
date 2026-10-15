@@ -1,5 +1,5 @@
 -- Rubik
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 local BasicObject = require("rubik.basic-object")
 local Kernel = require("rubik.kernel")
@@ -18,13 +18,13 @@ local TrueClass = require("rubik.basic-object.object.true-class")
 local Float = require("rubik.basic-object.object.numeric.float")
 local Integer = require("rubik.basic-object.object.numeric.integer")
 
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 local rubik = { _version = "0.0.0" }
 local metatable = {}
 
 -- Rubik::fromLiteral
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 -- rubik.fromLiteral(value)
 -- rubik.fromLiteral(class, value)
@@ -89,7 +89,7 @@ metatable.__call = function(_, ...)
 end
 
 -- Rubik::in_and_out
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 function rubik.in_and_out(value, method, ...)
   local object = rubik.fromLiteral(value)
@@ -106,7 +106,7 @@ metatable.__index = function(_, index)
 end
 
 -- Rubik::["<=>"]
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 rubik["<=>"] = function(a, b)
   if a > b then -- three-way comparison
@@ -119,7 +119,7 @@ rubik["<=>"] = function(a, b)
 end
 
 -- Rubik::patch_quoted_methods
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 function rubik.patch_quoted_methods(object, methods)
   for _, method in ipairs(methods) do
@@ -130,7 +130,7 @@ function rubik.patch_quoted_methods(object, methods)
 end
 
 -- Rubik::already?
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 rubik["already?"] = function(value)
   local middleclass = type(value) == "table" and value.class and value.class.isSubclassOf
@@ -139,7 +139,7 @@ rubik["already?"] = function(value)
 end
 
 -- Class Injection
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 rubik.BasicObject = BasicObject
 rubik.Kernel = Kernel
@@ -158,7 +158,7 @@ rubik.TrueClass = TrueClass
 rubik.Float = Float
 rubik.Integer = Integer
 
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 BasicObject.static.rubik = rubik
 Kernel.static.rubik = rubik
@@ -178,14 +178,14 @@ Float.static.rubik = rubik
 Integer.static.rubik = rubik
 
 -- Pseudo-Randomness
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 local digits, _ = string.gsub(tostring(os.clock()), "%.", "")
 
 math.randomseed(tonumber(digits))
 math.randomseed(math.random(os.time()))
 
--- ---------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 
 setmetatable(rubik, metatable)
 
