@@ -17,8 +17,8 @@ describe("Enumerator", function()
   -- -------------------------------------------------------------------
 
   describe("Enumerator::new", function()
-    test("Enumerator:new(_, block) -> new enumerator", function()
-      local e = rubik.Enumerator:new(_, function()
+    test("Enumerator:new(nil, block) -> new enumerator", function()
+      local e = rubik.Enumerator:new(nil, function()
         coroutine.yield(1)
         coroutine.yield(2)
         coroutine.yield(3)
@@ -57,7 +57,7 @@ describe("Enumerator", function()
 
   describe("Enumerator#next", function()
     test("enumerator:next() -> object", function()
-      local e = rubik.Enumerator:new(_, function()
+      local e = rubik.Enumerator:new(nil, function()
         coroutine.yield(1)
         coroutine.yield(2)
         coroutine.yield(nil)
@@ -81,7 +81,7 @@ describe("Enumerator", function()
 
   describe("Enumerator#next_values", function()
     test("enumerator:next_values() -> new array", function()
-      local e = rubik.Enumerator:new(_, function()
+      local e = rubik.Enumerator:new(nil, function()
         coroutine.yield(1)
         coroutine.yield({ 2 })
 
@@ -99,7 +99,7 @@ describe("Enumerator", function()
 
   describe("Enumerator#peek", function()
     test("enumerator:peek() -> object", function()
-      local e = rubik.Enumerator:new(_, function()
+      local e = rubik.Enumerator:new(nil, function()
         coroutine.yield(1)
         coroutine.yield(2)
         coroutine.yield(nil)
@@ -128,7 +128,7 @@ describe("Enumerator", function()
 
   describe("Enumerator#peek_values", function()
     test("enumerator:peek_values() -> new array", function()
-      local e = rubik.Enumerator:new(_, function()
+      local e = rubik.Enumerator:new(nil, function()
         coroutine.yield(1)
         coroutine.yield({ 2 })
 
@@ -155,7 +155,7 @@ describe("Enumerator", function()
 
   describe("Enumerator#rewind", function()
     test("enumerator:rewind() -> self", function()
-      local fibonacci = rubik.Enumerator:new(_, function()
+      local fibonacci = rubik.Enumerator:new(nil, function()
         local a = 1
         local b = 1
 
@@ -187,7 +187,7 @@ describe("Enumerator", function()
         return 1
       end
 
-      local e1 = rubik.Enumerator:new(_, yieldOne)
+      local e1 = rubik.Enumerator:new(nil, yieldOne)
       assert.equal(e1:size():derubik(), nil)
 
       local e2 = rubik.Enumerator:new(8, yieldOne)

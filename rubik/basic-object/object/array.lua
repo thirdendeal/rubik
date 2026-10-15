@@ -783,7 +783,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Array:shuffle(prng)
-  local indices = Array:new(#self.__lua, _, function(index)
+  local indices = Array:new(#self.__lua, nil, function(index)
     return index
   end)
 

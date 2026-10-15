@@ -27,7 +27,7 @@ end
 -- ---------------------------------------------------------------------
 
 function Enumerator.static.produce(initial, block)
-  return Enumerator:new(_, function()
+  return Enumerator:new(nil, function()
     local current = initial
 
     while true do

@@ -50,8 +50,8 @@ describe("Array", function()
       assert.equal(inspect(array:derubik()), "{ 1, 1, 1, 1 }")
     end)
 
-    test("Array:new(size, _, block(index)) -> new array", function()
-      local array = rubik.Array:new(4, _, function(index)
+    test("Array:new(size, nil, block(index)) -> new array", function()
+      local array = rubik.Array:new(4, nil, function(index)
         return math.pow(2, index)
       end)
 
@@ -158,13 +158,13 @@ describe("Array", function()
       assert.equal(rubik.fetch(array, -1, "not found"), 4)
     end)
 
-    test("array:fetch(index, _, block(index)) -> element", function()
+    test("array:fetch(index, nil, block(index)) -> element", function()
       local notFound = function(index)
         return "No element at " .. index
       end
 
-      assert.equal(rubik.fetch({ 1, 2, 3, 4 }, 1, _, notFound), 1)
-      assert.equal(rubik.fetch({ 1, 2, 3, 4 }, 0, _, notFound), "No element at 0")
+      assert.equal(rubik.fetch({ 1, 2, 3, 4 }, 1, nil, notFound), 1)
+      assert.equal(rubik.fetch({ 1, 2, 3, 4 }, 0, nil, notFound), "No element at 0")
     end)
   end)
 
@@ -225,8 +225,8 @@ describe("Array", function()
       assert.equal(rubik.count(array, "3"), 0)
     end)
 
-    test("array:count(_, block(element)) -> integer", function()
-      assert.equal(rubik.count({ 1, 1, 2, 3 }, _, rubik["even?"]), 1)
+    test("array:count(nil, block(element)) -> integer", function()
+      assert.equal(rubik.count({ 1, 1, 2, 3 }, nil, rubik["even?"]), 1)
     end)
   end)
 
@@ -536,14 +536,14 @@ describe("Array", function()
       assert.equal(rubik["all?"](oozo, 1), false)
     end)
 
-    test("array[\"all?\"](_, block(element)) -> true or false", function()
+    test("array[\"all?\"](nil, block(element)) -> true or false", function()
       local empty = {}
       local eeee = { 2, 2, 2, 2 } -- even
       local eeoe = { 2, 2, 3, 2 } -- even odd
 
-      assert.equal(rubik["all?"](empty, _, rubik["even?"]), true)
-      assert.equal(rubik["all?"](eeee, _, rubik["even?"]), true)
-      assert.equal(rubik["all?"](eeoe, _, rubik["even?"]), false)
+      assert.equal(rubik["all?"](empty, nil, rubik["even?"]), true)
+      assert.equal(rubik["all?"](eeee, nil, rubik["even?"]), true)
+      assert.equal(rubik["all?"](eeoe, nil, rubik["even?"]), false)
     end)
   end)
 
@@ -570,14 +570,14 @@ describe("Array", function()
       assert.equal(rubik["any?"](oozo, 100), false)
     end)
 
-    test("array[\"any?\"](_, block(element)) -> true or false", function()
+    test("array[\"any?\"](nil, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
 
-      assert.equal(rubik["any?"](empty, _, rubik["even?"]), false)
-      assert.equal(rubik["any?"](oooo, _, rubik["even?"]), false)
-      assert.equal(rubik["any?"](ooeo, _, rubik["even?"]), true)
+      assert.equal(rubik["any?"](empty, nil, rubik["even?"]), false)
+      assert.equal(rubik["any?"](oooo, nil, rubik["even?"]), false)
+      assert.equal(rubik["any?"](ooeo, nil, rubik["even?"]), true)
     end)
   end)
 
@@ -604,14 +604,14 @@ describe("Array", function()
       assert.equal(rubik["none?"](oozo, 0), false)
     end)
 
-    test("array[\"none?\"](_, block(element)) -> true or false", function()
+    test("array[\"none?\"](nil, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- odd
       local ooeo = { 3, 3, 2, 3 } -- odd even
 
-      assert.equal(rubik["none?"](empty, _, rubik["even?"]), true)
-      assert.equal(rubik["none?"](oooo, _, rubik["even?"]), true)
-      assert.equal(rubik["none?"](ooeo, _, rubik["even?"]), false)
+      assert.equal(rubik["none?"](empty, nil, rubik["even?"]), true)
+      assert.equal(rubik["none?"](oooo, nil, rubik["even?"]), true)
+      assert.equal(rubik["none?"](ooeo, nil, rubik["even?"]), false)
     end)
   end)
 
@@ -643,16 +643,16 @@ describe("Array", function()
       assert.equal(rubik["one?"](ozoz, 1), false)
     end)
 
-    test("array[\"one?\"](_, block(element)) -> true or false", function()
+    test("array[\"one?\"](nil, block(element)) -> true or false", function()
       local empty = {}
       local oooo = { 3, 3, 3, 3 } -- none
       local ooeo = { 3, 3, 2, 3 } -- one
       local eoeo = { 2, 3, 2, 3 } -- more than one
 
-      assert.equal(rubik["one?"](empty, _, rubik["even?"]), false)
-      assert.equal(rubik["one?"](oooo, _, rubik["even?"]), false)
-      assert.equal(rubik["one?"](ooeo, _, rubik["even?"]), true)
-      assert.equal(rubik["one?"](eoeo, _, rubik["even?"]), false)
+      assert.equal(rubik["one?"](empty, nil, rubik["even?"]), false)
+      assert.equal(rubik["one?"](oooo, nil, rubik["even?"]), false)
+      assert.equal(rubik["one?"](ooeo, nil, rubik["even?"]), true)
+      assert.equal(rubik["one?"](eoeo, nil, rubik["even?"]), false)
     end)
   end)
 
@@ -667,7 +667,7 @@ describe("Array", function()
       assert.equal(rubik.index(array, 100), nil)
     end)
 
-    test("array:index(_, block(element)) -> integer or nil", function()
+    test("array:index(nil, block(element)) -> integer or nil", function()
       local array = { 2, 4, 8, 16 }
 
       local greaterThanFive = function(element)
@@ -678,8 +678,8 @@ describe("Array", function()
         return element < 0
       end
 
-      assert.equal(rubik.index(array, _, greaterThanFive), 3)
-      assert.equal(rubik.index(array, _, negative), nil)
+      assert.equal(rubik.index(array, nil, greaterThanFive), 3)
+      assert.equal(rubik.index(array, nil, negative), nil)
     end)
   end)
 
@@ -694,7 +694,7 @@ describe("Array", function()
       assert.equal(rubik.rindex(array, 100), nil)
     end)
 
-    test("array:rindex(_, block(element)) -> integer or nil", function()
+    test("array:rindex(nil, block(element)) -> integer or nil", function()
       local array = { 2, 4, 8, 16 }
 
       local greaterThanFive = function(element)
@@ -705,8 +705,8 @@ describe("Array", function()
         return element < 0
       end
 
-      assert.equal(rubik.rindex(array, _, greaterThanFive), 4)
-      assert.equal(rubik.rindex(array, _, negative), nil)
+      assert.equal(rubik.rindex(array, nil, greaterThanFive), 4)
+      assert.equal(rubik.rindex(array, nil, negative), nil)
     end)
   end)
 
@@ -780,14 +780,14 @@ describe("Array", function()
       assert.equal(inspect(rubik.max(array, 4)), "{ 27, 9, 8, 4 }")
     end)
 
-    test("array:max(_, block(a, b)) -> element", function()
+    test("array:max(nil, block(a, b)) -> element", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
         return a:len() < b:len()
       end
 
-      assert.equal(rubik.max(array, _, byLength), "dddd")
+      assert.equal(rubik.max(array, nil, byLength), "dddd")
     end)
 
     test("array:max(n, block(a, b)) -> new array", function()
@@ -817,14 +817,14 @@ describe("Array", function()
       assert.equal(inspect(rubik.min(array, 4)), "{ 1, 1, 2, 3 }")
     end)
 
-    test("array:min(_, block(a, b)) -> element", function()
+    test("array:min(nil, block(a, b)) -> element", function()
       local array = { "a", "bb", "ccc", "dddd" }
 
       local byLength = function(a, b)
         return a:len() < b:len()
       end
 
-      assert.equal(rubik.min(array, _, byLength), "a")
+      assert.equal(rubik.min(array, nil, byLength), "a")
     end)
 
     test("array:min(n, block(a, b)) -> new array", function()
@@ -949,10 +949,10 @@ describe("Array", function()
       end)
     end)
 
-    test("array:sample(_, prng) -> element", function()
+    test("array:sample(nil, prng) -> element", function()
       local array = { 1, 2, 3, 4, 5, 6, 7, 8 }
 
-      local fauxSample = rubik.sample(array, _, function(max)
+      local fauxSample = rubik.sample(array, nil, function(max)
         return max
       end)
 
