@@ -3,7 +3,7 @@
 
 local class = require("middleclass")
 
-local Numeric = require("rubik.basic-object.object.numeric")
+local Numeric = require(CWD .. "rubik.basic-object.object.numeric")
 
 -- -----------------------------------------------------------------------------
 

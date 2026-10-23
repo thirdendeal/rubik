@@ -1,27 +1,41 @@
 -- Rubik
 -- -----------------------------------------------------------------------------
 
-local BasicObject = require("rubik.basic-object")
-local Kernel = require("rubik.kernel")
+-- CWD Workaround
+-- -----------------------------------------------------------------------------
+--
+-- Lua's `require` makes callers need to share this file's directory
+--   local rubik = require("rubik")
+--
+-- Now callers can also be placed elsewhere
+--   local rubik = require("rubik")
+--   local rubik = require("libraries.thirdendeal.rubik")
 
-local Object = require("rubik.basic-object.object")
-
-local Array = require("rubik.basic-object.object.array")
-local Enumerator = require("rubik.basic-object.object.enumerator")
-local FalseClass = require("rubik.basic-object.object.false-class")
-local Hash = require("rubik.basic-object.object.hash")
-local NilClass = require("rubik.basic-object.object.nil-class")
-local Numeric = require("rubik.basic-object.object.numeric")
-local String = require("rubik.basic-object.object.string")
-local TrueClass = require("rubik.basic-object.object.true-class")
-
-local Float = require("rubik.basic-object.object.numeric.float")
-local Integer = require("rubik.basic-object.object.numeric.integer")
+CWD               = (...):gsub("rubik$", "") .. "." -- current working directory
 
 -- -----------------------------------------------------------------------------
 
-local rubik = { _version = "0.0.0" }
-local metatable = {}
+local BasicObject = require(CWD .. "rubik.basic-object")
+local Kernel      = require(CWD .. "rubik.kernel")
+
+local Object      = require(CWD .. "rubik.basic-object.object")
+
+local Array       = require(CWD .. "rubik.basic-object.object.array")
+local Enumerator  = require(CWD .. "rubik.basic-object.object.enumerator")
+local FalseClass  = require(CWD .. "rubik.basic-object.object.false-class")
+local Hash        = require(CWD .. "rubik.basic-object.object.hash")
+local NilClass    = require(CWD .. "rubik.basic-object.object.nil-class")
+local Numeric     = require(CWD .. "rubik.basic-object.object.numeric")
+local String      = require(CWD .. "rubik.basic-object.object.string")
+local TrueClass   = require(CWD .. "rubik.basic-object.object.true-class")
+
+local Float       = require(CWD .. "rubik.basic-object.object.numeric.float")
+local Integer     = require(CWD .. "rubik.basic-object.object.numeric.integer")
+
+-- -----------------------------------------------------------------------------
+
+local rubik       = { _version = "0.0.0" }
+local metatable   = {}
 
 -- Rubik::fromLiteral
 -- -----------------------------------------------------------------------------

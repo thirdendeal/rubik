@@ -3,7 +3,7 @@
 
 local class = require("middleclass")
 
-local BasicObject = require("rubik.basic-object")
+local BasicObject = require(CWD .. "rubik.basic-object")
 
 -- -----------------------------------------------------------------------------
 
