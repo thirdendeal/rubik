@@ -228,4 +228,57 @@ describe("Hash", function()
       assert.equal(hash[":value?"]("green"):derubik(), true)
     end)
   end)
+
+  -- Hash#each_pair
+  -- ---------------------------------------------------------------------------
+
+  describe("Hash#each_pair", function()
+    test("hash:each_pair(block(key, value)) -> self", function()
+      local t = { one = 1, two = 2, three = 3 }
+      local hash = rubik(t)
+
+      local gives = hash:each_pair(function(key, value)
+        assert.equal(value, t[key])
+
+        t[key] = nil
+      end)
+
+      assert.equal(#t, 0)
+      assert.equal(gives, hash)
+    end)
+  end)
+
+  -- Hash#each_key
+  -- ---------------------------------------------------------------------------
+
+  describe("Hash#each_key", function()
+    test("hash:each_key(block(key)) -> self", function()
+      local t = { one = 1, two = 2, three = 3 }
+      local hash = rubik(t)
+
+      local gives = hash:each_key(function(key)
+        t[key] = nil
+      end)
+
+      assert.equal(#t, 0)
+      assert.equal(gives, hash)
+    end)
+  end)
+
+  -- Hash#each_value
+  -- ---------------------------------------------------------------------------
+
+  describe("Hash#each_value", function()
+    test("hash:each_value(block(value)) -> self", function()
+      local hash = rubik({ one = 1, two = 2, three = 3 })
+      local hits = { true, true, true }
+
+      local gives = hash:each_value(function(value)
+        hits[value] = nil
+      end)
+
+      assert.equal(#hits, 0)
+      assert.equal(gives, hash)
+    end)
+  end)
 end)

@@ -45,6 +45,16 @@ function Hash:initialize(t)
 
   Hash.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 
+  -- ERROR
+  --
+  -- Lua's tables definition order is never kept
+  -- The literal recipe can't be just any table, but rather a pairs list
+  --
+  -- local hash = rubik({
+  --   { "key-1", "value-1" },
+  --   { "key-2", "value-2" }
+  -- }, "Hash")
+
   for key, value in pairs(t) do
     self:store(key, value)
   end
@@ -216,6 +226,39 @@ end
 
 Hash["value?"] = function(self, value)
   return self:values()[":include?"](value)
+end
+
+-- Hash#each_pair
+-- -----------------------------------------------------------------------------
+
+function Hash:each_pair(block)
+  self.__orderedKeys:each(function(key)
+    block(key, self.__lua[key])
+  end)
+
+  return self
+end
+
+-- Hash#each_key
+-- -----------------------------------------------------------------------------
+
+function Hash:each_key(block)
+  self.__orderedKeys:each(function(key)
+    block(key)
+  end)
+
+  return self
+end
+
+-- Hash#each_value
+-- -----------------------------------------------------------------------------
+
+function Hash:each_value(block)
+  self.__orderedKeys:each(function(key)
+    block(self.__lua[key])
+  end)
+
+  return self
 end
 
 -- -----------------------------------------------------------------------------
