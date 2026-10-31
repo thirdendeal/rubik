@@ -10,22 +10,7 @@ local rubik = require("rubik")
 
 describe("Integer", function()
   -- ---------------------------------------------------------------------------
-  -- Class
-  -- ---------------------------------------------------------------------------
-
-  -- Integer::fromLiteral
-  -- ---------------------------------------------------------------------------
-
-  describe("Integer::fromLiteral", function()
-    test("Integer.fromLiteral(value) -> new integer", function()
-      local integer = rubik.Integer.fromLiteral(1)
-
-      assert.equal(integer:derubik(), 1)
-    end)
-  end)
-
-  -- ---------------------------------------------------------------------------
-  -- Instance
+  -- Public Instance Methods
   -- ---------------------------------------------------------------------------
 
   -- Integer#even?

@@ -10,24 +10,18 @@ local Numeric = require(CWD .. "rubik.basic-object.object.numeric")
 local Float = class("Float", Numeric)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Float::new (Rubik Only)
+-- Float::new
 -- -----------------------------------------------------------------------------
 
 function Float:initialize(number)
-  self.__lua = number
-end
-
--- Float::fromLiteral
-
-function Float.static.fromLiteral(number)
-  return Float:new(number)
+  Numeric.initialize(self, number)
 end
 
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Float#floor
@@ -37,7 +31,7 @@ function Float:floor(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.floor(self.__lua * modfier) / modfier
+  local f = math.floor(self.__literal * modfier) / modfier
 
   return Float.rubik(f)
 end
@@ -49,7 +43,7 @@ function Float:ceil(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.ceil(self.__lua * modfier) / modfier
+  local f = math.ceil(self.__literal * modfier) / modfier
 
   return Float.rubik(f)
 end
@@ -61,7 +55,7 @@ function Float:round(ndigits)
   local ndigits = ndigits or 0
   local modfier = math.pow(10, ndigits)
 
-  local f = math.floor((self.__lua * modfier) + 0.5) / modfier
+  local f = math.floor((self.__literal * modfier) + 0.5) / modfier
 
   return Float.rubik(f)
 end

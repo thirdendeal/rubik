@@ -11,7 +11,7 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local Array = class("Array", Object)
 
 -- -----------------------------------------------------------------------------
--- Private
+-- Constants
 -- -----------------------------------------------------------------------------
 
 local __QUOTE_METHODS = {
@@ -30,35 +30,38 @@ local __wrapAroundIndex = function(t, index)
 end
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Array::new (Rubik + Ruby)
+-- Array::new
 -- -----------------------------------------------------------------------------
 
-function Array:initialize(size, value, block)
-  self.__lua = {}
+function Array:initialize(t)
+  return Array.__new(self):push(unpack(t))
+end
+
+-- Array::__new
+-- -----------------------------------------------------------------------------
+
+function Array.static.__new(self, size, value, block)
+  self.__literal = {}
   Array.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 
   if block then
     for index = 1, size or 0, 1 do
-      table.insert(self.__lua, block(index))
+      table.insert(self.__literal, block(index))
     end
   elseif value ~= nil then -- Lua won't allow { nil, nil, ..., nil }
     for _ = 1, size or 0, 1 do
-      table.insert(self.__lua, value)
+      table.insert(self.__literal, value)
     end
   end
-end
 
--- Array::fromLiteral
-
-function Array.static.fromLiteral(t)
-  return Array:new():push(unpack(t))
+  return self
 end
 
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Array#first
@@ -68,7 +71,7 @@ function Array:first(n)
   if n then
     return self:slice(1, n)
   else
-    return Array.rubik(self.__lua[1])
+    return Array.rubik(self.__literal[1])
   end
 end
 
@@ -83,9 +86,9 @@ end
 
 function Array:last(n)
   if n then
-    return self:slice({ #self.__lua - n + 1, #self.__lua })
+    return self:slice({ #self.__literal - n + 1, #self.__literal })
   else
-    return Array.rubik(self.__lua[#self.__lua])
+    return Array.rubik(self.__literal[#self.__literal])
   end
 end
 
@@ -93,14 +96,14 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:drop(n)
-  return self:slice({ 1, #self.__lua - n })
+  return self:slice({ 1, #self.__literal - n })
 end
 
 -- Array#at
 -- -----------------------------------------------------------------------------
 
 function Array:at(index)
-  return Array.rubik(self.__lua[__wrapAroundIndex(self.__lua, index)])
+  return Array.rubik(self.__literal[__wrapAroundIndex(self.__literal, index)])
 end
 
 -- Array#__index metamethod
@@ -140,10 +143,10 @@ function Array:slice(x, y)
     end
 
     if range[2] < 0 then
-      range[2] = #self.__lua + range[2] + 1
+      range[2] = #self.__literal + range[2] + 1
     end
 
-    return Array.rubik({ unpack(self.__lua, range[1], range[2]) })
+    return Array.rubik({ unpack(self.__literal, range[1], range[2]) })
   elseif y == nil then
     -- array:slice(index)
 
@@ -153,7 +156,7 @@ function Array:slice(x, y)
 
     local start, length = x, y
 
-    return Array.rubik({ unpack(self.__lua, start, start + length - 1) })
+    return Array.rubik({ unpack(self.__literal, start, start + length - 1) })
   end
 end
 
@@ -161,7 +164,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:size()
-  return Array.rubik(#self.__lua)
+  return Array.rubik(#self.__literal)
 end
 
 -- Array#length alias
@@ -187,7 +190,7 @@ function Array:count(element, block)
 
     local count = 0
 
-    for _, value in ipairs(self.__lua) do
+    for _, value in ipairs(self.__literal) do
       if block(value) then
         count = count + 1
       end
@@ -201,14 +204,14 @@ end
 -- -----------------------------------------------------------------------------
 
 Array["empty?"] = function(self)
-  return Array.rubik(#self.__lua == 0)
+  return Array.rubik(#self.__literal == 0)
 end
 
 -- Array#include?
 -- -----------------------------------------------------------------------------
 
 Array["include?"] = function(self, value)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if element == value then
       return Array.rubik(true)
     end
@@ -221,7 +224,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:push(...)
-  self:insert(#self.__lua + 1, ...)
+  self:insert(#self.__literal + 1, ...)
 
   return self
 end
@@ -258,7 +261,7 @@ function Array:insert(index, ...)
   for j, value in ipairs({ ... }) do
     local offset = j - 1
 
-    table.insert(self.__lua, index + offset, value)
+    table.insert(self.__literal, index + offset, value)
   end
 
   return self
@@ -268,21 +271,21 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:pop()
-  return Array.rubik(table.remove(self.__lua, #self.__lua))
+  return Array.rubik(table.remove(self.__literal, #self.__literal))
 end
 
 -- Array#shift
 -- -----------------------------------------------------------------------------
 
 function Array:shift()
-  return Array.rubik(table.remove(self.__lua, 1))
+  return Array.rubik(table.remove(self.__literal, 1))
 end
 
 -- Array#delete_at
 -- -----------------------------------------------------------------------------
 
 function Array:delete_at(index)
-  return Array.rubik(table.remove(self.__lua, __wrapAroundIndex(self.__lua, index)))
+  return Array.rubik(table.remove(self.__literal, __wrapAroundIndex(self.__literal, index)))
 end
 
 -- Array#delete
@@ -291,7 +294,7 @@ end
 function Array:delete(value)
   local removal = {}
 
-  for i, element in ipairs(self.__lua) do
+  for i, element in ipairs(self.__literal) do
     if element == value then
       table.insert(removal, i)
     end
@@ -316,7 +319,7 @@ function Array:uniq(block)
     return element
   end
 
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if not hash[block(element)] then
       hash[block(element)] = element
     end
@@ -335,7 +338,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:each(block)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     block(element)
   end
 
@@ -346,8 +349,8 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:reverse_each(block)
-  for index = #self.__lua, 1, -1 do
-    local element = self.__lua[index]
+  for index = #self.__literal, 1, -1 do
+    local element = self.__literal[index]
 
     block(element)
   end
@@ -359,7 +362,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:each_index(block)
-  for index, _ in ipairs(self.__lua) do
+  for index, _ in ipairs(self.__literal) do
     block(index)
   end
 
@@ -372,7 +375,7 @@ end
 function Array:map(block)
   local newArray = {}
 
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     table.insert(newArray, block(element))
   end
 
@@ -391,7 +394,7 @@ end
 function Array:select(block)
   local newArray = {}
 
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if block(element) then
       table.insert(newArray, element)
     end
@@ -412,8 +415,8 @@ end
 function Array:keep_if(block)
   local removal = {}
 
-  for i, _ in ipairs(self.__lua) do
-    if not block(self.__lua[i]) then
+  for i, _ in ipairs(self.__literal) do
+    if not block(self.__literal[i]) then
       table.insert(removal, i)
     end
   end
@@ -433,7 +436,7 @@ end
 function Array:reject(block)
   local newArray = {}
 
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if not block(element) then
       table.insert(newArray, element)
     end
@@ -448,8 +451,8 @@ end
 function Array:delete_if(block)
   local removal = {}
 
-  for i, _ in ipairs(self.__lua) do
-    if block(self.__lua[i]) then
+  for i, _ in ipairs(self.__literal) do
+    if block(self.__literal[i]) then
       table.insert(removal, i)
     end
   end
@@ -467,7 +470,7 @@ end
 -- -----------------------------------------------------------------------------
 
 Array["all?"] = function(self, value, block)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     -- array[":all?"](_, block)
 
     if block ~= nil then
@@ -496,7 +499,7 @@ end
 -- -----------------------------------------------------------------------------
 
 Array["any?"] = function(self, value, block)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     -- array[":any?"](_, block)
 
     if block ~= nil then
@@ -525,7 +528,7 @@ end
 -- -----------------------------------------------------------------------------
 
 Array["none?"] = function(self, value, block)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     -- array[":none?"](_, block)
 
     if block ~= nil then
@@ -556,7 +559,7 @@ end
 Array["one?"] = function(self, value, block)
   local found = false
 
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     -- array[":one?"](_, block)
 
     if block ~= nil then
@@ -597,7 +600,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:index(value, block)
-  for index, element in ipairs(self.__lua) do
+  for index, element in ipairs(self.__literal) do
     if block ~= nil then
       -- array:index(_, block)
 
@@ -626,8 +629,8 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:rindex(value, block)
-  for index = #self.__lua, 1, -1 do
-    local element = self.__lua[index]
+  for index = #self.__literal, 1, -1 do
+    local element = self.__literal[index]
 
     if block ~= nil then
       -- array:index(_, block)
@@ -651,12 +654,12 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:minmax(block)
-  local minimum = self.__lua[1]
-  local maximum = self.__lua[1]
+  local minimum = self.__literal[1]
+  local maximum = self.__literal[1]
 
   block = block or Array.rubik["<=>"]
 
-  for _, value in ipairs(self.__lua) do
+  for _, value in ipairs(self.__literal) do
     if block(value, maximum) == 1 then
       maximum = value
     elseif block(value, minimum) == -1 then
@@ -671,7 +674,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:sort(block)
-  local copyArray = { unpack(self.__lua) }
+  local copyArray = { unpack(self.__literal) }
 
   table.sort(copyArray, block or function(a, b)
     return a < b
@@ -684,7 +687,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:reverse()
-  local copyArray = { unpack(self.__lua) }
+  local copyArray = { unpack(self.__literal) }
   local size = #copyArray
 
   for i = 1, math.floor(size / 2), 1 do
@@ -726,7 +729,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:assoc(value)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if type(element) == "table" then
       if element[1] == value then
         return Array.rubik(element)
@@ -741,7 +744,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:rassoc(value)
-  for _, element in ipairs(self.__lua) do
+  for _, element in ipairs(self.__literal) do
     if type(element) == "table" then
       if element[2] == value then
         return Array.rubik(element)
@@ -777,7 +780,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:dig(...)
-  local reached = self.__lua
+  local reached = self.__literal
 
   for _, index in ipairs({ ... }) do
     reached = Array.rubik.at(reached, index)
@@ -790,7 +793,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:shuffle(prng)
-  local indices = Array:new(#self.__lua, nil, function(index)
+  local indices = Array:__new(#self.__literal, nil, function(index)
     return index
   end)
 
@@ -803,7 +806,7 @@ function Array:shuffle(prng)
   for max = indices:size():derubik(), 1, -1 do
     local index = indices:delete_at(prng(max)):derubik()
 
-    table.insert(shuffled, self.__lua[index])
+    table.insert(shuffled, self.__literal[index])
   end
 
   return Array.rubik(shuffled)
@@ -841,7 +844,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Array:inspect()
-  return Array.rubik(inspect(self.__lua))
+  return Array.rubik(inspect(self.__literal))
 end
 
 -- Array#to_s alias
@@ -866,7 +869,7 @@ function Array:sum(init, block)
 
   local total = init or 0
 
-  for _, value in ipairs(self.__lua) do
+  for _, value in ipairs(self.__literal) do
     total = total + transform(value) -- TODO: Replace `+ operator` with `+ method`
   end
 

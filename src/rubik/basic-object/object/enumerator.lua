@@ -10,10 +10,10 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local Enumerator = class("Enumerator", Object)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Enumerator::new (Rubik + Ruby)
+-- Enumerator::new
 -- -----------------------------------------------------------------------------
 
 function Enumerator:initialize(size, block)
@@ -39,7 +39,7 @@ function Enumerator.static.produce(initial, block)
 end
 
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Enumerator#next

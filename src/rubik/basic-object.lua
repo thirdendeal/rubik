@@ -8,32 +8,33 @@ local class = require("middleclass")
 local BasicObject = class("BasicObject")
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- BasicObject::new (Rubik + Ruby)
+-- BasicObject::new
 -- -----------------------------------------------------------------------------
 
-function BasicObject:initialize(value)
-  self.__lua = value
+function BasicObject:initialize(literal)
+  self.__literal = literal
 end
 
--- BasicObject::fromLiteral
+-- BasicObject::__new
+-- -----------------------------------------------------------------------------
 
-function BasicObject.static.fromLiteral(value)
-  return BasicObject:new(value)
+function BasicObject.static.__new(literal)
+  return BasicObject:new(literal)
 end
 
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- BasicObject#derubik
 -- -----------------------------------------------------------------------------
 
 function BasicObject:derubik()
-  if self.__lua then
-    return self.__lua
+  if self.__literal then
+    return self.__literal
   else
     error("NoLuaEquivalent")
   end

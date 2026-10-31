@@ -10,7 +10,7 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local Numeric = class("Numeric", Object)
 
 -- -----------------------------------------------------------------------------
--- Private
+-- Constants
 -- -----------------------------------------------------------------------------
 
 local __QUOTE_METHODS = {
@@ -21,33 +21,27 @@ local __QUOTE_METHODS = {
 }
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Numeric::new (Rubik Only)
+-- Numeric::new
 -- -----------------------------------------------------------------------------
 
 function Numeric:initialize(number)
-  self.__lua = number
+  Object.initialize(self, number)
 
   Numeric.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 end
 
--- Numeric::fromLiteral
-
-function Numeric.static.fromLiteral(number)
-  return Numeric:new(number)
-end
-
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Numeric#floor
 -- -----------------------------------------------------------------------------
 
 function Numeric:floor(ndigits)
-  local f = Numeric.rubik("Float", self.__lua)
+  local f = Numeric.rubik("Float", self.__literal)
 
   return f:floor(ndigits)
 end
@@ -56,7 +50,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Numeric:ceil(ndigits)
-  local f = Numeric.rubik("Float", self.__lua)
+  local f = Numeric.rubik("Float", self.__literal)
 
   return f:ceil(ndigits)
 end
@@ -65,7 +59,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Numeric:round(ndigits)
-  local f = Numeric.rubik("Float", self.__lua)
+  local f = Numeric.rubik("Float", self.__literal)
 
   return f:round(ndigits)
 end
@@ -74,35 +68,35 @@ end
 -- -----------------------------------------------------------------------------
 
 function Numeric:modulo(other)
-  return Numeric.rubik(self.__lua % other)
+  return Numeric.rubik(self.__literal % other)
 end
 
 -- Numeric#positive?
 -- -----------------------------------------------------------------------------
 
 Numeric["positive?"] = function(self)
-  return Numeric.rubik(self.__lua > 0)
+  return Numeric.rubik(self.__literal > 0)
 end
 
 -- Numeric#negative?
 -- -----------------------------------------------------------------------------
 
 Numeric["negative?"] = function(self)
-  return Numeric.rubik(self.__lua < 0)
+  return Numeric.rubik(self.__literal < 0)
 end
 
 -- Numeric#zero?
 -- -----------------------------------------------------------------------------
 
 Numeric["zero?"] = function(self)
-  return Numeric.rubik(self.__lua == 0)
+  return Numeric.rubik(self.__literal == 0)
 end
 
 -- Numeric#nonzero?
 -- -----------------------------------------------------------------------------
 
 Numeric["nonzero?"] = function(self)
-  return Numeric.rubik(self.__lua ~= 0)
+  return Numeric.rubik(self.__literal ~= 0)
 end
 
 -- -----------------------------------------------------------------------------

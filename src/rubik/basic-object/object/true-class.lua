@@ -10,20 +10,14 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local TrueClass = class("TrueClass", Object)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- TrueClass::new (Rubik Only)
+-- TrueClass::new
 -- -----------------------------------------------------------------------------
 
 function TrueClass:initialize()
-  self.__lua = true
-end
-
--- TrueClass::fromLiteral
-
-function TrueClass.static.fromLiteral()
-  return TrueClass:new()
+  Object.initialize(self, true)
 end
 
 -- -----------------------------------------------------------------------------

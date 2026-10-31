@@ -10,31 +10,25 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local FalseClass = class("FalseClass", Object)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- FalseClass::new (Rubik Only)
+-- FalseClass::new
 -- -----------------------------------------------------------------------------
 
 function FalseClass:initialize()
-  self.__lua = false
-end
-
--- FalseClass::fromLiteral
-
-function FalseClass.static.fromLiteral()
-  return FalseClass:new()
+  Object.initialize(self, false)
 end
 
 -- -----------------------------------------------------------------------------
--- Super
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- FalseClass#derubik
 -- -----------------------------------------------------------------------------
 
 function FalseClass:derubik()
-  return self.__lua
+  return self.__literal
 end
 
 -- -----------------------------------------------------------------------------

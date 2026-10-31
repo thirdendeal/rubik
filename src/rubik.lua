@@ -40,55 +40,55 @@ local metatable   = {}
 -- -----------------------------------------------------------------------------
 
 -- rubik.fromLiteral(value)
--- rubik.fromLiteral(class, value)
+-- rubik.fromLiteral(className, value)
 
 function rubik.fromLiteral(...)
-  if #arg == 2 then
-    return rubik[arg[1]].fromLiteral(arg[2])
+  if #arg == 2 then                  -- rubik("Array", {})
+    return rubik[arg[1]]:new(arg[2]) -- Array:new({})
   end
 
-  local value = arg[1]
+  local literal = arg[1]
 
-  if rubik["already?"](value) then
-    return value
+  if rubik["already?"](literal) then
+    return literal
   end
 
-  local valueType = type(value)
+  local literalType = type(literal)
 
   -- TODO: Define optimal checking order
 
-  if valueType == "boolean" then
-    if value then
-      return TrueClass.fromLiteral()
+  if literalType == "boolean" then
+    if literal then
+      return TrueClass:new()
     else
-      return FalseClass.fromLiteral()
+      return FalseClass:new()
     end
-  elseif valueType == "nil" then
-    return NilClass.fromLiteral()
-  elseif valueType == "table" then
+  elseif literalType == "nil" then
+    return NilClass:new()
+  elseif literalType == "table" then
     local hasData = false
-    for _, _ in pairs(value) do
+    for _, _ in pairs(literal) do
       hasData = true
       break
     end
 
-    if hasData and (#value == 0) then -- pure Hash
-      return Hash.fromLiteral(value)
+    if hasData and (#literal == 0) then -- pure Hash
+      return Hash:new(literal)
     else
-      return Array.fromLiteral(value)
+      return Array:new(literal)
     end
-  elseif valueType == "number" then
-    local _, decimalPart = math.modf(value)
+  elseif literalType == "number" then
+    local _, decimalPart = math.modf(literal)
 
     if decimalPart == 0 then
-      return Integer.fromLiteral(value)
+      return Integer:new(literal)
     else
-      return Float.fromLiteral(value)
+      return Float:new(literal)
     end
-  elseif valueType == "string" then
-    return String.fromLiteral(value)
+  elseif literalType == "string" then
+    return String:new(literal)
   else
-    return BasicObject.fromLiteral(value)
+    return BasicObject:new(literal)
   end
 end
 
@@ -104,8 +104,8 @@ end
 -- Rubik::in_and_out
 -- -----------------------------------------------------------------------------
 
-function rubik.in_and_out(value, method, ...)
-  local object = rubik.fromLiteral(value)
+function rubik.in_and_out(literal, method, ...)
+  local object = rubik.fromLiteral(literal)
 
   return object[method](object, ...):derubik()
 end

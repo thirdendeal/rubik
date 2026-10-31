@@ -10,7 +10,7 @@ local rubik = require("rubik")
 
 describe("Numeric", function()
   -- ---------------------------------------------------------------------------
-  -- Instance
+  -- Public Instance Methods
   -- ---------------------------------------------------------------------------
 
   -- Numeric#floor
@@ -18,14 +18,14 @@ describe("Numeric", function()
 
   describe("Numeric#floor", function()
     test("numeric:floor() -> integer", function()
-      assert.equal(rubik.Numeric.fromLiteral(10):floor():derubik(), 10)
-      assert.equal(rubik.Numeric.fromLiteral(10.25):floor():derubik(), 10)
-      assert.equal(rubik.Numeric.fromLiteral(10.5):floor():derubik(), 10)
-      assert.equal(rubik.Numeric.fromLiteral(10.75):floor():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10):floor():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10.25):floor():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10.5):floor():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10.75):floor():derubik(), 10)
     end)
 
     test("numeric:floor(ndigits) -> float or integer", function()
-      local n = rubik.Numeric.fromLiteral(10.2859)
+      local n = rubik.Numeric:new(10.2859)
 
       assert.equal(n:floor(1):derubik(), 10.2)
       assert.equal(n:floor(2):derubik(), 10.28)
@@ -41,15 +41,15 @@ describe("Numeric", function()
 
   describe("Numeric#ceil", function()
     test("numeric:ceil() -> integer", function()
-      assert.equal(rubik.Numeric.fromLiteral(10):ceil():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10):ceil():derubik(), 10)
 
-      assert.equal(rubik.Numeric.fromLiteral(10.25):ceil():derubik(), 11)
-      assert.equal(rubik.Numeric.fromLiteral(10.5):ceil():derubik(), 11)
-      assert.equal(rubik.Numeric.fromLiteral(10.75):ceil():derubik(), 11)
+      assert.equal(rubik.Numeric:new(10.25):ceil():derubik(), 11)
+      assert.equal(rubik.Numeric:new(10.5):ceil():derubik(), 11)
+      assert.equal(rubik.Numeric:new(10.75):ceil():derubik(), 11)
     end)
 
     test("numeric:ceil(ndigits) -> float or integer", function()
-      local n = rubik.Numeric.fromLiteral(10.2859)
+      local n = rubik.Numeric:new(10.2859)
 
       assert.equal(n:ceil(1):derubik(), 10.3)
       assert.equal(n:ceil(2):derubik(), 10.29)
@@ -65,15 +65,15 @@ describe("Numeric", function()
 
   describe("Numeric#round", function()
     test("numeric:round() -> integer", function()
-      assert.equal(rubik.Numeric.fromLiteral(10):round():derubik(), 10)
-      assert.equal(rubik.Numeric.fromLiteral(10.25):round():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10):round():derubik(), 10)
+      assert.equal(rubik.Numeric:new(10.25):round():derubik(), 10)
 
-      assert.equal(rubik.Numeric.fromLiteral(10.5):round():derubik(), 11)
-      assert.equal(rubik.Numeric.fromLiteral(10.75):round():derubik(), 11)
+      assert.equal(rubik.Numeric:new(10.5):round():derubik(), 11)
+      assert.equal(rubik.Numeric:new(10.75):round():derubik(), 11)
     end)
 
     test("numeric:round(ndigits) -> float or integer", function()
-      local n = rubik.Numeric.fromLiteral(10.2859)
+      local n = rubik.Numeric:new(10.2859)
 
       assert.equal(n:round(1):derubik(), 10.3)
       assert.equal(n:round(2):derubik(), 10.29)

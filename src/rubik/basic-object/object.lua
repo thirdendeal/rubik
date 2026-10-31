@@ -10,19 +10,20 @@ local BasicObject = require(CWD .. "rubik.basic-object")
 local Object = class("Object", BasicObject)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Object::new (Rubik Only)
+-- Object::new
 -- -----------------------------------------------------------------------------
 
-function Object:initialize(value)
-  self.__lua = value
+function Object:initialize(literal)
+  BasicObject.initialize(self, literal)
 end
 
--- Object::fromLiteral
+-- Object::__new
+-- -----------------------------------------------------------------------------
 
-function Object.static.fromLiteral(literal)
+function Object.static.__new(literal)
   return Object:new(literal)
 end
 

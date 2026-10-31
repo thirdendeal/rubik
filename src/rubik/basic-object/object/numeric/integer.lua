@@ -10,7 +10,7 @@ local Numeric = require(CWD .. "rubik.basic-object.object.numeric")
 local Integer = class("Integer", Numeric)
 
 -- -----------------------------------------------------------------------------
--- Private
+-- Constants
 -- -----------------------------------------------------------------------------
 
 local __QUOTE_METHODS = {
@@ -20,55 +20,50 @@ local __QUOTE_METHODS = {
 }
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Integer::new (Rubik Only)
+-- Integer::new
 -- -----------------------------------------------------------------------------
 
 function Integer:initialize(number)
-  local integerPart, _ = math.modf(number)
-  self.__lua = integerPart
+  local integer, _ = math.modf(number)
+
+  Numeric.initialize(self, integer)
 
   Integer.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 end
 
--- Integer::fromLiteral
-
-function Integer.static.fromLiteral(number)
-  return Integer:new(number)
-end
-
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Integer#even?
 -- -----------------------------------------------------------------------------
 
 Integer["even?"] = function(self)
-  return Integer.rubik((self.__lua % 2) == 0)
+  return Integer.rubik((self.__literal % 2) == 0)
 end
 
 -- Integer#odd?
 -- -----------------------------------------------------------------------------
 
 Integer["odd?"] = function(self)
-  return Integer.rubik((self.__lua % 2) ~= 0)
+  return Integer.rubik((self.__literal % 2) ~= 0)
 end
 
 -- Integer#zero?
 -- -----------------------------------------------------------------------------
 
 Integer["zero?"] = function(self)
-  return Integer.rubik(self.__lua == 0)
+  return Integer.rubik(self.__literal == 0)
 end
 
 -- Integer#abs
 -- -----------------------------------------------------------------------------
 
 function Integer:abs()
-  return Integer.rubik(math.abs(self.__lua))
+  return Integer.rubik(math.abs(self.__literal))
 end
 
 -- Integer#magnitude alias
@@ -81,7 +76,7 @@ end
 -- -----------------------------------------------------------------------------
 
 function Integer:succ()
-  return Integer.rubik(self.__lua + 1)
+  return Integer.rubik(self.__literal + 1)
 end
 
 -- Integer#next alias

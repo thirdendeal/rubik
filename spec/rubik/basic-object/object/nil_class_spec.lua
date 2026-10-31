@@ -10,7 +10,7 @@ local rubik = require("rubik")
 
 describe("NilClass", function()
   -- ---------------------------------------------------------------------------
-  -- Instance
+  -- Public Instance Methods
   -- ---------------------------------------------------------------------------
 
   -- NilClass#to_a

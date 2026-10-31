@@ -10,22 +10,7 @@ local rubik = require("rubik")
 
 describe("String", function()
   -- ---------------------------------------------------------------------------
-  -- Class
-  -- ---------------------------------------------------------------------------
-
-  -- String::fromLiteral
-  -- ---------------------------------------------------------------------------
-
-  describe("String::fromLiteral", function()
-    test("String.fromLiteral(value) -> new string", function()
-      local apple = rubik.String.fromLiteral("apple")
-
-      assert.equal(apple:derubik(), "apple")
-    end)
-  end)
-
-  -- ---------------------------------------------------------------------------
-  -- Instance
+  -- Public Instance Methods
   -- ---------------------------------------------------------------------------
 
   -- String#even?

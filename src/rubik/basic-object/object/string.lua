@@ -10,7 +10,7 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local String = class("String", Object)
 
 -- -----------------------------------------------------------------------------
--- Private
+-- Constants
 -- -----------------------------------------------------------------------------
 
 local __QUOTE_METHODS = {
@@ -25,46 +25,40 @@ local __QUOTE_METHODS = {
 }
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- String::new (Rubik + Ruby)
+-- String::new
 -- -----------------------------------------------------------------------------
 
 function String:initialize(s)
-  self.__lua = s
+  Object.initialize(self, s)
 
   String.rubik.patch_quote_methods(self, __QUOTE_METHODS)
 end
 
--- String::fromLiteral
-
-function String.static.fromLiteral(s)
-  return String:new(s)
-end
-
 -- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- String#empty?
 -- -----------------------------------------------------------------------------
 
 String["empty?"] = function(self)
-  return String.rubik(#self.__lua == 0)
+  return String.rubik(#self.__literal == 0)
 end
 
 -- String#end_with?
 -- -----------------------------------------------------------------------------
 
 String["end_with?"] = function(self, ...)
-  local length = #self.__lua
+  local length = #self.__literal
 
   for _, suffix in ipairs({ ... }) do
     local suffixLength = #suffix
 
     if suffixLength <= length then
-      local substring = self.__lua:sub(length - suffixLength + 1, length)
+      local substring = self.__literal:sub(length - suffixLength + 1, length)
 
       if substring == suffix then
         return String.rubik(true)
@@ -79,13 +73,13 @@ end
 -- -----------------------------------------------------------------------------
 
 String["start_with?"] = function(self, ...)
-  local length = #self.__lua
+  local length = #self.__literal
 
   for _, prefix in ipairs({ ... }) do
     local prefixLength = #prefix
 
     if prefixLength <= length then
-      local substring = self.__lua:sub(1, prefixLength)
+      local substring = self.__literal:sub(1, prefixLength)
 
       if substring == prefix then
         return String.rubik(true)
@@ -102,8 +96,8 @@ end
 -- Missing: Case Mapping
 
 function String:capitalize()
-  local firstCharacter = self.__lua:sub(1, 1)
-  local remainder = self.__lua:sub(2, #self.__lua)
+  local firstCharacter = self.__literal:sub(1, 1)
+  local remainder = self.__literal:sub(2, #self.__literal)
 
   return String.rubik(firstCharacter:upper() .. remainder:lower())
 end
@@ -111,10 +105,10 @@ end
 -- String#capitalize!
 
 String["capitalize!"] = function(self)
-  local initial = self.__lua
-  self.__lua = self:capitalize():derubik()
+  local initial = self.__literal
+  self.__literal = self:capitalize():derubik()
 
-  if self.__lua ~= initial then
+  if self.__literal ~= initial then
     return self
   end
 
@@ -127,16 +121,16 @@ end
 -- Missing: Case Mapping
 
 function String:downcase()
-  return String.rubik(self.__lua:lower())
+  return String.rubik(self.__literal:lower())
 end
 
 -- String#downcase!
 
 String["downcase!"] = function(self)
-  local initial = self.__lua
-  self.__lua = self:downcase():derubik()
+  local initial = self.__literal
+  self.__literal = self:downcase():derubik()
 
-  if self.__lua ~= initial then
+  if self.__literal ~= initial then
     return self
   end
 
@@ -149,16 +143,16 @@ end
 -- Missing: Case Mapping
 
 function String:upcase()
-  return String.rubik(self.__lua:upper())
+  return String.rubik(self.__literal:upper())
 end
 
 -- String#upcase!
 
 String["upcase!"] = function(self)
-  local initial = self.__lua
-  self.__lua = self:upcase():derubik()
+  local initial = self.__literal
+  self.__literal = self:upcase():derubik()
 
-  if self.__lua ~= initial then
+  if self.__literal ~= initial then
     return self
   end
 
@@ -173,8 +167,8 @@ end
 function String:swapcase()
   local cumulation = ""
 
-  for i = 1, #self.__lua do
-    local character = self.__lua:sub(i, i)
+  for i = 1, #self.__literal do
+    local character = self.__literal:sub(i, i)
     local lowerCase = character:lower()
 
     if character == lowerCase then
@@ -190,10 +184,10 @@ end
 -- String#swapcase!
 
 String["swapcase!"] = function(self)
-  local initial = self.__lua
-  self.__lua = self:swapcase():derubik()
+  local initial = self.__literal
+  self.__literal = self:swapcase():derubik()
 
-  if self.__lua ~= initial then
+  if self.__literal ~= initial then
     return self
   end
 
@@ -206,8 +200,8 @@ end
 function String:reverse()
   local cumulation = ""
 
-  for i = #self.__lua, 1, -1 do
-    local character = self.__lua:sub(i, i)
+  for i = #self.__literal, 1, -1 do
+    local character = self.__literal:sub(i, i)
 
     cumulation = cumulation .. character
   end
@@ -218,7 +212,7 @@ end
 -- String#reverse!
 
 String["reverse!"] = function(self)
-  self.__lua = self:reverse():derubik()
+  self.__literal = self:reverse():derubik()
 
   return self
 end

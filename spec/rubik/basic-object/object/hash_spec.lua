@@ -10,22 +10,7 @@ local rubik = require("rubik")
 
 describe("Hash", function()
   -- ---------------------------------------------------------------------------
-  -- Class
-  -- ---------------------------------------------------------------------------
-
-  -- Hash::fromLiteral
-  -- ---------------------------------------------------------------------------
-
-  describe("Hash::fromLiteral", function()
-    test("Hash.fromLiteral(t) -> new hash", function()
-      local apple = rubik.Hash.fromLiteral({ fruit = "apple" })
-
-      assert.equal(apple["fruit"]:derubik(), "apple")
-    end)
-  end)
-
-  -- ---------------------------------------------------------------------------
-  -- Instance
+  -- Public Instance Methods
   -- ---------------------------------------------------------------------------
 
   -- Hash#[]
@@ -102,7 +87,7 @@ describe("Hash", function()
 
   describe("Hash#size", function()
     test("hash:size() -> integer", function()
-      local hash = rubik.Hash.fromLiteral({})
+      local hash = rubik.Hash:new({})
 
       assert.equal(hash:size():derubik(), 0)
 
@@ -122,7 +107,7 @@ describe("Hash", function()
 
   describe("Hash#empty?", function()
     test("hash[\":empty?\"]() -> true or false", function()
-      local hash = rubik.Hash.fromLiteral({})
+      local hash = rubik.Hash:new({})
       assert.equal(hash[":empty?"]():derubik(), true)
 
       hash:store(1, "one")

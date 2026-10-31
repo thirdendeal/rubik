@@ -10,7 +10,7 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local Hash = class("Hash", Object)
 
 -- -----------------------------------------------------------------------------
--- Private
+-- Constants
 -- -----------------------------------------------------------------------------
 
 local __QUOTE_METHODS = {
@@ -33,14 +33,14 @@ local __get_default = function(self, key)
 end
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- Hash::new (Rubik + Ruby)
+-- Hash::new
 -- -----------------------------------------------------------------------------
 
 function Hash:initialize(t)
-  self.__lua = {}
+  self.__literal = {}
   self.__orderedKeys = Hash.rubik("Array", {}) -- TODO: Use Set
 
   Hash.rubik.patch_quote_methods(self, __QUOTE_METHODS)
@@ -60,15 +60,8 @@ function Hash:initialize(t)
   end
 end
 
--- Hash::fromLiteral
 -- -----------------------------------------------------------------------------
-
-function Hash.static.fromLiteral(t)
-  return Hash:new(t)
-end
-
--- -----------------------------------------------------------------------------
--- Instance
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- Hash#access
@@ -77,7 +70,7 @@ end
 -- Ruby's Hash#[]
 
 function Hash:__index(key)
-  if self.__lua[key] == nil then
+  if self.__literal[key] == nil then
     if key == "__default" then
       return rawget(self, "__default")
     end
@@ -88,7 +81,7 @@ function Hash:__index(key)
 
     return Hash.rubik(__get_default(self, key))
   else
-    return Hash.rubik(self.__lua[key])
+    return Hash.rubik(self.__literal[key])
   end
 end
 
@@ -99,12 +92,12 @@ function Hash:store(key, value)
   if value == nil then
     self.__orderedKeys:delete(key)
   else
-    if not self.__lua[key] then
+    if not self.__literal[key] then
       self.__orderedKeys:push(key)
     end
   end
 
-  self.__lua[key] = value
+  self.__literal[key] = value
 
   return Hash.rubik(value)
 end
@@ -134,7 +127,7 @@ function Hash:values()
   local orderedValues = {}
 
   self.__orderedKeys:each(function(key)
-    table.insert(orderedValues, self.__lua[key])
+    table.insert(orderedValues, self.__literal[key])
   end)
 
   return Hash.rubik(orderedValues)
@@ -233,7 +226,7 @@ end
 
 function Hash:each_pair(block)
   self.__orderedKeys:each(function(key)
-    block(key, self.__lua[key])
+    block(key, self.__literal[key])
   end)
 
   return self
@@ -255,7 +248,7 @@ end
 
 function Hash:each_value(block)
   self.__orderedKeys:each(function(key)
-    block(self.__lua[key])
+    block(self.__literal[key])
   end)
 
   return self

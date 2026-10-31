@@ -10,36 +10,26 @@ local Object = require(CWD .. "rubik.basic-object.object")
 local NilClass = class("NilClass", Object)
 
 -- -----------------------------------------------------------------------------
--- Class
+-- Public Class Methods
 -- -----------------------------------------------------------------------------
 
--- NilClass::new (Rubik Only)
+-- NilClass::new
 -- -----------------------------------------------------------------------------
 
 function NilClass:initialize()
-  self.__lua = nil
-end
-
--- NilClass::fromLiteral
-
-function NilClass.static.fromLiteral()
-  return NilClass:new()
+  Object.initialize(self, nil)
 end
 
 -- -----------------------------------------------------------------------------
--- Super
+-- Public Instance Methods
 -- -----------------------------------------------------------------------------
 
 -- NilClass#derubik
 -- -----------------------------------------------------------------------------
 
 function NilClass:derubik()
-  return self.__lua
+  return self.__literal
 end
-
--- -----------------------------------------------------------------------------
--- Instance
--- -----------------------------------------------------------------------------
 
 -- NilClass#to_a
 -- -----------------------------------------------------------------------------
