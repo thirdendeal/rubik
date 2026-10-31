@@ -22,8 +22,8 @@ end
 
 -- Object::fromLiteral
 
-function Object.static.fromLiteral(value)
-  return Object:new(value)
+function Object.static.fromLiteral(literal)
+  return Object:new(literal)
 end
 
 -- -----------------------------------------------------------------------------

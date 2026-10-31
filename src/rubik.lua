@@ -16,7 +16,6 @@ CWD               = (...):gsub("rubik$", "") .. "." -- current working directory
 -- -----------------------------------------------------------------------------
 
 local BasicObject = require(CWD .. "rubik.basic-object")
-local Kernel      = require(CWD .. "rubik.kernel")
 
 local Object      = require(CWD .. "rubik.basic-object.object")
 
@@ -156,7 +155,6 @@ end
 -- -----------------------------------------------------------------------------
 
 rubik.BasicObject = BasicObject
-rubik.Kernel = Kernel
 
 rubik.Object = Object
 
@@ -175,7 +173,6 @@ rubik.Integer = Integer
 -- -----------------------------------------------------------------------------
 
 BasicObject.static.rubik = rubik
-Kernel.static.rubik = rubik
 
 Object.static.rubik = rubik
 
